@@ -24,6 +24,8 @@
         <commons.io.version>2.5</commons.io.version>
         <commons.codec.version>1.10</commons.codec.version>
         <commons.configuration.version>1.10</commons.configuration.version>
+        <kaptcha.version>0.0.9</kaptcha.version>
+        <joda.time.version>2.9.9</joda.time.version>
     </properties>
 
     <dependencies>
@@ -43,6 +45,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!--mybatis-pius-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -61,6 +64,7 @@
             <version>${mysql.version}</version>
         </dependency>
 
+        <!--阿里druid连接池-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
@@ -102,11 +106,27 @@
             <version>${commons.configuration.version}</version>
         </dependency>
 
+        <!--验证码生成工具-->
+        <dependency>
+            <groupId>com.github.axet</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>${kaptcha.version}</version>
+        </dependency>
+
+        <!--时间转换工具-->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${joda.time.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
             <version>4.4.13</version>
         </dependency>
+
+
     </dependencies>
 
     <build>
