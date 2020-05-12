@@ -3,7 +3,8 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/yang_2020?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      # zeroDateTimeBehavior=convertToNull 处理数据库中日期默认值 0000:00:00 00:00:00 报错问题 allowMultiQueries=true 允许批量操作sql语句
+      url: jdbc:mysql://localhost:3306/yang_2020?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
       username: root
       password: 123456
       # 连接池的配置信息:初始化大小，最小，最大

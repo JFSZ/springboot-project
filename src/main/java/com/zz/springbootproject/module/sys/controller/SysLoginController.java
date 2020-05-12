@@ -41,6 +41,7 @@ public class SysLoginController {
 
     @PostMapping("/login")
     public ServerResponse login(){
+
         return ServerResponse.ok().put("token","123");
     }
 
