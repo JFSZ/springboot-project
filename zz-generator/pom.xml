@@ -10,6 +10,22 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>zz-generator</artifactId>
     <name>代码生成模块</name>
+    <properties>
+        <mybatis.plus.generator.version>3.3.1</mybatis.plus.generator.version>
+        <freemarker.version>2.3.30</freemarker.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>${mybatis.plus.generator.version}</version>
+        </dependency>
 
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>${freemarker.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

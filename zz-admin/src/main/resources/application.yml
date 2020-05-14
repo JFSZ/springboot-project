@@ -4,8 +4,37 @@ spring:
   profiles:
     active: dev
 mybatis-plus:
+  # Mybatis mapper对应的XML文件位置.如果是多模块需要以 classpath*:开头
   mapper-locations: classpath*:/mapper/**/*.xml
+  # Mybatis中别名包扫描路径，通过该属性可以给包中类注册别名，注册后在mapper对应的XML文件中可以直接使用类名，而不用使用全限定的类名
   type-aliases-package: com.zz.springbootproject.module.*.entity
   global-config:
     db-config:
+      #全局默认主键类型 默认ASSIGN_ID
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)",
+      # UUID:"全局唯一ID UUID"; ASSIGN_ID 分配ID (主键类型为number或string）, ASSIGN_UUID 分配UUID
       id-type: AUTO
+      # 逻逻辑删除全局字段 (默认无 设置会自动扫描实体字段)
+      logic-delete-field: flag
+      #逻辑删除全局值（默认 1、表示已删除）
+      logic-delete-value: 1
+      # 逻辑未删除全局值（默认 0、表示未删除）
+      logic-not-delete-value: 0
+      #字段验证策略 not_null：校验null
+      #NOT_EMPTY:只对String类型字段有用，其他类型按照not_null 校验null和''
+      insert-strategy: not_null
+      update-strategy: ignored
+      select-strategy: not_null
+    banner: true
+  configuration:
+    #是否开启自动驼峰命名规则映射,开启则会自动映射到POJO实体类。不用再xml中写resultMap 实体类和数据库字段对应关系
+    map-underscore-to-camel-case: true
+    # 是否开启一级缓存 session 会话级别sqlSession
+    local-cache-scope: session
+    #是否开启二级缓存 顺序 二级缓存 、一级缓存、数据库
+    cache-enabled: true
+    #MyBatis 在使用 resultMap 来映射查询结果中的列，如果包含空值的列。默认不映射，这样会导致获取该字段时报空指针
+    call-setters-on-nulls: true
+    #当没有为参数指定特定的 JDBC 类型时，空值的默认 JDBC 类型。
+    # 某些数据库驱动需要指定列的 JDBC 类型，多数情况直接用一般类型即可，比如 NULL、VARCHAR 或 OTHER。
+    jdbc-type-for-null: 'null'
