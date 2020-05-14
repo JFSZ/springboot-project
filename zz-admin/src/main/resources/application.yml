@@ -3,3 +3,9 @@ server:
 spring:
   profiles:
     active: dev
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.zz.springbootproject.module.*.entity
+  global-config:
+    db-config:
+      id-type: AUTO
