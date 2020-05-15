@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zz.springbootproject.validator.group.AddGroup;
 import com.zz.springbootproject.validator.group.UpdateGroup;
+import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -17,6 +18,7 @@ import java.util.List;
  * @create: 2020-05-11 13:51
  **/
 @TableName
+@Data
 public class SysUserEntity {
     private static final long serialVersionUID = 1L;
 

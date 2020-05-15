@@ -15,11 +15,10 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
 
-
 /**
- * 生成验证码配置
- *
- * @author Mark sunlightcs@gmail.com
+ * @Description: 生成验证码配置
+ * @Author: chenxue
+ * @Date: 2020/5/14  16:21
  */
 @Configuration
 public class KaptchaConfig {

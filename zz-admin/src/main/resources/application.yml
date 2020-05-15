@@ -38,3 +38,4 @@ mybatis-plus:
     #当没有为参数指定特定的 JDBC 类型时，空值的默认 JDBC 类型。
     # 某些数据库驱动需要指定列的 JDBC 类型，多数情况直接用一般类型即可，比如 NULL、VARCHAR 或 OTHER。
     jdbc-type-for-null: 'null'
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
