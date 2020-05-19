@@ -2,14 +2,16 @@ package ${package.Controller};
 
 import java.util.Arrays;
 import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.zz.springbootproject.utils.ServerResponse;
+import ${package.Service}.${table.serviceName};
+import ${package.Entity}.${entity};
+import com.zz.springbootproject.utils.PageUtil;
 
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +35,7 @@ import ${superControllerClassPackage};
 <#else>
 @Controller
 </#if>
-@RequestMapping("<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
+@RequestMapping("<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${(table.entityPath)}</#if>")
 <#if kotlin>
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
@@ -42,74 +44,68 @@ public class ${table.controllerName} extends ${superControllerClass} {
 <#else>
 public class ${table.controllerName} {
 </#if>
-       @Autowired
-       private ${className}Service ${classname}Service;
+    @Autowired
+    private ${table.serviceName} ${(table.serviceName?substring(1))?uncap_first};
 
-       /**
-       * 列表
-       */
-       @RequestMapping("/list")
-       @RequiresPermissions("${moduleName}:${pathName}:list")
-       public IPage<${entity}> list(@RequestParam Map<String, Object> params){
-       LayuiPage page = ${classname}Service.queryPage(params);
+    /**
+    * 列表
+    */
+    @RequestMapping("/list")
+    @RequiresPermissions("${package.ModuleName}:${table.entityPath}:list")
+    public PageUtil list(@RequestParam Map<String, Object> params){
+        PageUtil page = ${(table.serviceName?substring(1))?uncap_first}.queryPage(params);
+        return page;
+    }
 
-       return page;
-       }
 
+    /**
+    * 信息
+    */
+    @RequestMapping("/info/{id}")
+    @RequiresPermissions("${package.ModuleName}:${table.entityPath}:info")
+    public ServerResponse info(@PathVariable("id") Long id){
+        ${entity} ${table.name} = ${(table.serviceName?substring(1))?uncap_first}.getById(id);
+        return ServerResponse.ok().put("${table.name}", ${table.name});
+    }
 
-       /**
-       * 信息
-       */
-       @RequestMapping("/info/{${pk.attrname}}")
-       @RequiresPermissions("${moduleName}:${pathName}:info")
-       public R info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
-       ${className}Entity ${classname} = ${classname}Service.selectById(${pk.attrname});
+    /**
+    * 保存
+    */
+    @RequestMapping("/save")
+    @RequiresPermissions("${package.ModuleName}:${table.entityPath}:save")
+    public ServerResponse save(@RequestBody ${entity} ${table.name}){
+        ${(table.serviceName?substring(1))?uncap_first}.save(${table.name});
+        return ServerResponse.ok();
+    }
 
-       return R.ok().put("${classname}", ${classname});
-       }
+    /**
+    * 修改
+    */
+    @RequestMapping("/update")
+    @RequiresPermissions("${package.ModuleName}:${table.entityPath}:update")
+    public ServerResponse update(@RequestBody ${entity} ${table.name}){
+        ${(table.serviceName?substring(1))?uncap_first}.updateById(${table.name});
+        return ServerResponse.ok();
+    }
 
-       /**
-       * 保存
-       */
-       @RequestMapping("/save")
-       @RequiresPermissions("${moduleName}:${pathName}:save")
-       public R save(@RequestBody ${className}Entity ${classname}){
-       ${classname}Service.insert(${classname});
+    /**
+    * 删除
+    */
+    @RequestMapping("/delete")
+    @RequiresPermissions("${package.ModuleName}:${table.entityPath}:delete")
+    public ServerResponse delete(@RequestBody Long[] ids){
+        ${(table.serviceName?substring(1))?uncap_first}.removeByIds(Arrays.asList(ids));
+        return ServerResponse.ok();
+    }
 
-       return R.ok();
-       }
-
-       /**
-       * 修改
-       */
-       @RequestMapping("/update")
-       @RequiresPermissions("${moduleName}:${pathName}:update")
-       public R update(@RequestBody ${className}Entity ${classname}){
-       ${classname}Service.updateById(${classname});
-
-       return R.ok();
-       }
-
-       /**
-       * 删除
-       */
-       @RequestMapping("/delete")
-       @RequiresPermissions("${moduleName}:${pathName}:delete")
-       public R delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
-       ${classname}Service.deleteBatchIds(Arrays.asList(${pk.attrname}s));
-
-       return R.ok();
-       }
-
-       /**
-       * 导出
-       */
-       @RequestMapping("/export")
-       @RequiresPermissions("${moduleName}:${pathName}:export")
-       public void export(@RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
-       LayuiPage page = ${classname}Service.queryPage(params);
-
-       ExcelUtils.exportExcelToTarget(response, "${comments}", page.getData(), ${className}Bean.class);
-       }
+    /**
+    * 导出
+    */
+    @RequestMapping("/export")
+    @RequiresPermissions("${package.ModuleName}:${table.entityPath}:export")
+    public void export(@RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
+        PageUtil page = ${(table.serviceName?substring(1))?uncap_first}.queryPage(params);
+        ExcelUtils.exportExcelToTarget(response, "${table.comment}", page.getData(), ${entity}Bean.class);
+    }
 }
 </#if>

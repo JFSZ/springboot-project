@@ -2,6 +2,8 @@ package ${package.Service};
 
 import ${package.Entity}.${entity};
 import ${superServiceClassPackage};
+import com.zz.springbootproject.utils.PageUtil;
+import java.util.Map;
 
 /**
  * <p>
@@ -15,6 +17,6 @@ import ${superServiceClassPackage};
 interface ${table.serviceName} : ${superServiceClass}<${entity}>
 <#else>
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
-
+ PageUtil queryPage(Map<String, Object> params);
 }
 </#if>

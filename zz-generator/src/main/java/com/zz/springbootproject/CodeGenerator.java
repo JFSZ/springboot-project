@@ -23,13 +23,13 @@ public class CodeGenerator {
     // 模块名称
     private static String moduleName = "sys";
     // 表名，多个表中间用,隔开
-    private static String tableName = "sys_role";
+    private static String tableName = "sys_user";
 
     // 表名后缀 如 数据库为 sys_user 生成的 实体类为 SysUserEntity
     private static String suffix = "Entity";
 
     //项目路径 建议不要直接写项目路径。避免覆盖原有代码，可以配置一个单独的包，然后copy出来。
-    private static String rootPath = "E:\\myproject-workspace\\后端\\springboot-project\\zz-generator";
+    private static String rootPath = "E:\\idea-workspace\\springboot-project\\zz-generator";
 
     //包名 需要生成代码的具体包路径
     private static String packageName = "com.zz.springbootproject.module";
@@ -66,7 +66,7 @@ public class CodeGenerator {
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
 
         //设置实体类命名方式
-        gc.setEntityName("%" + suffix);
+        gc.setEntityName("%s" + suffix);
         gc.setMapperName("%sDao");
 
 
