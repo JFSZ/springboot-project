@@ -23,13 +23,14 @@ public class CodeGenerator {
     // 模块名称
     private static String moduleName = "sys";
     // 表名，多个表中间用,隔开
-    private static String tableName = "sys_user";
+    private static String tableName = "sys_user_token";
 
     // 表名后缀 如 数据库为 sys_user 生成的 实体类为 SysUserEntity
     private static String suffix = "Entity";
 
     //项目路径 建议不要直接写项目路径。避免覆盖原有代码，可以配置一个单独的包，然后copy出来。
-    private static String rootPath = "E:\\idea-workspace\\springboot-project\\zz-generator";
+    //private static String rootPath = "E:\\idea-workspace\\springboot-project\\zz-admin";
+    private static String rootPath = "E:\\myproject-workspace\\后端\\springboot-project\\zz-admin";
 
     //包名 需要生成代码的具体包路径
     private static String packageName = "com.zz.springbootproject.module";
@@ -62,12 +63,18 @@ public class CodeGenerator {
         GlobalConfig gc = new GlobalConfig();
         gc.setOutputDir(rootPath + "/src/main/java");
         gc.setAuthor("chenxue");
+        //是否覆盖
+        gc.setFileOverride(true);
         gc.setOpen(false);
+        gc.setBaseResultMap(true);// XML ResultMap
+        gc.setBaseColumnList(true);// XML ColumnList
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
 
         //设置实体类命名方式
         gc.setEntityName("%s" + suffix);
         gc.setMapperName("%sDao");
+        //默认service接口名IXXXService 自定义指定之后就不会用I开头了
+        gc.setServiceName("%sService");
 
 
         mpg.setGlobalConfig(gc);
@@ -152,10 +159,11 @@ public class CodeGenerator {
 
         // 配置自定义输出模板
         //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-        templateConfig.setEntity("templates/ftl/entity.java");
-        templateConfig.setService("templates/ftl/service.java");
-        templateConfig.setServiceImpl("templates/ftl/serviceImpl.java");
-        templateConfig.setController("templates/ftl/controller.java");
+        templateConfig.setEntity("templates/entity.java");
+        templateConfig.setService("templates/service.java");
+        templateConfig.setServiceImpl("templates/serviceImpl.java");
+        templateConfig.setController("templates/controller.java");
+        templateConfig.setMapper("templates/mapper.java");
         //配置自定义模板
         mpg.setTemplate(templateConfig);
 

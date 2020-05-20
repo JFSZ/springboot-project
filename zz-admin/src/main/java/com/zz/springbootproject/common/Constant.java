@@ -9,4 +9,12 @@ public class Constant {
 
     //排序方式
     public static final String ORDER = "order";
+
+    //状态 正常状态
+    public static final String ZERO = "0";
+
+    //状态 异常状态(锁定、删除、禁用等等)
+    public static final String ONE = "1";
+
+
 }

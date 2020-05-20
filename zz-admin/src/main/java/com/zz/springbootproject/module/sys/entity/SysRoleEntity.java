@@ -2,8 +2,8 @@ package com.zz.springbootproject.module.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,13 +15,13 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author chenxue
- * @since 2020-05-15
+ * @since 2020-05-20
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("sys_role")
-public class RoleEntity implements Serializable {
+public class SysRoleEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,7 +46,7 @@ public class RoleEntity implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
 
 }

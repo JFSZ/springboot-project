@@ -1,43 +1,41 @@
 package com.zz.springbootproject.module.sys.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zz.springbootproject.validator.group.AddGroup;
-import com.zz.springbootproject.validator.group.UpdateGroup;
-import lombok.Data;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
-import java.util.List;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
- * @description:
- * @author: chenxue
- * @create: 2020-05-11 13:51
- **/
-@TableName
+ * <p>
+ * 系统用户
+ * </p>
+ *
+ * @author chenxue
+ * @since 2020-05-20
+ */
 @Data
-public class SysUserEntity {
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@TableName("sys_user")
+public class SysUserEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 用户ID
-     */
-    @TableId
+    @TableId(value = "user_id", type = IdType.AUTO)
     private Long userId;
 
     /**
      * 用户名
      */
-    @NotBlank(message="用户名不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String username;
 
     /**
      * 密码
      */
-    @NotBlank(message="密码不能为空", groups = AddGroup.class)
     private String password;
 
     /**
@@ -48,8 +46,6 @@ public class SysUserEntity {
     /**
      * 邮箱
      */
-    @NotBlank(message="邮箱不能为空", groups = {AddGroup.class, UpdateGroup.class})
-    @Email(message="邮箱格式不正确", groups = {AddGroup.class, UpdateGroup.class})
     private String email;
 
     /**
@@ -58,15 +54,9 @@ public class SysUserEntity {
     private String mobile;
 
     /**
-     * 状态  0：禁用   1：正常
+     * 状态  0：正常   1：禁用
      */
-    private Integer status;
-
-    /**
-     * 角色ID列表
-     */
-    @TableField(exist=false)
-    private List<Long> roleIdList;
+    private Boolean status;
 
     /**
      * 创建者ID
@@ -77,4 +67,6 @@ public class SysUserEntity {
      * 创建时间
      */
     private Date createTime;
+
+
 }

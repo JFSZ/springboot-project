@@ -1,85 +1,66 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
-
 package com.zz.springbootproject.module.sys.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
-import java.util.List;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
+ * <p>
  * 菜单管理
+ * </p>
  *
- * @author Mark sunlightcs@gmail.com
+ * @author chenxue
+ * @since 2020-05-20
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 @TableName("sys_menu")
 public class SysMenuEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * 菜单ID
-	 */
-	@TableId
-	private Long menuId;
 
-	/**
-	 * 父菜单ID，一级菜单为0
-	 */
-	private Long parentId;
-	
-	/**
-	 * 父菜单名称
-	 */
-	@TableField(exist=false)
-	private String parentName;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 菜单名称
-	 */
-	private String name;
+    @TableId(value = "menu_id", type = IdType.AUTO)
+    private Long menuId;
 
-	/**
-	 * 菜单URL
-	 */
-	private String url;
+    /**
+     * 父菜单ID，一级菜单为0
+     */
+    private Long parentId;
 
-	/**
-	 * 授权(多个用逗号分隔，如：user:list,user:create)
-	 */
-	private String perms;
+    /**
+     * 菜单名称
+     */
+    private String name;
 
-	/**
-	 * 类型     0：目录   1：菜单   2：按钮
-	 */
-	private Integer type;
+    /**
+     * 菜单URL
+     */
+    private String url;
 
-	/**
-	 * 菜单图标
-	 */
-	private String icon;
+    /**
+     * 授权(多个用逗号分隔，如：user:list,user:create)
+     */
+    private String perms;
 
-	/**
-	 * 排序
-	 */
-	private Integer orderNum;
-	
-	/**
-	 * ztree属性
-	 */
-	@TableField(exist=false)
-	private Boolean open;
+    /**
+     * 类型   0：目录   1：菜单   2：按钮
+     */
+    private Integer type;
 
-	@TableField(exist=false)
-	private List<?> list;
+    /**
+     * 菜单图标
+     */
+    private String icon;
+
+    /**
+     * 排序
+     */
+    private Integer orderNum;
+
 
 }

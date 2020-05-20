@@ -23,10 +23,7 @@ import ${superControllerClassPackage};
 </#if>
 
 /**
- * <p>
  * ${table.comment!} 前端控制器
- * </p>
- *
  * @author ${author}
  * @since ${date}
  */
@@ -45,67 +42,58 @@ public class ${table.controllerName} extends ${superControllerClass} {
 public class ${table.controllerName} {
 </#if>
     @Autowired
-    private ${table.serviceName} ${(table.serviceName?substring(1))?uncap_first};
+    private ${table.serviceName} ${(table.serviceName)?uncap_first};
 
     /**
-    * 列表
-    */
+     * 列表
+     */
     @RequestMapping("/list")
     @RequiresPermissions("${package.ModuleName}:${table.entityPath}:list")
     public PageUtil list(@RequestParam Map<String, Object> params){
-        PageUtil page = ${(table.serviceName?substring(1))?uncap_first}.queryPage(params);
+        PageUtil page = ${(table.serviceName)?uncap_first}.queryPage(params);
         return page;
     }
 
 
     /**
-    * 信息
-    */
+     * 信息
+     */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("${package.ModuleName}:${table.entityPath}:info")
     public ServerResponse info(@PathVariable("id") Long id){
-        ${entity} ${table.name} = ${(table.serviceName?substring(1))?uncap_first}.getById(id);
+        ${entity} ${table.name} = ${(table.serviceName)?uncap_first}.getById(id);
         return ServerResponse.ok().put("${table.name}", ${table.name});
     }
 
     /**
-    * 保存
-    */
+     * 保存
+     */
     @RequestMapping("/save")
     @RequiresPermissions("${package.ModuleName}:${table.entityPath}:save")
     public ServerResponse save(@RequestBody ${entity} ${table.name}){
-        ${(table.serviceName?substring(1))?uncap_first}.save(${table.name});
+        ${(table.serviceName)?uncap_first}.save(${table.name});
         return ServerResponse.ok();
     }
 
     /**
-    * 修改
-    */
+     * 修改
+     */
     @RequestMapping("/update")
     @RequiresPermissions("${package.ModuleName}:${table.entityPath}:update")
     public ServerResponse update(@RequestBody ${entity} ${table.name}){
-        ${(table.serviceName?substring(1))?uncap_first}.updateById(${table.name});
+        ${(table.serviceName)?uncap_first}.updateById(${table.name});
         return ServerResponse.ok();
     }
 
     /**
-    * 删除
-    */
+     * 删除
+     */
     @RequestMapping("/delete")
     @RequiresPermissions("${package.ModuleName}:${table.entityPath}:delete")
     public ServerResponse delete(@RequestBody Long[] ids){
-        ${(table.serviceName?substring(1))?uncap_first}.removeByIds(Arrays.asList(ids));
+        ${(table.serviceName)?uncap_first}.removeByIds(Arrays.asList(ids));
         return ServerResponse.ok();
     }
 
-    /**
-    * 导出
-    */
-    @RequestMapping("/export")
-    @RequiresPermissions("${package.ModuleName}:${table.entityPath}:export")
-    public void export(@RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
-        PageUtil page = ${(table.serviceName?substring(1))?uncap_first}.queryPage(params);
-        ExcelUtils.exportExcelToTarget(response, "${table.comment}", page.getData(), ${entity}Bean.class);
-    }
 }
 </#if>

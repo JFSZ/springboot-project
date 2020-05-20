@@ -17,6 +17,6 @@ import java.util.Map;
 interface ${table.serviceName} : ${superServiceClass}<${entity}>
 <#else>
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
- PageUtil queryPage(Map<String, Object> params);
+     PageUtil queryPage(Map<String, Object> params);
 }
 </#if>

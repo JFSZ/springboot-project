@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zz.springbootproject.module.sys.dao.SysMenuDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zz.springbootproject.module.sys.entity.SysMenuEntity">
+        <id column="menu_id" property="menuId" />
+        <result column="parent_id" property="parentId" />
+        <result column="name" property="name" />
+        <result column="url" property="url" />
+        <result column="perms" property="perms" />
+        <result column="type" property="type" />
+        <result column="icon" property="icon" />
+        <result column="order_num" property="orderNum" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        menu_id, parent_id, name, url, perms, type, icon, order_num
+    </sql>
+    <select id="queryByRoleId" resultType="com.zz.springbootproject.module.sys.entity.SysMenuEntity">
+        select * from sys_menu sm left join sys_role_menu srm on sm.menu_id = srm.menu_id where 1= 1
+        <if test="list != null">
+            and srm.role_id in
+            <foreach item="roleId" collection="list" open="(" separator="," close=")">
+                #{roleId}
+            </foreach>
+        </if>
+    </select>
+
+</mapper>

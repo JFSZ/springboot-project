@@ -34,6 +34,7 @@
         <kaptcha.version>0.0.9</kaptcha.version>
         <joda.time.version>2.9.9</joda.time.version>
         <shiro.version>1.5.3</shiro.version>
+        <easypoi.version>4.1.0</easypoi.version>
     </properties>
 
     <dependencies>
@@ -145,6 +146,23 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring-boot-web-starter</artifactId>
             <version>${shiro.version}</version>
+        </dependency>
+
+        <!--execel 导出功能 easyPOI-->
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-base</artifactId>
+            <version>${easypoi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-web</artifactId>
+            <version>${easypoi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-annotation</artifactId>
+            <version>${easypoi.version}</version>
         </dependency>
 
     </dependencies>
