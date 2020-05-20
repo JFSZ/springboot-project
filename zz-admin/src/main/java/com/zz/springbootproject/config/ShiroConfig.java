@@ -1,15 +1,22 @@
 package com.zz.springbootproject.config;
 
 import com.zz.springbootproject.module.sys.oauth2.Oauth2Realm;
+import com.zz.springbootproject.module.sys.oauth2.OauthFilter;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.mgt.SessionsSecurityManager;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.servlet.Filter;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -20,6 +27,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ShiroConfig {
 
+    @Bean
+    public Realm realm(){
+        return new Oauth2Realm();
+    }
+
     /**
      * @Description: url过滤器
      * @param
@@ -28,11 +40,18 @@ public class ShiroConfig {
      */
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition(){
+        ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
+        shiroFilter.setSecurityManager(securityManager(realm()));
+        //oauth过滤
+        Map<String, Filter> filters = new HashMap<>();
+        filters.put("oauth2", new OauthFilter());
+        shiroFilter.setFilters(filters);
+
         DefaultShiroFilterChainDefinition definition = new DefaultShiroFilterChainDefinition();
         definition.addPathDefinition("/sys/login","anon");
         definition.addPathDefinition("/sys/layout","anon");
         definition.addPathDefinition("/sys/captcha.jpg","anon");
-        definition.addPathDefinition("/**","authc");
+        definition.addPathDefinition("/**","oauth2");
         return definition;
     }
 
@@ -44,7 +63,7 @@ public class ShiroConfig {
      */ 
     @Bean
     @ConditionalOnBean(Oauth2Realm.class)
-    public SessionsSecurityManager securityManager(Oauth2Realm oauth2Realm){
+    public SessionsSecurityManager securityManager(Realm oauth2Realm){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager(oauth2Realm);
         return securityManager;
     }
