@@ -16,6 +16,7 @@ import com.zz.springbootproject.exception.ServerException;
 import com.zz.springbootproject.module.sys.dao.SysCaptchaDao;
 import com.zz.springbootproject.module.sys.entity.SysCaptchaEntity;
 import com.zz.springbootproject.module.sys.service.SysCaptchaService;
+import com.zz.springbootproject.module.sys.vo.SysLoginVo;
 import com.zz.springbootproject.utils.DateUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,11 @@ public class SysCaptchaServiceImpl extends ServiceImpl<SysCaptchaDao, SysCaptcha
             return true;
         }
 
+        return false;
+    }
+
+    @Override
+    public boolean checkCaptcha(SysLoginVo sysLoginVo) {
         return false;
     }
 }

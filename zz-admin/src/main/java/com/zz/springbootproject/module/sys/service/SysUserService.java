@@ -8,10 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>
  * 系统用户 服务类
- * </p>
- *
  * @author chenxue
  * @since 2020-05-20
  */
@@ -26,4 +23,12 @@ public interface SysUserService extends IService<SysUserEntity> {
      * @return
      */
     List<String> queryPermById(Long userId);
+
+    /**
+     * @Description: 根据用户名称，查询用户信息
+     * @param username
+     * @Author: chenxue
+     * @Date: 2020/5/21  9:26
+     */
+    SysUserEntity queryByUserName(String username);
 }

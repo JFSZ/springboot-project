@@ -1,14 +1,13 @@
 package com.zz.springbootproject.module.sys.controller;
 
+import com.zz.springbootproject.module.sys.entity.SysUserEntity;
 import com.zz.springbootproject.module.sys.service.SysCaptchaService;
+import com.zz.springbootproject.module.sys.service.SysUserService;
+import com.zz.springbootproject.module.sys.vo.SysLoginVo;
 import com.zz.springbootproject.utils.ServerResponse;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +20,9 @@ public class SysLoginController {
 
     @Autowired
     private SysCaptchaService sysCaptchaService;
+
+    @Autowired
+    private SysUserService sysUserService;
 
     /**
      * @Description: 获取验证码
@@ -40,8 +42,13 @@ public class SysLoginController {
     }
 
     @PostMapping("/login")
-    public ServerResponse login(){
-        // 登录逻辑
+    public ServerResponse login(@RequestBody SysLoginVo sysLoginVo){
+        // 登录逻辑 1、验证码是否正确 2、账号、密码是否正确 3、账号是否正常
+        boolean result = sysCaptchaService.checkCaptcha(sysLoginVo);
+        if (!result){
+            return ServerResponse.error("验证码不正确");
+        }
+        SysUserEntity sysUserEntity = sysUserService.queryByUserName(sysLoginVo.getUsername());
 
         return ServerResponse.ok().put("token","123");
     }

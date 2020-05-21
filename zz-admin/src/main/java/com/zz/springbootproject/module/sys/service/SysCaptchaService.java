@@ -10,6 +10,7 @@ package com.zz.springbootproject.module.sys.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zz.springbootproject.module.sys.entity.SysCaptchaEntity;
+import com.zz.springbootproject.module.sys.vo.SysLoginVo;
 
 import java.awt.image.BufferedImage;
 
@@ -32,4 +33,6 @@ public interface SysCaptchaService extends IService<SysCaptchaEntity> {
      * @return  true：成功  false：失败
      */
     boolean validate(String uuid, String code);
+
+    boolean checkCaptcha(SysLoginVo sysLoginVo);
 }

@@ -62,4 +62,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         List<String> perList = menuList.stream().map(SysMenuEntity::getPerms).distinct().collect(Collectors.toList());
         return perList;
     }
+
+    /**
+     * @Description: 根据用户名称，查询用户信息
+     * @param username
+     * @Author: chenxue
+     * @Date: 2020/5/21  9:26
+     */
+    @Override
+    public SysUserEntity queryByUserName(String username) {
+        return null;
+    }
 }
