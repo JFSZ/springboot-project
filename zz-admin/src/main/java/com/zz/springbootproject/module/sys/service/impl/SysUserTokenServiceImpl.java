@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * 系统用户Token 服务实现类
  * @author chenxue
- * @since 2020-05-20
+ * @since 2020-05-22
  */
 @Service
 public class SysUserTokenServiceImpl extends ServiceImpl<SysUserTokenDao, SysUserTokenEntity> implements SysUserTokenService {

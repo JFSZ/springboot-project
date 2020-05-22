@@ -23,7 +23,7 @@ public class CodeGenerator {
     // 模块名称
     private static String moduleName = "sys";
     // 表名，多个表中间用,隔开
-    private static String tableName = "sys_user_token";
+    private static String tableName = "";
 
     // 表名后缀 如 数据库为 sys_user 生成的 实体类为 SysUserEntity
     private static String suffix = "Entity";

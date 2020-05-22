@@ -1,7 +1,14 @@
 package com.zz.springbootproject.module.sys.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import com.zz.springbootproject.module.sys.entity.SysUserEntity;
+import com.zz.springbootproject.module.sys.service.SysUserService;
+import com.zz.springbootproject.utils.ShiroUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,16 +28,19 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-05-20
  */
 @RestController
-@RequestMapping("/sys/sys-menu-entity")
+@RequestMapping("/sys/menu")
 public class SysMenuController {
     @Autowired
     private SysMenuService sysMenuService;
+
+    @Autowired
+    private SysUserService sysUserService;
 
     /**
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("sys:sysMenuEntity:list")
+    @RequiresPermissions("sys:menu:list")
     public PageUtil list(@RequestParam Map<String, Object> params){
         PageUtil page = sysMenuService.queryPage(params);
         return page;
@@ -41,7 +51,7 @@ public class SysMenuController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("sys:sysMenuEntity:info")
+    @RequiresPermissions("sys:menu:info")
     public ServerResponse info(@PathVariable("id") Long id){
         SysMenuEntity sys_menu = sysMenuService.getById(id);
         return ServerResponse.ok().put("sys_menu", sys_menu);
@@ -51,7 +61,7 @@ public class SysMenuController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("sys:sysMenuEntity:save")
+    @RequiresPermissions("sys:menu:save")
     public ServerResponse save(@RequestBody SysMenuEntity sys_menu){
         sysMenuService.save(sys_menu);
         return ServerResponse.ok();
@@ -61,7 +71,7 @@ public class SysMenuController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("sys:sysMenuEntity:update")
+    @RequiresPermissions("sys:menu:update")
     public ServerResponse update(@RequestBody SysMenuEntity sys_menu){
         sysMenuService.updateById(sys_menu);
         return ServerResponse.ok();
@@ -71,10 +81,25 @@ public class SysMenuController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("sys:sysMenuEntity:delete")
+    @RequiresPermissions("sys:menu:delete")
     public ServerResponse delete(@RequestBody Long[] ids){
         sysMenuService.removeByIds(Arrays.asList(ids));
         return ServerResponse.ok();
+    }
+
+    /**
+     * @Description: 获取导航栏菜单
+     * @param
+     * @Author: chenxue
+     * @Date: 2020/5/22  17:21
+     */
+    @RequestMapping("/nav")
+    public ServerResponse nav(){
+        SysUserEntity user = ShiroUtils.getUser();
+        //查询登录人的权限和菜单
+        List<SysMenuEntity> menulist = sysMenuService.queryByUserId(user.getUserId());
+        List<String> permList = sysUserService.queryPermById(user.getUserId());
+        return ServerResponse.ok().put("menuList",menulist).put("permissions",permList);
     }
 
 }

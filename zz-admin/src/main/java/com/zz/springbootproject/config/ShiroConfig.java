@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
@@ -40,19 +41,25 @@ public class ShiroConfig {
      */
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition(){
+        //不需要在此处配置权限页面,因为上面的ShiroFilterFactoryBean已经配置过,但是此处必须存在,因为shiro-spring-boot-web-starter或查找此Bean,没有会报错
+        return new DefaultShiroFilterChainDefinition();
+    }
+
+    @Bean("shiroFilterFactoryBean")
+    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager){
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
-        shiroFilter.setSecurityManager(securityManager(realm()));
+        shiroFilter.setSecurityManager(securityManager);
         //oauth过滤
-        Map<String, Filter> filters = new HashMap<>();
+        Map<String, Filter> filters = shiroFilter.getFilters();
         filters.put("oauth2", new OauthFilter());
         shiroFilter.setFilters(filters);
-
-        DefaultShiroFilterChainDefinition definition = new DefaultShiroFilterChainDefinition();
-        definition.addPathDefinition("/sys/login","anon");
-        definition.addPathDefinition("/sys/layout","anon");
-        definition.addPathDefinition("/sys/captcha.jpg","anon");
-        definition.addPathDefinition("/**","oauth2");
-        return definition;
+        Map<String, String> filterMap = new LinkedHashMap<>();
+        filterMap.put("/sys/login","anon");
+        filterMap.put("/sys/layout","anon");
+        filterMap.put("/sys/captcha.jpg","anon");
+        filterMap.put("/**","oauth2");
+        shiroFilter.setFilterChainDefinitionMap(filterMap);
+        return shiroFilter;
     }
 
     /**

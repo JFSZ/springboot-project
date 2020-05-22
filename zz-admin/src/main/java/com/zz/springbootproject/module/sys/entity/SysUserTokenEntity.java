@@ -1,5 +1,7 @@
 package com.zz.springbootproject.module.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
 import java.io.Serializable;
@@ -10,7 +12,7 @@ import lombok.experimental.Accessors;
 /**
  * 系统用户Token
  * @author chenxue
- * @since 2020-05-20
+ * @since 2020-05-22
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -20,6 +22,7 @@ public class SysUserTokenEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(type = IdType.INPUT)
     private Long userId;
 
     /**

@@ -34,5 +34,4 @@ public interface SysCaptchaService extends IService<SysCaptchaEntity> {
      */
     boolean validate(String uuid, String code);
 
-    boolean checkCaptcha(SysLoginVo sysLoginVo);
 }

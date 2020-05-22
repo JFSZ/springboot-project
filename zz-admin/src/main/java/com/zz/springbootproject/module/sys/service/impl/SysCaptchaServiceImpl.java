@@ -70,8 +70,4 @@ public class SysCaptchaServiceImpl extends ServiceImpl<SysCaptchaDao, SysCaptcha
         return false;
     }
 
-    @Override
-    public boolean checkCaptcha(SysLoginVo sysLoginVo) {
-        return false;
-    }
 }

@@ -3,6 +3,7 @@ package com.zz.springbootproject.module.sys.service;
 import com.zz.springbootproject.module.sys.entity.SysUserEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zz.springbootproject.utils.PageUtil;
+import com.zz.springbootproject.utils.ServerResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -31,4 +32,13 @@ public interface SysUserService extends IService<SysUserEntity> {
      * @Date: 2020/5/21  9:26
      */
     SysUserEntity queryByUserName(String username);
+
+
+    /**
+     * @Description: 生成token
+     * @param userId
+     * @Author: chenxue
+     * @Date: 2020/5/22  9:16
+     */
+    ServerResponse createToken(Long userId);
 }

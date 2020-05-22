@@ -9,6 +9,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zz.springbootproject.utils.Query;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zz.springbootproject.utils.PageUtil;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,4 +28,16 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
       IPage<SysMenuEntity> page = this.page(new Query<SysMenuEntity>(params).getPage(),new QueryWrapper<SysMenuEntity>());
       return new PageUtil(page);
    }
+
+   /**
+    * @Description: 查询登录人拥有的菜单
+    * @param userId
+    * @Author: chenxue
+    * @Date: 2020/5/22  18:21
+    */
+    @Override
+    public List<SysMenuEntity> queryByUserId(Long userId) {
+
+        return null;
+    }
 }

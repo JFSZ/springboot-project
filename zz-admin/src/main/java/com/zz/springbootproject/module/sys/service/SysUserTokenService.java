@@ -11,7 +11,7 @@ import java.util.Map;
  * </p>
  *
  * @author chenxue
- * @since 2020-05-20
+ * @since 2020-05-22
  */
 public interface SysUserTokenService extends IService<SysUserTokenEntity> {
      PageUtil queryPage(Map<String, Object> params);

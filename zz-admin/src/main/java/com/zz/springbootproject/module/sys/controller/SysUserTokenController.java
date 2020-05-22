@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 系统用户Token 前端控制器
  * @author chenxue
- * @since 2020-05-20
+ * @since 2020-05-22
  */
 @RestController
 @RequestMapping("/sys/sys-user-token-entity")
