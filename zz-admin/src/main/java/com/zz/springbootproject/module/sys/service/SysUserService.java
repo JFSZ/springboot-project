@@ -41,4 +41,12 @@ public interface SysUserService extends IService<SysUserEntity> {
      * @Date: 2020/5/22  9:16
      */
     ServerResponse createToken(Long userId);
+
+    /**
+     * @Description: 退出
+     * @param
+     * @Author: chenxue
+     * @Date: 2020/5/23  17:59
+     */
+    ServerResponse lagout();
 }

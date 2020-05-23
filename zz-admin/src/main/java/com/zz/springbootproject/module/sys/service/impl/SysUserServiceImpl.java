@@ -14,6 +14,7 @@ import com.zz.springbootproject.module.sys.oauth2.TokenGenerator;
 import com.zz.springbootproject.module.sys.service.SysUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zz.springbootproject.utils.ServerResponse;
+import com.zz.springbootproject.utils.ShiroUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -109,5 +110,23 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
             sysUserTokenDao.updateById(sysUserTokenEntity);
         }
         return ServerResponse.ok().put("token",token);
+    }
+
+    /**
+     * @Description: 退出
+     * @param
+     * @Author: chenxue
+     * @Date: 2020/5/23  17:59
+     */
+    @Override
+    public ServerResponse lagout() {
+        Long userId = ShiroUtils.getUser().getUserId();
+        String token = TokenGenerator.generateValue();
+        //修改token
+        SysUserTokenEntity tokenEntity = new SysUserTokenEntity();
+        tokenEntity.setUserId(userId);
+        tokenEntity.setToken(token);
+        sysUserTokenDao.updateById(tokenEntity);
+        return ServerResponse.ok();
     }
 }

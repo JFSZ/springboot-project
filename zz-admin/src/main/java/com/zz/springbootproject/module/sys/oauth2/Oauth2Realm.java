@@ -29,6 +29,18 @@ public class Oauth2Realm extends AuthorizingRealm {
     private SysUserService sysUserService;
     @Autowired
     private SysUserTokenService sysUserTokenService;
+
+    /**
+     * @Description: 如果自定义了Token生成规则，则需要重写该方法.否者会报错:does not support authentication token
+     * @param token
+     * @Author: chenxue 
+     * @Date: 2020/5/23  17:28
+     */ 
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof Oauth2Token;
+    }
+
     /**
      * @Description: 授权(验证权限时调用)
      * @param principalCollection

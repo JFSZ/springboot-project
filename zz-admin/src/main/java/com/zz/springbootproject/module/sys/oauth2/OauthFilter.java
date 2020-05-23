@@ -8,7 +8,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
 import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.ServletRequest;
@@ -57,28 +56,14 @@ public class OauthFilter extends AuthenticatingFilter {
         if(StringUtils.isBlank(token)){
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
-            //httpResponse.setHeader("Access-Control-Allow-Origin", HttpContextUtils.getOrigin());
+            httpResponse.setHeader("Access-Control-Allow-Origin", HttpContextUtils.getOrigin());
             String json = new Gson().toJson(ServerResponse.error(HttpStatus.SC_UNAUTHORIZED, "invalid token"));
             httpResponse.getWriter().print(json);
             return false;
         }
-
         return executeLogin(request, response);
     }
 
-    /**
-     * @Description: 登录成功
-     * @param token
-     * @param subject
-     * @param request
-     * @param response
-     * @Author: chenxue
-     * @Date: 2020/5/20  19:08
-     */
-    @Override
-    protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
-        return super.onLoginSuccess(token, subject, request, response);
-    }
 
     /**
      * @Description: 处理登录失败
@@ -94,7 +79,7 @@ public class OauthFilter extends AuthenticatingFilter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         httpResponse.setContentType("application/json;charset=utf-8");
         httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
-        //httpResponse.setHeader("Access-Control-Allow-Origin", HttpContextUtils.getOrigin());
+        httpResponse.setHeader("Access-Control-Allow-Origin", HttpContextUtils.getOrigin());
         try {
             //处理登录失败的异常
             Throwable throwable = e.getCause() == null ? e : e.getCause();

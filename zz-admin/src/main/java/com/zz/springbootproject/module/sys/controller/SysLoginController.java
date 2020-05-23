@@ -73,4 +73,15 @@ public class SysLoginController {
         return sysUserService.createToken(sysUserEntity.getUserId());
     }
 
+
+    /**
+     * @Description: 退出
+     * @param
+     * @Author: chenxue
+     * @Date: 2020/5/23  17:59
+     */
+    @RequestMapping("/logout")
+    public ServerResponse logout(){
+        return sysUserService.lagout();
+    }
 }
