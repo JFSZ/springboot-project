@@ -66,8 +66,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         List<SysRoleEntity> roleList = sysRoleDao.queryByUserId(userId);
         Optional.ofNullable(roleList).orElseThrow(() -> new ServerException("未查询到当前登录用户角色信息!"));
         List<Long> collect = roleList.stream().map(SysRoleEntity::getRoleId).distinct().collect(Collectors.toList());
+        List<SysMenuEntity> menuList = null;
+        //如果包含管理员角色，默认拥有所有权限
+        if(collect.contains(Constant.RoleEnum.ADMIN.getValue())){
+            menuList = sysMenuDao.queryByRoleId(null);
+        }
         //根据角色，查询菜单权限
-        List<SysMenuEntity> menuList = sysMenuDao.queryByRoleId(collect);
+        menuList = sysMenuDao.queryByRoleId(collect);
         Optional.ofNullable(menuList).orElseThrow(() -> new ServerException("未查询到当前登录用户权限信息!"));
         List<String> perList = menuList.stream().map(SysMenuEntity::getPerms).distinct().collect(Collectors.toList());
         return perList;

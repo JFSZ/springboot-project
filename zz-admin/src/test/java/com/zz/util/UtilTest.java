@@ -1,8 +1,13 @@
 package com.zz.util;
 
+import com.zz.springbootproject.module.sys.entity.SysMenuEntity;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * @description:
@@ -14,5 +19,13 @@ public class UtilTest {
     @Test
     public void test(){
         c.accept(Math.ceil((double) 1/2));
+
+        List<SysMenuEntity> list = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            SysMenuEntity sysMenuEntity = new SysMenuEntity();
+            sysMenuEntity.setPerms("sys:user:info,sys:user:list");
+            sysMenuEntity.setPerms("sys:user:delete");
+            list.add(sysMenuEntity);
+        }
     }
 }

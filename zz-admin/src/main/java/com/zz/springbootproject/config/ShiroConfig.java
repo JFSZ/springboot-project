@@ -4,7 +4,6 @@ import com.zz.springbootproject.module.sys.oauth2.Oauth2Realm;
 import com.zz.springbootproject.module.sys.oauth2.OauthFilter;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.mgt.SessionsSecurityManager;
-import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;

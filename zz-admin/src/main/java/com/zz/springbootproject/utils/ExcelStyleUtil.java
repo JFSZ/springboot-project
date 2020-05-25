@@ -6,8 +6,8 @@ import cn.afterturn.easypoi.excel.export.styler.IExcelExportStyler;
 import org.apache.poi.ss.usermodel.*;
 
 /**
- * @author zhanghonglei
- * @date 2019/06/26
+ * @author
+ * @date
  */
 public class ExcelStyleUtil implements IExcelExportStyler {
     private static final short STRING_FORMAT = (short) BuiltinFormats.getBuiltinFormat("TEXT");

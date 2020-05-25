@@ -1,5 +1,10 @@
 package com.zz.springbootproject.common;
 
+/**
+ * @Description: 配置常量
+ * @Author: chenxue
+ * @Date: 2020/5/25  14:47
+ */
 public class Constant {
     /**
      * 当前页码
