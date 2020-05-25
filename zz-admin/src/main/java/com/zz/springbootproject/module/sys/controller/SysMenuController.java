@@ -1,9 +1,6 @@
 package com.zz.springbootproject.module.sys.controller;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.zz.springbootproject.module.sys.entity.SysUserEntity;
 import com.zz.springbootproject.module.sys.service.SysUserService;
@@ -99,7 +96,9 @@ public class SysMenuController {
         //查询登录人的权限和菜单
         List<SysMenuEntity> menulist = sysMenuService.queryByUserId(user.getUserId());
         List<String> permList = sysUserService.queryPermById(user.getUserId());
-        return ServerResponse.ok().put("menuList",menulist).put("permissions",permList);
+        Set<String> permSet = new HashSet<>();
+        permList.stream().filter(Objects::nonNull).forEach(o -> permSet.addAll(Arrays.asList(o.trim().split(","))));
+        return ServerResponse.ok().put("menuList",menulist).put("permissions",permSet);
     }
 
 }

@@ -8,6 +8,7 @@ import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -66,6 +67,7 @@ public class SysUserEntity implements Serializable {
     /**
      * 创建时间
      */
+    @DateTimeFormat
     private Date createTime;
 
 

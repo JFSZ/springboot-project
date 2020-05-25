@@ -55,9 +55,7 @@ public class Oauth2Realm extends AuthorizingRealm {
         //根据用户id，查询用户权限
         List<String> permList = sysUserService.queryPermById(userId);
         Set<String> permSet = new HashSet<>();
-        permList.stream().forEach(o -> permSet.addAll(Arrays.asList(o.trim().split(",")))
-        );
-        permSet.addAll(permList);
+        permList.stream().filter(Objects::nonNull).forEach(o -> permSet.addAll(Arrays.asList(o.trim().split(","))));
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.setStringPermissions(permSet);
         return info;
