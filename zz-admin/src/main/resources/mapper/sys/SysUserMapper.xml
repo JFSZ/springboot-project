@@ -22,5 +22,12 @@
     <select id="queryByUserName" resultType="com.zz.springbootproject.module.sys.entity.SysUserEntity">
         select <include refid="Base_Column_List"/> from sys_user where username = #{username}
     </select>
+    <select id="queryPage" parameterType="hashmap" resultType="com.zz.springbootproject.module.sys.entity.SysUserEntity">
+        select <include refid="Base_Column_List"/> from sys_user where 1 = 1
+        <if test="params.username != null and params.username != '' ">
+            and (username like concat('%',#{params.username},'%')  or mobile like  concat('%',#{params.username},'%'))
+        </if>
+        order by create_time
+    </select>
 
 </mapper>
