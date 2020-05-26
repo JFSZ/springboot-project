@@ -31,7 +31,7 @@ public class PageUtil<T> implements Serializable {
         this.currPage = page.getCurrent();
         this.pageSize = page.getSize();
         this.list = page.getRecords();
-        this.totalPage =(long)Math.ceil((double) totalCount/totalPage);
+        this.totalPage =(long)Math.ceil((double) totalCount/pageSize);
     }
 
     public PageUtil(long totalCount, long pageSize, long currPage, long totalPage, List<T> list) {
