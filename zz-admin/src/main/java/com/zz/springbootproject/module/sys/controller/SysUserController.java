@@ -69,7 +69,7 @@ public class SysUserController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("sys:user:delete")
-    public ServerResponse delete(@RequestBody Long[] ids) {
+    public ServerResponse delete(@RequestParam Long[] ids) {
         sysUserService.removeByIds(Arrays.asList(ids));
         return ServerResponse.ok();
     }

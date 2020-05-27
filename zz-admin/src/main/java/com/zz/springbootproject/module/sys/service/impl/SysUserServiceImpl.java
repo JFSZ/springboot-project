@@ -48,7 +48,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
-        //IPage<SysUserEntity> page = this.page(new Query<SysUserEntity>(params).getPage(), new QueryWrapper<SysUserEntity>());
         IPage<SysUserEntity> page = new Query<SysUserEntity>(params).getPage();
         List<SysUserEntity> list = baseMapper.queryPage(page,params);
         return new PageUtil(page.setRecords(list));
