@@ -1,6 +1,7 @@
 package com.zz.springbootproject.module.sys.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.zz.springbootproject.utils.ShiroUtils;
@@ -69,8 +70,8 @@ public class SysUserController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("sys:user:delete")
-    public ServerResponse delete(@RequestParam Long[] ids) {
-        sysUserService.removeByIds(Arrays.asList(ids));
+    public ServerResponse delete(@RequestBody List<Long> userIds) {
+        sysUserService.removeByIds(userIds);
         return ServerResponse.ok();
     }
 
