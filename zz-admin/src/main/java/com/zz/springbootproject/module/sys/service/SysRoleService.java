@@ -3,6 +3,7 @@ package com.zz.springbootproject.module.sys.service;
 import com.zz.springbootproject.module.sys.entity.SysRoleEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zz.springbootproject.utils.PageUtil;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,4 +16,11 @@ import java.util.Map;
  */
 public interface SysRoleService extends IService<SysRoleEntity> {
  PageUtil queryPage(Map<String, Object> params);
+
+    /**
+     * 根据用户查询角色
+     * @param userId
+     * @return
+     */
+    List<SysRoleEntity> queryByUserId(Long userId);
 }

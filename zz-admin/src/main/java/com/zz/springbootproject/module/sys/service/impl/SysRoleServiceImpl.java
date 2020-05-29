@@ -9,13 +9,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zz.springbootproject.utils.Query;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zz.springbootproject.utils.PageUtil;
+
+import java.util.List;
 import java.util.Map;
 
 /**
- * <p>
  * 角色 服务实现类
- * </p>
- *
  * @author chenxue
  * @since 2020-05-20
  */
@@ -26,4 +25,15 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
       IPage<SysRoleEntity> page = this.page(new Query<SysRoleEntity>(params).getPage(),new QueryWrapper<SysRoleEntity>());
       return new PageUtil(page);
    }
+
+    /**
+     * 根据用户查询角色
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<SysRoleEntity> queryByUserId(Long userId) {
+        List<SysRoleEntity> sysRoleEntityList = baseMapper.queryByUserId(userId);
+        return sysRoleEntityList;
+    }
 }

@@ -22,8 +22,11 @@
         from sys_role sr
         left join sys_user_role sur
         on sr.role_id = sur.role_id
-        where
-        sur.user_id = #{userId}
+        where 1 = 1
+        <if test=" userId != null and userId != 0">
+            and sur.user_id = #{userId}
+        </if>
+
     </select>
 
 </mapper>

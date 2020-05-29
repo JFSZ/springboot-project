@@ -24,8 +24,8 @@
     </select>
     <select id="queryPage" resultType="com.zz.springbootproject.module.sys.entity.SysUserEntity">
         select <include refid="Base_Column_List"/> from sys_user where 1 = 1
-        <if test="params.username != null and params.username != '' ">
-            and (username like concat('%',#{params.username},'%')  or mobile like  concat('%',#{params.username},'%'))
+        <if test="params.userName != null and params.userName != '' ">
+            and (username like concat('%',#{params.userName},'%')  or mobile like  concat('%',#{params.userName},'%'))
         </if>
         order by create_time,status desc
     </select>
