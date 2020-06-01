@@ -91,9 +91,9 @@ public class CodeGenerator {
             @Override
             public IColumnType processTypeConvert(GlobalConfig globalConfig, String fieldType) {
                 //tinyint转换成Boolean
-                if (fieldType.toLowerCase().contains("tinyint")) {
+                /*if (fieldType.toLowerCase().contains("tinyint")) {
                     return DbColumnType.BOOLEAN;
-                }
+                }*/
                 //将数据库中datetime转换成date
                 if (fieldType.toLowerCase().contains("datetime")) {
                     return DbColumnType.DATE;

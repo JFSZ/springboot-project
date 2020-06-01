@@ -11,15 +11,18 @@ import com.zz.springbootproject.module.sys.entity.SysUserEntity;
 import com.zz.springbootproject.module.sys.dao.SysUserDao;
 import com.zz.springbootproject.module.sys.entity.SysUserTokenEntity;
 import com.zz.springbootproject.module.sys.oauth2.TokenGenerator;
+import com.zz.springbootproject.module.sys.service.SysUserRoleService;
 import com.zz.springbootproject.module.sys.service.SysUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zz.springbootproject.utils.ServerResponse;
 import com.zz.springbootproject.utils.ShiroUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zz.springbootproject.utils.Query;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zz.springbootproject.utils.PageUtil;
 
 import javax.annotation.Resource;
@@ -45,6 +48,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
     @Resource
     private SysUserTokenDao sysUserTokenDao;
+
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
 
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
@@ -134,5 +140,25 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         tokenEntity.setToken(token);
         sysUserTokenDao.updateById(tokenEntity);
         return ServerResponse.ok();
+    }
+
+    /**
+     * @Description: 新增用户
+     * @param user
+     * @Author: chenxue
+     * @Date: 2020/6/1  16:16
+     */
+    @Override
+    public void saveUser(SysUserEntity user) {
+        // 密码加密
+        user.setCreateUserId(ShiroUtils.getUser().getUserId());
+        user.setCreateTime(new Date());
+        //盐
+        String salt = RandomStringUtils.randomAlphanumeric(20);
+        user.setPassword(new Sha256Hash(user.getPassword(),salt).toHex());
+        user.setSalt(salt);
+        this.save(user);
+        // 保存用户角色关系
+        sysUserRoleService.saveOrUpdateByParam(user.getUserId(),user.getRoleIdList());
     }
 }

@@ -17,7 +17,7 @@
     </sql>
 
     <select id="queryByUserId" resultType="com.zz.springbootproject.module.sys.entity.SysRoleEntity">
-        select
+        select distinct
         <include refid="Base_Column_List"/>
         from sys_role sr
         left join sys_user_role sur

@@ -23,7 +23,7 @@ mybatis-plus:
       #字段验证策略 not_null：校验null
       #NOT_EMPTY:只对String类型字段有用，其他类型按照not_null 校验null和''
       insert-strategy: not_null
-      update-strategy: ignored
+      update-strategy: not_null
       select-strategy: not_null
     banner: true
   configuration:

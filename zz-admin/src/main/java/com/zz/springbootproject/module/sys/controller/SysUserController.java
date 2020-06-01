@@ -1,12 +1,19 @@
 package com.zz.springbootproject.module.sys.controller;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.zz.springbootproject.exception.ServerException;
+import com.zz.springbootproject.module.sys.entity.SysRoleEntity;
+import com.zz.springbootproject.module.sys.service.SysRoleService;
+import com.zz.springbootproject.module.sys.service.SysUserRoleService;
 import com.zz.springbootproject.utils.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import com.zz.springbootproject.utils.ServerResponse;
 import com.zz.springbootproject.module.sys.service.SysUserService;
@@ -24,6 +31,11 @@ public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
 
+    @Autowired
+    private SysRoleService sysRoleService;
+
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
     /**
      * 列表
      */
@@ -38,10 +50,17 @@ public class SysUserController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{userId}")
+    @RequestMapping("/info")
     @RequiresPermissions("sys:user:info")
-    public ServerResponse info(@PathVariable("userId") Long userId) {
+    public ServerResponse info(@RequestParam("userId") Long userId) {
         SysUserEntity user = sysUserService.getById(userId);
+
+        List<SysRoleEntity> sysRoleEntityList = sysRoleService.queryByUserId(userId);
+        user.setRoleIdList(Optional.ofNullable(sysRoleEntityList)
+                .orElse(new ArrayList<>())
+                .stream()
+                .map(SysRoleEntity::getRoleId)
+                .collect(Collectors.toList()));
         return ServerResponse.ok().put("user", user);
     }
 
@@ -50,8 +69,9 @@ public class SysUserController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("sys:user:save")
-    public ServerResponse save(@RequestBody SysUserEntity sys_user) {
-        sysUserService.save(sys_user);
+    @Transactional
+    public ServerResponse save(@RequestBody SysUserEntity user) {
+        sysUserService.saveUser(user);
         return ServerResponse.ok();
     }
 
@@ -60,8 +80,11 @@ public class SysUserController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("sys:user:update")
-    public ServerResponse update(@RequestBody SysUserEntity sys_user) {
-        sysUserService.updateById(sys_user);
+    public ServerResponse update(@RequestBody SysUserEntity user) {
+        Optional.ofNullable(user).map(x -> x.getUserId()).orElseThrow(() -> new ServerException("参数缺失!"));
+        sysUserService.updateById(user);
+        //更新角色
+        sysUserRoleService.saveOrUpdateByParam(user.getUserId(),user.getRoleIdList());
         return ServerResponse.ok();
     }
 
@@ -75,8 +98,8 @@ public class SysUserController {
         return ServerResponse.ok();
     }
 
-    @GetMapping("/info")
-    public ServerResponse info() {
+    @GetMapping("/getUserInfo")
+    public ServerResponse getUserInfo() {
         return ServerResponse.ok().put("user", ShiroUtils.getUser());
     }
 }

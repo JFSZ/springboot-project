@@ -1,10 +1,12 @@
 package com.zz.springbootproject.module.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
 
 import com.zz.springbootproject.validator.group.AddGroup;
 import com.zz.springbootproject.validator.group.UpdateGroup;
@@ -62,7 +64,8 @@ public class SysUserEntity implements Serializable {
     private String mobile;
 
     /**
-     * 状态  0：正常   1：禁用
+     * 状态  0：禁用   1：正常
+     * 对应数据库 0 false 1 true
      */
     private Boolean status;
 
@@ -77,5 +80,7 @@ public class SysUserEntity implements Serializable {
     @DateTimeFormat
     private Date createTime;
 
+    @TableField(exist = false)
+    private List<Long> roleIdList;
 
 }

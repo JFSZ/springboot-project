@@ -49,4 +49,12 @@ public interface SysUserService extends IService<SysUserEntity> {
      * @Date: 2020/5/23  17:59
      */
     ServerResponse lagout();
+
+    /**
+     * @Description: 新增用户
+     * @param user
+     * @Author: chenxue
+     * @Date: 2020/6/1  16:16
+     */
+    void saveUser(SysUserEntity user);
 }
