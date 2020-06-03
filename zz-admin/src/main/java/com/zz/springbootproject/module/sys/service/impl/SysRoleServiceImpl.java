@@ -22,8 +22,9 @@ import java.util.Map;
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> implements SysRoleService {
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
-      IPage<SysRoleEntity> page = this.page(new Query<SysRoleEntity>(params).getPage(),new QueryWrapper<SysRoleEntity>());
-      return new PageUtil(page);
+      IPage<SysRoleEntity> page = new Query<SysRoleEntity>(params).getPage();
+      List<SysRoleEntity> list = baseMapper.queryPage(page,params);
+      return new PageUtil(page.setRecords(list));
    }
 
     /**
