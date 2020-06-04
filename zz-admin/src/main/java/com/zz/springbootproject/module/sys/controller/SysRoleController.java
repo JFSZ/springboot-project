@@ -17,10 +17,7 @@ import com.zz.springbootproject.utils.PageUtil;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <p>
  * 角色 前端控制器
- * </p>
- *
  * @author chenxue
  * @since 2020-05-20
  */
@@ -44,11 +41,11 @@ public class SysRoleController {
     /**
     * 信息
     */
-    @RequestMapping("/info/{id}")
+    @RequestMapping("/info/{roleId}")
     @RequiresPermissions("sys:role:info")
-    public ServerResponse info(@PathVariable("id") Long id){
-        SysRoleEntity sys_role = sysRoleService.getById(id);
-        return ServerResponse.ok().put("sys_role", sys_role);
+    public ServerResponse info(@PathVariable("roleId") Long roleId){
+        SysRoleEntity role = sysRoleService.getById(roleId);
+        return ServerResponse.ok().put("role", role);
     }
 
     /**
@@ -56,9 +53,8 @@ public class SysRoleController {
     */
     @RequestMapping("/save")
     @RequiresPermissions("sys:role:save")
-    public ServerResponse save(@RequestBody SysRoleEntity sys_role){
-        sysRoleService.save(sys_role);
-        return ServerResponse.ok();
+    public ServerResponse save(@RequestBody SysRoleEntity role){
+        return sysRoleService.saveRole(role);
     }
 
     /**
@@ -66,8 +62,8 @@ public class SysRoleController {
     */
     @RequestMapping("/update")
     @RequiresPermissions("sys:role:update")
-    public ServerResponse update(@RequestBody SysRoleEntity sys_role){
-        sysRoleService.updateById(sys_role);
+    public ServerResponse update(@RequestBody SysRoleEntity role){
+        sysRoleService.updateById(role);
         return ServerResponse.ok();
     }
 
@@ -76,8 +72,8 @@ public class SysRoleController {
     */
     @RequestMapping("/delete")
     @RequiresPermissions("sys:role:delete")
-    public ServerResponse delete(@RequestBody Long[] ids){
-        sysRoleService.removeByIds(Arrays.asList(ids));
+    public ServerResponse delete(@RequestBody List<String> ids){
+        sysRoleService.removeByIds(ids);
         return ServerResponse.ok();
     }
 

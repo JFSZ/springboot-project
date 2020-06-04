@@ -4,6 +4,7 @@ import com.zz.springbootproject.module.sys.entity.SysRoleEntity;
 import com.zz.springbootproject.module.sys.dao.SysRoleDao;
 import com.zz.springbootproject.module.sys.service.SysRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zz.springbootproject.utils.ServerResponse;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zz.springbootproject.utils.Query;
@@ -36,5 +37,17 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
     public List<SysRoleEntity> queryByUserId(Long userId) {
         List<SysRoleEntity> sysRoleEntityList = baseMapper.queryByUserId(userId);
         return sysRoleEntityList;
+    }
+
+    /**
+     * @Description: 新增角色
+     * @param role
+     * @Author: chenxue
+     * @Date: 2020/6/4  18:53
+     */
+    @Override
+    public ServerResponse saveRole(SysRoleEntity role) {
+
+        return null;
     }
 }

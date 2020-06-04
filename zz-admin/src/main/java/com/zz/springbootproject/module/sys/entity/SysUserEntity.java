@@ -7,14 +7,11 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.util.List;
-
 import com.zz.springbootproject.validator.group.AddGroup;
 import com.zz.springbootproject.validator.group.UpdateGroup;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -24,7 +21,7 @@ import javax.validation.constraints.NotBlank;
  * @since 2020-05-20
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+// 翻译是存取器。通过该注解可以控制getter和setter方法的形式。
 @Accessors(chain = true)
 @TableName("sys_user")
 public class SysUserEntity implements Serializable {
