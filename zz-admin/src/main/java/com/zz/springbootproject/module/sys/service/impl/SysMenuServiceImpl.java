@@ -6,6 +6,7 @@ import com.zz.springbootproject.module.sys.entity.SysMenuEntity;
 import com.zz.springbootproject.module.sys.dao.SysMenuDao;
 import com.zz.springbootproject.module.sys.service.SysMenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zz.springbootproject.utils.ServerResponse;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zz.springbootproject.utils.Query;
@@ -13,6 +14,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zz.springbootproject.utils.PageUtil;
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -50,7 +52,19 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
             menuList = baseMapper.queryByRoleId(roleList);
         }
         List<SysMenuEntity> collect = menuList.stream().filter(o -> Long.valueOf(Constant.ZERO) == o.getParentId()).collect(Collectors.toList());
-        return getMenuTreeList(collect,menuList);
+        return getMenuTreeList(collect,menuList,1);
+    }
+
+    /**
+     * @Description: 根据角色查询菜单权限
+     * @param roleId 角色id
+     * @Author: chenxue
+     * @Date: 2020/6/5  17:12
+     */
+    @Override
+    public ServerResponse queryByRoleId(String roleId) {
+        List<SysMenuEntity> menuEntityList = baseMapper.queryByRoleId(Arrays.asList(Long.valueOf(roleId)));
+        return null;
     }
 
     /**
@@ -60,11 +74,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
      * @Author: chenxue 
      * @Date: 2020/5/23  15:24
      */ 
-    private List<SysMenuEntity> getMenuTreeList(List<SysMenuEntity> collect,List<SysMenuEntity> menuList) {
+    private List<SysMenuEntity> getMenuTreeList(List<SysMenuEntity> collect,List<SysMenuEntity> menuList,Integer type) {
         for (SysMenuEntity sysMenuEntity : collect) {
             List<SysMenuEntity> list = new ArrayList<>();
             if (Constant.MenuEnum.CATALOG.getValue() == sysMenuEntity.getType()) {
-                getMenuTreeList(list,menuList);
+                getMenuTreeList(list,menuList,type);
             }
             for (SysMenuEntity entity : menuList) {
                 if (entity.getParentId() == sysMenuEntity.getMenuId()) {

@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -27,5 +28,11 @@ public class UtilTest {
             sysMenuEntity.setPerms("sys:user:delete");
             list.add(sysMenuEntity);
         }
+    }
+    @Test
+    public void test1(){
+
+        System.out.println(System.currentTimeMillis() + TimeUnit.HOURS.toSeconds(1));
+        System.out.println(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1));
     }
 }

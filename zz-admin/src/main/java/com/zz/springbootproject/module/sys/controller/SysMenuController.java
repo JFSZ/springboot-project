@@ -2,6 +2,7 @@ package com.zz.springbootproject.module.sys.controller;
 
 import java.util.*;
 
+import com.zz.springbootproject.exception.ServerException;
 import com.zz.springbootproject.module.sys.entity.SysUserEntity;
 import com.zz.springbootproject.module.sys.service.SysUserService;
 import com.zz.springbootproject.utils.ShiroUtils;
@@ -99,6 +100,18 @@ public class SysMenuController {
         Set<String> permSet = new HashSet<>();
         permList.stream().filter(Objects::nonNull).forEach(o -> permSet.addAll(Arrays.asList(o.trim().split(","))));
         return ServerResponse.ok().put("menuList",menulist).put("permissions",permSet);
+    }
+
+    /**
+     * @Description: 根据角色查询菜单权限
+     * @param roleId 角色id
+     * @Author: chenxue
+     * @Date: 2020/6/5  17:12
+     */
+    @RequestMapping("/queryByRoleId")
+    public ServerResponse queryByRoleId(String roleId){
+        Optional.ofNullable(roleId).orElseThrow(() -> new ServerException("参数为空!"));
+        return sysMenuService.queryByRoleId(roleId);
     }
 
 }
