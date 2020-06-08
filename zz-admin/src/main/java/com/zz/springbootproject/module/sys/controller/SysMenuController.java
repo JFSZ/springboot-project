@@ -110,8 +110,17 @@ public class SysMenuController {
      */
     @RequestMapping("/queryByRoleId")
     public ServerResponse queryByRoleId(Long roleId){
-        List<SysMenuEntity> menuList = sysMenuService.queryByRoleId(roleId);
-        return ServerResponse.ok().put("menuList",menuList);
+        //List<SysMenuEntity> menuList = sysMenuService.queryByRoleId(roleId);
+        List<SysMenuEntity> list = sysMenuService.list();
+        for (SysMenuEntity sysMenuEntity : list){
+            if(Objects.nonNull(sysMenuEntity)){
+                SysMenuEntity entity = sysMenuService.getById(sysMenuEntity.getParentId());
+                if (Objects.nonNull(entity)){
+                    sysMenuEntity.setParentName(entity.getName());
+                }
+            }
+        }
+        return ServerResponse.ok().put("menuList",list);
     }
 
 }

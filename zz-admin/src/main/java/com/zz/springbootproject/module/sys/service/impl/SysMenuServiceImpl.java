@@ -78,13 +78,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
     private List<SysMenuEntity> getMenuTreeList(List<SysMenuEntity> collect,List<SysMenuEntity> menuList) {
         for (SysMenuEntity sysMenuEntity : collect) {
             List<SysMenuEntity> list = new ArrayList<>();
+            if (Constant.MenuEnum.CATALOG.getValue() == sysMenuEntity.getType()) {
+                getMenuTreeList(list,menuList);
+            }
             for (SysMenuEntity entity : menuList) {
                 if (entity.getParentId() == sysMenuEntity.getMenuId()) {
                     list.add(entity);
                 }
-            }
-            if (Constant.MenuEnum.CATALOG.getValue() == sysMenuEntity.getType()) {
-                getMenuTreeList(list,menuList);
             }
             sysMenuEntity.setList(list);
         }
