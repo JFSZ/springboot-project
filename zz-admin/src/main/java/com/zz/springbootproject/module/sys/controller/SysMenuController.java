@@ -109,9 +109,9 @@ public class SysMenuController {
      * @Date: 2020/6/5  17:12
      */
     @RequestMapping("/queryByRoleId")
-    public ServerResponse queryByRoleId(String roleId){
-        Optional.ofNullable(roleId).orElseThrow(() -> new ServerException("参数为空!"));
-        return sysMenuService.queryByRoleId(roleId);
+    public ServerResponse queryByRoleId(Long roleId){
+        List<SysMenuEntity> menuList = sysMenuService.queryByRoleId(roleId);
+        return ServerResponse.ok().put("menuList",menuList);
     }
 
 }

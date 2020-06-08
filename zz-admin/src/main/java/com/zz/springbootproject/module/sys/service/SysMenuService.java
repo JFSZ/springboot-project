@@ -27,5 +27,5 @@ public interface SysMenuService extends IService<SysMenuEntity> {
      * @Author: chenxue
      * @Date: 2020/6/5  17:12
      */
-    ServerResponse queryByRoleId(String roleId);
+    List<SysMenuEntity> queryByRoleId(Long roleId);
 }

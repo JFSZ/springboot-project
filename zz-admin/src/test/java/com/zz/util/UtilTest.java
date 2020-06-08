@@ -1,6 +1,8 @@
 package com.zz.util;
 
+import com.google.gson.Gson;
 import com.zz.springbootproject.module.sys.entity.SysMenuEntity;
+import lombok.Data;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -35,4 +37,26 @@ public class UtilTest {
         System.out.println(System.currentTimeMillis() + TimeUnit.HOURS.toSeconds(1));
         System.out.println(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1));
     }
+
+    @Test
+    public void test2(){
+        List<User> list = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            User user = new User();
+            user.setId(String.valueOf(i));
+            user.setName("Tom" + i);
+            list.add(user);
+        }
+        Gson gson = new Gson();
+        String s = gson.toJson(list.stream().map(User::getId).collect(Collectors.toList()));
+        c.accept(s);
+        List<User> list1 = new ArrayList<>();
+        c.accept(gson.toJson(list1));
+    }
+
+}
+@Data
+class User{
+    private String Id;
+    private String name;
 }

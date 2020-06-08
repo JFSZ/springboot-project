@@ -65,7 +65,7 @@ public class SysRoleEntity implements Serializable {
      * 菜单List
      */
     @TableField(exist = false)
-    public List<Long> menuList;
+    public List<Long> menuIdList;
 
 
 }

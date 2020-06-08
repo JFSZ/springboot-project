@@ -1,8 +1,11 @@
 package com.zz.springbootproject.module.sys.controller;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import com.zz.springbootproject.exception.ServerException;
+import com.zz.springbootproject.module.sys.entity.SysMenuEntity;
+import com.zz.springbootproject.module.sys.service.SysMenuService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +30,9 @@ public class SysRoleController {
     @Autowired
     private SysRoleService sysRoleService;
 
+    @Autowired
+    private SysMenuService sysMenuService;
+
     /**
     * 列表
     */
@@ -44,7 +50,15 @@ public class SysRoleController {
     @RequestMapping("/info/{roleId}")
     @RequiresPermissions("sys:role:info")
     public ServerResponse info(@PathVariable("roleId") Long roleId){
+        Optional.ofNullable(roleId).orElseThrow(() ->new ServerException("参数不可为空!"));
         SysRoleEntity role = sysRoleService.getById(roleId);
+        // 查询角色对应的菜单权限
+        List<SysMenuEntity> menuEntityList = sysMenuService.queryByRoleId(roleId);
+        role.setMenuIdList(Optional.ofNullable(menuEntityList)
+                .orElse(new ArrayList<>())
+                .stream()
+                .map(SysMenuEntity::getMenuId)
+                .collect(Collectors.toList()));
         return ServerResponse.ok().put("role", role);
     }
 
