@@ -2,11 +2,9 @@ package com.zz.springbootproject.module.sys.controller;
 
 import java.util.*;
 
-import com.zz.springbootproject.exception.ServerException;
 import com.zz.springbootproject.module.sys.entity.SysUserEntity;
 import com.zz.springbootproject.module.sys.service.SysUserService;
 import com.zz.springbootproject.utils.ShiroUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,13 +33,24 @@ public class SysMenuController {
     private SysUserService sysUserService;
 
     /**
-     * 列表
+     * @Description: 根据角色查询菜单权限
+     * @param params
+     * @Author: chenxue
+     * @Date: 2020/6/5  17:12
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:menu:list")
-    public PageUtil list(@RequestParam Map<String, Object> params){
-        PageUtil page = sysMenuService.queryPage(params);
-        return page;
+    public ServerResponse list(@RequestParam Map<String, Object> params){
+        List<SysMenuEntity> list = sysMenuService.list();
+        for (SysMenuEntity sysMenuEntity : list){
+            if(Objects.nonNull(sysMenuEntity)){
+                SysMenuEntity entity = sysMenuService.getById(sysMenuEntity.getParentId());
+                if (Objects.nonNull(entity)){
+                    sysMenuEntity.setParentName(entity.getName());
+                }
+            }
+        }
+        return ServerResponse.ok().put("menuList",list);
     }
 
 
@@ -102,25 +111,5 @@ public class SysMenuController {
         return ServerResponse.ok().put("menuList",menulist).put("permissions",permSet);
     }
 
-    /**
-     * @Description: 根据角色查询菜单权限
-     * @param roleId 角色id
-     * @Author: chenxue
-     * @Date: 2020/6/5  17:12
-     */
-    @RequestMapping("/queryByRoleId")
-    public ServerResponse queryByRoleId(Long roleId){
-        //List<SysMenuEntity> menuList = sysMenuService.queryByRoleId(roleId);
-        List<SysMenuEntity> list = sysMenuService.list();
-        for (SysMenuEntity sysMenuEntity : list){
-            if(Objects.nonNull(sysMenuEntity)){
-                SysMenuEntity entity = sysMenuService.getById(sysMenuEntity.getParentId());
-                if (Objects.nonNull(entity)){
-                    sysMenuEntity.setParentName(entity.getName());
-                }
-            }
-        }
-        return ServerResponse.ok().put("menuList",list);
-    }
 
 }

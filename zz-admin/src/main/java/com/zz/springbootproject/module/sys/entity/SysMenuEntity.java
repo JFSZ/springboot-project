@@ -7,9 +7,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.util.List;
 
+import com.zz.springbootproject.validator.group.AddGroup;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -20,7 +24,6 @@ import lombok.experimental.Accessors;
  * @since 2020-05-20
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("sys_menu")
 public class SysMenuEntity implements Serializable {
@@ -44,21 +47,25 @@ public class SysMenuEntity implements Serializable {
     /**
      * 菜单名称
      */
+    @NotBlank(message = "菜单名称不可为空",groups = {AddGroup.class})
     private String name;
 
     /**
      * 菜单URL
      */
+    @NotBlank(message = "菜单URL不可为空",groups = {AddGroup.class})
     private String url;
 
     /**
      * 授权(多个用逗号分隔，如：user:list,user:create)
+     * 需要在 type=2 按钮时才有校验。可以自定义校验规则
      */
     private String perms;
 
     /**
      * 类型   0：目录   1：菜单   2：按钮
      */
+    @NotNull(message = "菜单类型不可为空",groups = {AddGroup.class})
     private Integer type;
 
     /**

@@ -29,7 +29,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
       IPage<SysMenuEntity> page = this.page(new Query<SysMenuEntity>(params).getPage(),new QueryWrapper<SysMenuEntity>());
-      return new PageUtil(page);
+        List<SysMenuEntity> records = page.getRecords();
+        Optional.ofNullable(records)
+                .orElse(new ArrayList<>())
+                .stream()
+                .filter(Objects::nonNull)
+                .forEach(o -> {
+                    SysMenuEntity sysMenuEntity = this.getById(o.getParentId());
+                    if(Objects.nonNull(sysMenuEntity)){
+                        o.setParentName(sysMenuEntity.getName());
+                    }
+                });
+        return new PageUtil(page);
    }
 
    /**
