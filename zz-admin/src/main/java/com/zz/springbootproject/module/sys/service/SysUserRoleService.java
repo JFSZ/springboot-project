@@ -27,4 +27,20 @@ public interface SysUserRoleService extends IService<SysUserRoleEntity> {
      * @Date: 2020/6/1  16:34
      */
     void saveOrUpdateByParam(Long userId, List<Long> roleIdList);
+
+    /**
+     * @Description: 删除用户、角色关系
+     * @param ids
+     * @Author: chenxue
+     * @Date: 2020/6/9  17:14
+     */
+    void deleteByRoleId(List<String> ids);
+
+    /**
+     * @Description: 删除角色、用户表数据
+     * @param userIds
+     * @Author: chenxue
+     * @Date: 2020/6/9  17:20
+     */
+    void deleteByUserId(List<Long> userIds);
 }

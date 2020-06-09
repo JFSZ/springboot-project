@@ -6,9 +6,14 @@ import java.util.stream.Collectors;
 import com.zz.springbootproject.exception.ServerException;
 import com.zz.springbootproject.module.sys.entity.SysMenuEntity;
 import com.zz.springbootproject.module.sys.service.SysMenuService;
+import com.zz.springbootproject.module.sys.service.SysRoleMenuService;
+import com.zz.springbootproject.module.sys.service.SysUserRoleService;
+import com.zz.springbootproject.validator.ValidatorUtils;
+import com.zz.springbootproject.validator.group.AddGroup;
+import com.zz.springbootproject.validator.group.UpdateGroup;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +38,12 @@ public class SysRoleController {
     @Autowired
     private SysMenuService sysMenuService;
 
+    @Autowired
+    private SysRoleMenuService sysRoleMenuService;
+
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
+
     /**
     * 列表
     */
@@ -47,9 +58,9 @@ public class SysRoleController {
     /**
     * 信息
     */
-    @RequestMapping("/info/{roleId}")
+    @RequestMapping("/info")
     @RequiresPermissions("sys:role:info")
-    public ServerResponse info(@PathVariable("roleId") Long roleId){
+    public ServerResponse info(@RequestParam("roleId") Long roleId){
         Optional.ofNullable(roleId).orElseThrow(() ->new ServerException("参数不可为空!"));
         SysRoleEntity role = sysRoleService.getById(roleId);
         // 查询角色对应的菜单权限
@@ -67,8 +78,10 @@ public class SysRoleController {
     */
     @RequestMapping("/save")
     @RequiresPermissions("sys:role:save")
+    @Transactional
     public ServerResponse save(@RequestBody SysRoleEntity role){
-        return sysRoleService.saveRole(role);
+        ValidatorUtils.validateEntity(role, AddGroup.class);
+        return sysRoleService.saveOrUpdateRole(role);
     }
 
     /**
@@ -77,8 +90,8 @@ public class SysRoleController {
     @RequestMapping("/update")
     @RequiresPermissions("sys:role:update")
     public ServerResponse update(@RequestBody SysRoleEntity role){
-        sysRoleService.updateById(role);
-        return ServerResponse.ok();
+        ValidatorUtils.validateEntity(role, UpdateGroup.class);
+        return sysRoleService.saveOrUpdateRole(role);
     }
 
     /**
@@ -88,6 +101,10 @@ public class SysRoleController {
     @RequiresPermissions("sys:role:delete")
     public ServerResponse delete(@RequestBody List<String> ids){
         sysRoleService.removeByIds(ids);
+        // 需要把角色、菜单表中的数据也删除掉。
+        sysRoleMenuService.deleteRoleMenu(ids);
+        //删除角色、人员关系
+        sysUserRoleService.deleteByRoleId(ids);
         return ServerResponse.ok();
     }
 

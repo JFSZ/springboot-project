@@ -62,10 +62,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
     @Override
     public  List<SysMenuEntity> queryByRoleId(Long roleId) {
         List<SysMenuEntity> menuEntityList = baseMapper.queryByRoleId(roleId == null ? null : Arrays.asList(roleId));
-        List<SysMenuEntity> collect = Optional.ofNullable(menuEntityList).orElse(new ArrayList<>()).stream()
+       /* List<SysMenuEntity> collect = Optional.ofNullable(menuEntityList).orElse(new ArrayList<>()).stream()
                 .filter(o -> Long.valueOf(Constant.ZERO) == o.getParentId()).collect(Collectors.toList());
-        List<SysMenuEntity> menuTreeList = getMenuTreeList(collect, menuEntityList);
-        return menuTreeList;
+        List<SysMenuEntity> menuTreeList = getMenuTreeList(collect, menuEntityList);*/
+        return menuEntityList;
     }
 
     /**

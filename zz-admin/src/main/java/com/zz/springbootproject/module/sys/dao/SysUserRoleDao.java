@@ -16,4 +16,19 @@ import java.util.List;
 public interface SysUserRoleDao extends BaseMapper<SysUserRoleEntity> {
 
     List<Long> queryByUserId(@Param("userId") Long userId);
+    /**
+     * @Description: 删除用户、角色关系
+     * @param list
+     * @Author: chenxue
+     * @Date: 2020/6/9  17:14
+     */
+    void deleteByRoleId(List<String> list);
+
+    /**
+     * @Description: 删除角色、用户表数据
+     * @param userIds
+     * @Author: chenxue
+     * @Date: 2020/6/9  17:20
+     */
+    void deleteByUserId(List<Long> userIds);
 }

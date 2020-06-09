@@ -16,6 +16,7 @@ import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 角色
@@ -32,7 +33,7 @@ public class SysRoleEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.AUTO)
-    @NotBlank(message = "ID不可为空!",groups = UpdateGroup.class)
+    @NotNull(message = "ID不可为空!",groups = UpdateGroup.class)
     private Long roleId;
 
     /**

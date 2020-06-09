@@ -24,10 +24,11 @@ public interface SysRoleService extends IService<SysRoleEntity> {
     List<SysRoleEntity> queryByUserId(Long userId);
 
     /**
-     * @Description: 新增角色
+     * @Description: 新增/更新角色
      * @param role
      * @Author: chenxue
      * @Date: 2020/6/4  18:53
      */
-    ServerResponse saveRole(SysRoleEntity role);
+    ServerResponse saveOrUpdateRole(SysRoleEntity role);
+
 }

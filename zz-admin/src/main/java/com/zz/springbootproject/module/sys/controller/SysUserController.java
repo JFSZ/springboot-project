@@ -95,6 +95,8 @@ public class SysUserController {
     @RequiresPermissions("sys:user:delete")
     public ServerResponse delete(@RequestBody List<Long> userIds) {
         sysUserService.removeByIds(userIds);
+        // 删除角色、用户表数据
+        sysUserRoleService.deleteByUserId(userIds);
         return ServerResponse.ok();
     }
 

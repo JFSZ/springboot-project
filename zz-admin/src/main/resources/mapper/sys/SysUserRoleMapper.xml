@@ -13,6 +13,21 @@
     <sql id="Base_Column_List">
         id, user_id, role_id
     </sql>
+
+    <delete id="deleteByRoleId">
+        delete sys_user_role where role_id in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByUserId">
+        delete sys_user_role where user_id in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
     <select id="queryByUserId" resultType="java.lang.Long">
         select distinct role_id from sys_user_role where user_id = #{userId}
     </select>

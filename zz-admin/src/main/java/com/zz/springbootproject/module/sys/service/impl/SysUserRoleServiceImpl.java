@@ -51,4 +51,26 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserR
             this.saveBatch(list);
         }
     }
+
+    /**
+     * @Description: 删除用户、角色关系
+     * @param ids
+     * @Author: chenxue
+     * @Date: 2020/6/9  17:14
+     */
+    @Override
+    public void deleteByRoleId(List<String> ids) {
+        baseMapper.deleteByRoleId(ids);
+    }
+
+    /**
+     * @Description: 删除角色、用户表数据
+     * @param userIds
+     * @Author: chenxue
+     * @Date: 2020/6/9  17:20
+     */
+    @Override
+    public void deleteByUserId(List<Long> userIds) {
+        baseMapper.deleteByUserId(userIds);
+    }
 }
