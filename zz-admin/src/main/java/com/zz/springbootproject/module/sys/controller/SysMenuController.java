@@ -111,5 +111,24 @@ public class SysMenuController {
         return ServerResponse.ok().put("menuList",menulist).put("permissions",permSet);
     }
 
+    /**
+     * @Description: 查找不是按钮的菜单
+     * @param
+     * @Author: chenxue
+     * @Date: 2020/6/10  14:24
+     */
+    @RequestMapping("/select")
+    @RequiresPermissions("sys:menu:list")
+    public ServerResponse select(){
+        List<SysMenuEntity> list = sysMenuService.queryNotButtonMenuList();
+        //添加顶级菜单
+        SysMenuEntity root = new SysMenuEntity();
+        root.setMenuId(0L);
+        root.setName("一级菜单");
+        root.setParentId(-1L);
+        root.setOpen(true);
+        list.add(root);
+        return ServerResponse.ok().put("menuList",list);
+    }
 
 }

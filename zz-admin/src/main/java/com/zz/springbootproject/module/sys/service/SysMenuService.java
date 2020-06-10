@@ -28,4 +28,12 @@ public interface SysMenuService extends IService<SysMenuEntity> {
      * @Date: 2020/6/5  17:12
      */
     List<SysMenuEntity> queryByRoleId(Long roleId);
+
+    /**
+     * @Description: 查找不是按钮的菜单
+     * @param
+     * @Author: chenxue
+     * @Date: 2020/6/10  14:24
+     */
+    List<SysMenuEntity> queryNotButtonMenuList();
 }

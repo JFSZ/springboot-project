@@ -80,6 +80,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
     }
 
     /**
+     * @Description: 查找不是按钮的菜单
+     * @param
+     * @Author: chenxue
+     * @Date: 2020/6/10  14:24
+     */
+    @Override
+    public List<SysMenuEntity> queryNotButtonMenuList() {
+        return baseMapper.queryNotButtonMenuList();
+    }
+
+    /**
      * @Description:
      * @param collect  返回数据
      * @param menuList 总数据

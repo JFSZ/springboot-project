@@ -15,4 +15,12 @@ import java.util.List;
 public interface SysMenuDao extends BaseMapper<SysMenuEntity> {
 
     List<SysMenuEntity> queryByRoleId(List<Long> list);
+
+    /**
+     * @Description: 查找不是按钮的菜单
+     * @param
+     * @Author: chenxue
+     * @Date: 2020/6/10  14:24
+     */
+    List<SysMenuEntity> queryNotButtonMenuList();
 }

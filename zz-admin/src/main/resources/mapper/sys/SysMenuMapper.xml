@@ -27,5 +27,8 @@
             </foreach>
         </if>
     </select>
+    <select id="queryNotButtonMenuList" resultType="com.zz.springbootproject.module.sys.entity.SysMenuEntity">
+        select <include refid="Base_Column_List"/> from sys_menu sm where sm.type != 2 order by sm.order_num desc
+    </select>
 
 </mapper>
