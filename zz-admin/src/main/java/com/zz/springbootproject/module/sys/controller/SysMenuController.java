@@ -2,6 +2,7 @@ package com.zz.springbootproject.module.sys.controller;
 
 import java.util.*;
 
+import com.zz.springbootproject.exception.ServerException;
 import com.zz.springbootproject.module.sys.entity.SysUserEntity;
 import com.zz.springbootproject.module.sys.service.SysUserService;
 import com.zz.springbootproject.utils.ShiroUtils;
@@ -60,8 +61,15 @@ public class SysMenuController {
     @RequestMapping("/info/{id}")
     @RequiresPermissions("sys:menu:info")
     public ServerResponse info(@PathVariable("id") Long id){
-        SysMenuEntity sys_menu = sysMenuService.getById(id);
-        return ServerResponse.ok().put("sys_menu", sys_menu);
+        Optional.ofNullable(id).orElseThrow(() -> new ServerException("参数为空"));
+        SysMenuEntity sysMenu = sysMenuService.getById(id);
+        if(Objects.nonNull(sysMenu)){
+            SysMenuEntity sysMenuEntity = sysMenuService.getById(sysMenu.getParentId());
+            if(Objects.nonNull(sysMenuEntity)){
+                sysMenu.setParentName(sysMenuEntity.getName());
+            }
+        }
+        return ServerResponse.ok().put("sysMenu", sysMenu);
     }
 
     /**
