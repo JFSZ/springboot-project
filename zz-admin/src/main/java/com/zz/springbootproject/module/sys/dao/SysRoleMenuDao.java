@@ -15,5 +15,19 @@ import java.util.List;
 @Mapper
 public interface SysRoleMenuDao extends BaseMapper<SysRoleMenuEntity> {
 
-    void deleteRoleMenu(@Param("list") List<String> list);
+    /**
+     * @Description: 根据角色 删除菜单、角色关系
+     * @param ids
+     * @Author: chenxue
+     * @Date: 2020/6/9  17:14
+     */
+    void deleteRoleMenuByRoleId(@Param("list") List<String> list);
+
+    /**
+     * @Description:  根据菜单 删除菜单、角色关系
+     * @param ids
+     * @Author: chenxue
+     * @Date: 2020/6/12  10:32
+     */
+    void deleteRoleMenuByMenuId(@Param("list") List<String> list);
 }

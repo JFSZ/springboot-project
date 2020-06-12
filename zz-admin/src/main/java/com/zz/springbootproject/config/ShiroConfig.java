@@ -49,6 +49,8 @@ public class ShiroConfig {
         shiroFilter.setFilters(filters);
 
         Map<String, String> filterMap = new LinkedHashMap<>();
+        filterMap.put("/webjars/**", "anon");
+        filterMap.put("/druid/**", "anon");
         filterMap.put("/sys/login","anon");
         filterMap.put("/sys/layout","anon");
         filterMap.put("/sys/captcha.jpg","anon");

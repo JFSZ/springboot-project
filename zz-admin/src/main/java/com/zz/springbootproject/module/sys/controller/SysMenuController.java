@@ -4,8 +4,11 @@ import java.util.*;
 
 import com.zz.springbootproject.exception.ServerException;
 import com.zz.springbootproject.module.sys.entity.SysUserEntity;
+import com.zz.springbootproject.module.sys.service.SysRoleMenuService;
 import com.zz.springbootproject.module.sys.service.SysUserService;
 import com.zz.springbootproject.utils.ShiroUtils;
+import com.zz.springbootproject.validator.ValidatorUtils;
+import com.zz.springbootproject.validator.group.AddGroup;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +35,9 @@ public class SysMenuController {
 
     @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private SysRoleMenuService sysRoleMenuService;
 
     /**
      * @Description: 根据角色查询菜单权限
@@ -77,9 +83,9 @@ public class SysMenuController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("sys:menu:save")
-    public ServerResponse save(@RequestBody SysMenuEntity sys_menu){
-        sysMenuService.save(sys_menu);
-        return ServerResponse.ok();
+    public ServerResponse save(@RequestBody SysMenuEntity sysMenu){
+        ValidatorUtils.validateEntity(sysMenu, AddGroup.class);
+        return sysMenuService.saveOrUpdateMenu(sysMenu);
     }
 
     /**
@@ -87,9 +93,9 @@ public class SysMenuController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("sys:menu:update")
-    public ServerResponse update(@RequestBody SysMenuEntity sys_menu){
-        sysMenuService.updateById(sys_menu);
-        return ServerResponse.ok();
+    public ServerResponse update(@RequestBody SysMenuEntity sysMenu){
+        ValidatorUtils.validateEntity(sysMenu, AddGroup.class);
+        return sysMenuService.saveOrUpdateMenu(sysMenu);
     }
 
     /**
@@ -97,8 +103,10 @@ public class SysMenuController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("sys:menu:delete")
-    public ServerResponse delete(@RequestBody Long[] ids){
-        sysMenuService.removeByIds(Arrays.asList(ids));
+    public ServerResponse delete(@RequestBody List<String> ids){
+        sysMenuService.removeByIds(ids);
+        // 删除 角色、菜单
+        sysRoleMenuService.deleteRoleMenuByMenuId(ids);
         return ServerResponse.ok();
     }
 

@@ -25,10 +25,18 @@ public interface SysRoleMenuService extends IService<SysRoleMenuEntity> {
     boolean saveOrUpdateByRole(Long roleId, List<Long> menuIdList);
 
     /**
-     * @Description: 删除菜单、角色关系
+     * @Description: 根据角色 删除菜单、角色关系
      * @param ids
      * @Author: chenxue
      * @Date: 2020/6/9  17:14
      */
-    void deleteRoleMenu(List<String> ids);
+    void deleteRoleMenuByRoleId(List<String> ids);
+
+    /**
+     * @Description:  根据菜单 删除菜单、角色关系
+     * @param ids
+     * @Author: chenxue
+     * @Date: 2020/6/12  10:32
+     */
+    void deleteRoleMenuByMenuId(List<String> ids);
 }

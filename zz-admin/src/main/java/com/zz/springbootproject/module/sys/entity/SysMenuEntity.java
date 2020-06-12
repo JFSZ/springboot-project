@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.zz.springbootproject.validator.group.AddGroup;
+import com.zz.springbootproject.validator.group.UpdateGroup;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -31,6 +32,7 @@ public class SysMenuEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "menu_id", type = IdType.AUTO)
+    @NotNull(message = "菜单id不可为空",groups = {UpdateGroup.class})
     private Long menuId;
 
     /**

@@ -91,6 +91,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
     }
 
     /**
+     * @Description: 保存、更新菜单
+     * @param sysMenu
+     * @Author: chenxue
+     * @Date: 2020/6/12  10:13
+     */
+    @Override
+    public ServerResponse saveOrUpdateMenu(SysMenuEntity sysMenu) {
+        this.saveOrUpdate(sysMenu);
+        return ServerResponse.ok();
+    }
+
+    /**
      * @Description:
      * @param collect  返回数据
      * @param menuList 总数据

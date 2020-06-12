@@ -36,4 +36,12 @@ public interface SysMenuService extends IService<SysMenuEntity> {
      * @Date: 2020/6/10  14:24
      */
     List<SysMenuEntity> queryNotButtonMenuList();
+
+    /**
+     * @Description: 保存、更新菜单
+     * @param sysMenu
+     * @Author: chenxue
+     * @Date: 2020/6/12  10:13
+     */
+    ServerResponse saveOrUpdateMenu(SysMenuEntity sysMenu);
 }

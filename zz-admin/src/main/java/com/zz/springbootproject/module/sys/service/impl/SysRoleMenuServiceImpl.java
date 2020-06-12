@@ -52,13 +52,24 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuDao, SysRoleM
     }
 
     /**
-     * @Description: 删除菜单、角色关系
+     * @Description: 根据角色 删除菜单、角色关系
      * @param ids
      * @Author: chenxue
      * @Date: 2020/6/9  17:14
      */
     @Override
-    public void deleteRoleMenu(List<String> ids) {
-        baseMapper.deleteRoleMenu(ids);
+    public void deleteRoleMenuByRoleId(List<String> ids) {
+        baseMapper.deleteRoleMenuByRoleId(ids);
+    }
+
+    /**
+     * @Description:  根据菜单 删除菜单、角色关系
+     * @param ids
+     * @Author: chenxue
+     * @Date: 2020/6/12  10:32
+     */
+    @Override
+    public void deleteRoleMenuByMenuId(List<String> ids) {
+        baseMapper.deleteRoleMenuByMenuId(ids);
     }
 }

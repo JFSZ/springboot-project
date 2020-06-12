@@ -14,8 +14,14 @@
         id, role_id, menu_id
     </sql>
 
-    <delete id="deleteRoleMenu">
+    <delete id="deleteRoleMenuByRoleId">
         delete sys_role_menu where role_id in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteRoleMenuByMenuId">
+        delete sys_role_menu where menu_id in
         <foreach collection="list" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>

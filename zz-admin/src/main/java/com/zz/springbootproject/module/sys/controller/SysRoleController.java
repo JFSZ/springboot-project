@@ -102,7 +102,7 @@ public class SysRoleController {
     public ServerResponse delete(@RequestBody List<String> ids){
         sysRoleService.removeByIds(ids);
         // 需要把角色、菜单表中的数据也删除掉。
-        sysRoleMenuService.deleteRoleMenu(ids);
+        sysRoleMenuService.deleteRoleMenuByRoleId(ids);
         //删除角色、人员关系
         sysUserRoleService.deleteByRoleId(ids);
         return ServerResponse.ok();
