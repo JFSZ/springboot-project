@@ -10,6 +10,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
@@ -19,6 +21,8 @@ import java.lang.reflect.Method;
  * @create: 2020-06-15 18:17
  **/
 @Aspect
+@Component
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j
 public class DSAspect implements Ordered {
 
@@ -34,15 +38,15 @@ public class DSAspect implements Ordered {
             DS ds = method.getAnnotation(DS.class);
             if (ds == null) {
                 DynamicDataSource.setDataSource(DynamicEnum.FIRSE.getName());
-                log.debug("设置动态数据源为: " + DynamicEnum.FIRSE.getName());
+                log.info("设置动态数据源为: " + DynamicEnum.FIRSE.getName());
             } else {
                 DynamicDataSource.setDataSource(ds.name());
-                log.debug("设置动态数据源为: " + ds.name());
+                log.info("设置动态数据源为: " + ds.name());
             }
             return point.proceed();
         } finally {
             DynamicDataSource.clearDataSource();
-            log.debug("清除动态数据源");
+            log.info("清除动态数据源");
         }
     }
 

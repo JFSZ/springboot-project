@@ -2,6 +2,7 @@ package com.zz.springbootproject.module.sys.controller;
 
 import java.util.*;
 
+import com.zz.springbootproject.dataSource.annotation.DS;
 import com.zz.springbootproject.exception.ServerException;
 import com.zz.springbootproject.module.sys.entity.SysUserEntity;
 import com.zz.springbootproject.module.sys.service.SysRoleMenuService;
@@ -47,6 +48,7 @@ public class SysMenuController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:menu:list")
+    @DS(name = "second")
     public ServerResponse list(@RequestParam Map<String, Object> params){
         List<SysMenuEntity> list = sysMenuService.list();
         for (SysMenuEntity sysMenuEntity : list){
@@ -83,6 +85,7 @@ public class SysMenuController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("sys:menu:save")
+    @DS
     public ServerResponse save(@RequestBody SysMenuEntity sysMenu){
         ValidatorUtils.validateEntity(sysMenu, AddGroup.class);
         return sysMenuService.saveOrUpdateMenu(sysMenu);
