@@ -48,7 +48,7 @@ public class SysMenuController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:menu:list")
-    @DS(name = "second")
+    // @DS(name = "second")
     public ServerResponse list(@RequestParam Map<String, Object> params){
         List<SysMenuEntity> list = sysMenuService.list();
         for (SysMenuEntity sysMenuEntity : list){
@@ -85,7 +85,7 @@ public class SysMenuController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("sys:menu:save")
-    @DS
+    // @DS
     public ServerResponse save(@RequestBody SysMenuEntity sysMenu){
         ValidatorUtils.validateEntity(sysMenu, AddGroup.class);
         return sysMenuService.saveOrUpdateMenu(sysMenu);

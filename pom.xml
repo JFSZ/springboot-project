@@ -173,6 +173,11 @@
             <version>${gson.version}</version>
         </dependency>
 
+        <!--集成quartz定时任务-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

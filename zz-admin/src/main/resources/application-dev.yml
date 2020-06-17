@@ -9,7 +9,7 @@ spring:
         username: root
         password: 123456
       second:
-          url: jdbc:mysql://localhost:3306/yang_2020_slave?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+          url: jdbc:mysql://192.168.182.128:3306/yang_2020?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
           username: root
           password: 123456
       # 连接池的配置信息:初始化大小，最小，最大
