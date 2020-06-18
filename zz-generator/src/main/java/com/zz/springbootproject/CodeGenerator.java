@@ -21,7 +21,7 @@ import java.util.List;
 public class CodeGenerator {
 
     // 模块名称
-    private static String moduleName = "sys";
+    private static String moduleName = "job";
     // 表名，多个表中间用,隔开
     private static String tableName = "";
 

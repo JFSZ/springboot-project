@@ -1,5 +1,25 @@
 spring:
   quartz:
-    job-store-type: jdbc
+    scheduler-name: zzScheduler # 调度器名称
+    job-store-type: jdbc # 数据库方式
     jdbc:
-      initialize-schema: never
+      initialize-schema: never # 是否初始化表
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceId: AUTO # 默认主机名和时间戳生成实例ID,可以是任何字符串，但对于所有调度程序来说，必须是唯一的 对应qrtz_scheduler_state INSTANCE_NAME字段
+            instanceName: zzScheduler # 调度器实例名称
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool # 连接池类型
+            threadCount: 10
+            threadPriority: 5 # 设置线程优先级
+            threadsInheritContextClassLoaderOfInitializingThread: true
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX #持久化配置
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate #我们仅为数据库制作了特定于数据库的代理
+            useProperties: false
+            tablePrefix: qrtz_  #数据库表前缀
+            misfireThreshold: 60000 #在被认为“失火”之前，调度程序将“容忍”一个Triggers将其下一个启动时间通过的毫秒数。默认值（如果您在配置中未输入此属性）为60000（60秒）。
+            clusterCheckinInterval: 5000 # 心跳检测间隔
+            isClustered: true #打开群集功能
