@@ -54,6 +54,10 @@ public class UtilTest {
         c.accept(gson.toJson(list1));
     }
 
+    @Test
+    public void test3(){
+
+    }
 }
 @Data
 class User{

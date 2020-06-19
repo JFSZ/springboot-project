@@ -106,8 +106,12 @@ public class ScheduleUtils {
      * @Author: chenxue
      * @Date: 2020/6/18  15:27
      */
-    public static void pauseJob(Scheduler scheduler, String jobId){
-
+    public static void pauseJob(Scheduler scheduler, Long jobId){
+        try {
+            scheduler.pauseJob(getJobKey(jobId));
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -117,8 +121,12 @@ public class ScheduleUtils {
      * @Author: chenxue
      * @Date: 2020/6/18  15:29
      */
-    public static void resumeJob(Scheduler scheduler, String jobId){
-
+    public static void resumeJob(Scheduler scheduler, Long jobId){
+        try {
+            scheduler.resumeJob(getJobKey(jobId));
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -129,7 +137,11 @@ public class ScheduleUtils {
      * @Author: chenxue
      * @Date: 2020/6/18  15:29
      */
-    public static void deleteJob(Scheduler scheduler, String jobId){
-
+    public static void deleteJob(Scheduler scheduler, Long jobId){
+        try {
+            scheduler.deleteJob(getJobKey(jobId));
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 }
