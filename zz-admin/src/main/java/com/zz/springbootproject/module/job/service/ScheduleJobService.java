@@ -3,6 +3,9 @@ package com.zz.springbootproject.module.job.service;
 import com.zz.springbootproject.module.job.entity.ScheduleJobEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zz.springbootproject.utils.PageUtil;
+import com.zz.springbootproject.utils.ServerResponse;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,4 +18,42 @@ import java.util.Map;
  */
 public interface ScheduleJobService extends IService<ScheduleJobEntity> {
      PageUtil queryPage(Map<String, Object> params);
+
+    /**
+     * @Description: 暂停定时任务
+     * @param ids
+     * @Author: chenxue
+     * @Date: 2020/6/20  10:18
+     */
+    void pauseJob(List<Long> ids);
+
+    /**
+     * @Description: 恢复定时任务
+     * @param ids
+     * @Author: chenxue
+     * @Date: 2020/6/20  10:59
+     */
+    void resumeJob(List<Long> ids);
+
+    /**
+     * @Description: 删除定时任务
+     * @param ids
+     * @Author: chenxue
+     * @Date: 2020/6/20  11:04
+     */
+    void deleteJob(List<Long> ids);
+
+    ServerResponse saveJob(ScheduleJobEntity scheduleJob);
+
+    /**
+     * @Description: 执行定时任务
+     * @param ids
+     * @Author: chenxue
+     * @Date: 2020/6/20  13:59
+     */
+    void runJob(List<Long> ids);
+
+    void updateBatchJob(List<Long> ids, String status);
+
+    ServerResponse updateJob(ScheduleJobEntity scheduleJob);
 }

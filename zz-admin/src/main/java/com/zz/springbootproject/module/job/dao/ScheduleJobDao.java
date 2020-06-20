@@ -18,4 +18,6 @@ import java.util.Map;
 public interface ScheduleJobDao extends BaseMapper<ScheduleJobEntity> {
 
     List<ScheduleJobEntity> queryPage(IPage<ScheduleJobEntity> page, @Param("params") Map<String, Object> params);
+
+    void updateBatchJob(List<Long> list, @Param("status") String status);
 }

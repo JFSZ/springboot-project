@@ -1,5 +1,6 @@
 package com.zz.springbootproject.module.job.utils;
 
+import com.zz.springbootproject.common.Constant;
 import com.zz.springbootproject.exception.ServerException;
 import com.zz.springbootproject.module.job.config.ScheduleJob;
 import com.zz.springbootproject.module.job.entity.ScheduleJobEntity;
@@ -56,6 +57,7 @@ public class ScheduleUtils {
      */
     public static void createScheduleJob(Scheduler scheduler, ScheduleJobEntity scheduleJobEntity){
         try {
+            log.info("新增定时任务,任务id:" + scheduleJobEntity.getJobId());
             // 构建Job
             JobDetail jobDetail = JobBuilder.newJob(ScheduleJob.class).withIdentity(getJobKey(scheduleJobEntity.getJobId())).build();
             // 放入参数
@@ -65,8 +67,12 @@ public class ScheduleUtils {
             // 表达式
             CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(scheduleJobEntity.getJobId())).withSchedule(cronScheduleBuilder).build();
             scheduler.scheduleJob(jobDetail,trigger);
+            if(scheduleJobEntity.getStatus().equals(Constant.ONE)){
+                pauseJob(scheduler,scheduleJobEntity.getJobId());
+            }
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("新增定时任务失败!",e);
+            throw new ServerException("新增定时任务失败!",e);
         }
     }
 
@@ -78,7 +84,22 @@ public class ScheduleUtils {
      * @Date: 2020/6/18  15:16
      */
     public static void updateJob(Scheduler scheduler, ScheduleJobEntity scheduleJobEntity){
-
+        try {
+            log.info("更新定时任务,任务id:" + scheduleJobEntity.getJobId());
+            TriggerKey triggerKey = getTriggerKey(scheduleJobEntity.getJobId());
+            CronScheduleBuilder builder = CronScheduleBuilder.cronSchedule(scheduleJobEntity.getCronExpression()).withMisfireHandlingInstructionDoNothing();
+            CronTrigger trigger = getCronTrigger(scheduler,scheduleJobEntity.getJobId());
+            // 重新构建新的表达式Trigger
+            trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(builder).build();
+            trigger.getJobDataMap().put(ScheduleJobEntity.JOB_PARAM_KEY,scheduleJobEntity);
+            scheduler.rescheduleJob(triggerKey,trigger);
+            if(scheduleJobEntity.getStatus().equals(Constant.ONE)){
+                pauseJob(scheduler,scheduleJobEntity.getJobId());
+            }
+        } catch (SchedulerException e) {
+            log.error("更新定时任务失败!",e);
+            throw new ServerException("更新定时任务失败!",e);
+        }
     }
 
     /**
@@ -95,6 +116,7 @@ public class ScheduleUtils {
             scheduler.triggerJob(getJobKey(scheduleJob.getJobId()),jobDataMap);
         }catch (Exception e){
             log.error("开始执行任务:" + getJobKey((scheduleJob.getJobId())) + "失败，失败原因:" + e);
+            throw new ServerException("执行定时任务失败!",e);
         }
     }
 
@@ -108,9 +130,11 @@ public class ScheduleUtils {
      */
     public static void pauseJob(Scheduler scheduler, Long jobId){
         try {
+            log.info("暂停定时任务，任务id : " + jobId);
             scheduler.pauseJob(getJobKey(jobId));
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("暂停任务失败，任务id : " + jobId);
+            throw new ServerException("暂停任务失败,",e);
         }
     }
 
@@ -123,9 +147,11 @@ public class ScheduleUtils {
      */
     public static void resumeJob(Scheduler scheduler, Long jobId){
         try {
+            log.info("恢复定时任务，任务id : " + jobId);
             scheduler.resumeJob(getJobKey(jobId));
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("恢复任务失败，任务id : " + jobId);
+            throw new ServerException("恢复任务失败,",e);
         }
     }
 
@@ -139,9 +165,11 @@ public class ScheduleUtils {
      */
     public static void deleteJob(Scheduler scheduler, Long jobId){
         try {
+            log.info("删除定时任务，任务id : " + jobId);
             scheduler.deleteJob(getJobKey(jobId));
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("删除任务失败，任务id : " + jobId);
+            throw new ServerException("删除任务失败,",e);
         }
     }
 }

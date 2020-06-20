@@ -22,7 +22,7 @@ public class SpringbootProjectApplicationTests {
         scheduleJobEntity.setJobId(123L);
         scheduleJobEntity.setParams("Tom");
         scheduleJobEntity.setCronExpression("0/10 * * * * ?");
-        ScheduleUtils.startJob(scheduler,scheduleJobEntity);
+        ScheduleUtils.runJob(scheduler,scheduleJobEntity);
         while (true){
 
         }

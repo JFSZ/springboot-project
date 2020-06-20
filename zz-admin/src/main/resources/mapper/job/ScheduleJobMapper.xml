@@ -17,6 +17,13 @@
     <sql id="Base_Column_List">
         job_id, bean_name, params, cron_expression, status, remark, create_time
     </sql>
+    <update id="updateBatchJob">
+        update schedule_job set status = #{status} where job_id in
+        <foreach collection="list" item="jobId" open="(" close=")" separator=",">
+            #{jobId}
+        </foreach>
+    </update>
+
     <select id="queryPage" resultType="com.zz.springbootproject.module.job.entity.ScheduleJobEntity">
         select <include refid="Base_Column_List"/> from schedule_job where 1 = 1
         <if test="params.beanName != null and params.beanName != '' ">
