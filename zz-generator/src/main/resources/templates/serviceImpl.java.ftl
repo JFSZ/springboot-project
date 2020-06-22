@@ -7,8 +7,8 @@ import ${superServiceImplClassPackage};
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zz.springbootproject.utils.Query;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zz.springbootproject.utils.PageUtil;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,8 +25,9 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
-      IPage<${entity}> page = this.page(new Query<${entity}>(params).getPage(),new QueryWrapper<${entity}>());
-      return new PageUtil(page);
+      IPage<${entity}> page = new Query<${entity}>(params).getPage();
+      List<${entity}> list = baseMapper.queryPage(page,params);
+      return new PageUtil(page.setRecords(list));
    }
 }
 </#if>

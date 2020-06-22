@@ -36,4 +36,11 @@
     </sql>
 
 </#if>
+    <#-- 分页查询 -->
+    <select id="queryPage" resultType="${package.Entity}.${entity}">
+        select * <include refid="Base_Column_List"/> from ${table.name} where 1 = 1
+        <if test=" params != null and params != '' ">
+            and 1 = 1
+        </if>
+    </select>
 </mapper>

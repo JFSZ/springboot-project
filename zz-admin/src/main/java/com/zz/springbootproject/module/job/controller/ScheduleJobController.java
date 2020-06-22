@@ -3,6 +3,9 @@ package com.zz.springbootproject.module.job.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.zz.springbootproject.validator.ValidatorUtils;
+import com.zz.springbootproject.validator.group.AddGroup;
+import com.zz.springbootproject.validator.group.UpdateGroup;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,6 +57,7 @@ public class ScheduleJobController {
     @RequestMapping("/save")
     @RequiresPermissions("job:schedule:save")
     public ServerResponse save(@RequestBody ScheduleJobEntity scheduleJob){
+        ValidatorUtils.validateEntity(scheduleJob,AddGroup.class);
         return scheduleJobService.saveJob(scheduleJob);
     }
 
@@ -63,6 +67,7 @@ public class ScheduleJobController {
     @RequestMapping("/update")
     @RequiresPermissions("job:schedule:update")
     public ServerResponse update(@RequestBody ScheduleJobEntity scheduleJob){
+        ValidatorUtils.validateEntity(scheduleJob, UpdateGroup.class);
         return scheduleJobService.updateJob(scheduleJob);
     }
 
