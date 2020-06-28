@@ -53,7 +53,20 @@ public interface ScheduleJobService extends IService<ScheduleJobEntity> {
      */
     void runJob(List<Long> ids);
 
+    /**
+     * @Description: 批量更新定时任务
+     * @param ids
+     * @param status
+     * @Author: chenxue
+     * @Date: 2020/6/24  11:16
+     */
     void updateBatchJob(List<Long> ids, String status);
 
+    /**
+     * @Description: 修改定时任务
+     * @param scheduleJob
+     * @Author: chenxue
+     * @Date: 2020/6/20  13:59
+     */
     ServerResponse updateJob(ScheduleJobEntity scheduleJob);
 }

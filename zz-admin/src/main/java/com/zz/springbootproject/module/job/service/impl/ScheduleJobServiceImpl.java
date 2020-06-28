@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 定时任务 服务实现类
@@ -108,6 +107,7 @@ public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobDao, Schedule
     @Transactional(rollbackFor = Exception.class)
     public ServerResponse updateJob(ScheduleJobEntity scheduleJob) {
         ScheduleUtils.updateJob(scheduler,scheduleJob);
+        this.updateById(scheduleJob);
         return ServerResponse.ok();
     }
 

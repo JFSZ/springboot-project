@@ -20,6 +20,6 @@ spring:
             driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate #我们仅为数据库制作了特定于数据库的代理
             useProperties: false
             tablePrefix: qrtz_  #数据库表前缀
-            misfireThreshold: 60000 #在被认为“失火”之前，调度程序将“容忍”一个Triggers将其下一个启动时间通过的毫秒数。默认值（如果您在配置中未输入此属性）为60000（60秒）。
+            misfireThreshold: 60000 #如果定时任务没有按照规定时间执行，可以设置该参数。规定超时时间，在这个时间内恢复正常的定时任务，程序人为是正常的。超过这个时间则认为超时。
             clusterCheckinInterval: 5000 # 心跳检测间隔
             isClustered: true #打开群集功能
