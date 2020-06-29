@@ -5,6 +5,7 @@ import ${superMapperClassPackage};
 import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 import java.util.Map;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 /**
  * ${table.comment!} Mapper 接口

@@ -5,7 +5,7 @@ server:
 spring:
   profiles:
     active: dev
-    include: quartz
+    include: quartz,redis
 mybatis-plus:
   # Mybatis mapper对应的XML文件位置.如果是多模块需要以 classpath*:开头
   mapper-locations: classpath*:/mapper/**/*.xml
