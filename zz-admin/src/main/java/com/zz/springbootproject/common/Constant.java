@@ -37,6 +37,11 @@ public class Constant {
     public static final int EXPIRE = 12;
 
     /**
+     * 系统参数 在redis 缓存中的Map 名称
+     */
+    public static final String CONFIG_REDIS = "sysConfig";
+
+    /**
      * @Description: 角色枚举类
      * @Author: chenxue
      * @Date: 2020/5/23  15:19

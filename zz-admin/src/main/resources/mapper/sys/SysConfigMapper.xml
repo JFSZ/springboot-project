@@ -9,17 +9,26 @@
         <result column="param_value" property="paramValue" />
         <result column="status" property="status" />
         <result column="remark" property="remark" />
+        <result column="create_time" property="createTime" />
+        <result column="create_user" property="createUser" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, param_key, param_value, status, remark
+        id, param_key, param_value, status, remark,create_time,create_user
     </sql>
 
     <select id="queryPage" resultType="com.zz.springbootproject.module.sys.entity.SysConfigEntity">
         select  <include refid="Base_Column_List"/> from sys_config where 1 = 1
         <if test=" params.paramKey != null and params.paramKey != '' ">
             and param_key like concat('%',#{params.paramKey},'%')
+        </if>
+        order by create_time desc
+    </select>
+    <select id="queryByParamKey" resultType="com.zz.springbootproject.module.sys.entity.SysConfigEntity">
+        select <include refid="Base_Column_List"/> from sys_config where 1 = 1
+        <if test="paramKey">
+            and param_key = #{paramKey}
         </if>
     </select>
 </mapper>

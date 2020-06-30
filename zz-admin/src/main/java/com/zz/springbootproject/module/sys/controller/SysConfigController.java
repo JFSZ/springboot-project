@@ -2,6 +2,10 @@ package com.zz.springbootproject.module.sys.controller;
 
 import java.util.List;
 import java.util.Map;
+
+import com.zz.springbootproject.validator.ValidatorUtils;
+import com.zz.springbootproject.validator.group.AddGroup;
+import com.zz.springbootproject.validator.group.UpdateGroup;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,8 +57,8 @@ public class SysConfigController {
     @RequestMapping("/save")
     @RequiresPermissions("sys:config:save")
     public ServerResponse save(@RequestBody SysConfigEntity sysConfig){
-        sysConfigService.save(sysConfig);
-        return ServerResponse.ok();
+        ValidatorUtils.validateEntity(sysConfig, AddGroup.class);
+        return sysConfigService.saveConfig(sysConfig);
     }
 
     /**
@@ -63,8 +67,8 @@ public class SysConfigController {
     @RequestMapping("/update")
     @RequiresPermissions("sys:config:update")
     public ServerResponse update(@RequestBody SysConfigEntity sysConfig){
-        sysConfigService.updateById(sysConfig);
-        return ServerResponse.ok();
+        ValidatorUtils.validateEntity(sysConfig, UpdateGroup.class);
+        return sysConfigService.updateConfig(sysConfig);
     }
 
     /**
@@ -73,8 +77,7 @@ public class SysConfigController {
     @RequestMapping("/delete")
     @RequiresPermissions("sys:config:delete")
     public ServerResponse delete(@RequestBody List<Long> ids){
-        sysConfigService.removeByIds(ids);
-        return ServerResponse.ok();
+        return sysConfigService.deleteConfig(ids);
     }
 
 }
