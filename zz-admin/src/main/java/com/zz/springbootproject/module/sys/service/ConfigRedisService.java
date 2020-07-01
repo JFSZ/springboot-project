@@ -31,7 +31,7 @@ public class ConfigRedisService {
             return;
         }
         //存入redis Map中
-        redisUtils.hset(sysConfig.getParamKey(), Constant.CONFIG_REDIS,sysConfig.getParamValue());
+        redisUtils.hset(Constant.CONFIG_REDIS,sysConfig.getParamKey(),sysConfig.getParamValue());
     }
 
     /**

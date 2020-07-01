@@ -2,6 +2,7 @@ package com.zz.springbootproject;
 
 import com.zz.springbootproject.module.job.entity.ScheduleJobEntity;
 import com.zz.springbootproject.module.job.utils.ScheduleUtils;
+import com.zz.springbootproject.utils.RedisUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.quartz.Scheduler;
@@ -26,6 +27,16 @@ public class SpringbootProjectApplicationTests {
         while (true){
 
         }
+    }
+
+    @Autowired
+    private RedisUtils redisUtils;
+
+    //测试redis缓存
+    @Test
+    public void test1(){
+        Object hget = redisUtils.hget("sysConfig", "test");
+        System.out.println(hget);
     }
 
 }

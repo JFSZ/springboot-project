@@ -66,7 +66,7 @@ public class SysLoginController {
             return ServerResponse.error("账号或密码不正确!");
         }
         //账号被禁用
-        if(Predicate.isEqual(sysUserEntity.getStatus()).test(Constant.ONE)){
+        if(Predicate.isEqual(sysUserEntity.getStatus()).test(Constant.ZERO)){
             return ServerResponse.error("账号已被锁定,请联系管理员");
         }
         //生成token,保存数据库/缓存

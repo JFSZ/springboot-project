@@ -101,6 +101,7 @@ public class SysUserController {
     }
 
     @GetMapping("/getUserInfo")
+    @RequiresPermissions("sys:user:info")
     public ServerResponse getUserInfo() {
         return ServerResponse.ok().put("user", ShiroUtils.getUser());
     }

@@ -53,7 +53,7 @@ public class RedisConfig {
         redisTemplate.setKeySerializer(stringRedisSerializer);
         redisTemplate.setHashKeySerializer(stringRedisSerializer);
         redisTemplate.setValueSerializer(serializer);
-        redisTemplate.setHashKeySerializer(serializer);
+        redisTemplate.setHashValueSerializer(serializer);
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
