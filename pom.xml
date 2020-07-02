@@ -197,6 +197,12 @@
             <artifactId>commons-pool2</artifactId>
         </dependency>
 
+        <!--解决@ConfigurationProperties注解报错问题-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

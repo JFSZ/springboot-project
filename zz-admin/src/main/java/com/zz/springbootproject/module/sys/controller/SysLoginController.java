@@ -82,6 +82,7 @@ public class SysLoginController {
      */
     @RequestMapping("/logout")
     public ServerResponse logout(){
+        //TODO 登出需要清除token。并且redis需要设置淘汰策略
         return sysUserService.lagout();
     }
 }

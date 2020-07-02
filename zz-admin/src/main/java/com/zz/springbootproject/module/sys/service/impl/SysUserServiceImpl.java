@@ -1,6 +1,7 @@
 package com.zz.springbootproject.module.sys.service.impl;
 
 import com.zz.springbootproject.common.Constant;
+import com.zz.springbootproject.config.MyApplicationConfig;
 import com.zz.springbootproject.exception.ServerException;
 import com.zz.springbootproject.module.sys.dao.SysMenuDao;
 import com.zz.springbootproject.module.sys.dao.SysRoleDao;
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -52,6 +54,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
     @Autowired
     private RedisUtils redisUtils;
+
+    @Autowired
+    private MyApplicationConfig config;
 
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
@@ -107,36 +112,38 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     public ServerResponse createToken(Long userId) {
         //生成token
         String token = TokenGenerator.generateValue();
-        saveToken("",userId,token);
+        saveToken(o -> o.equals(config.getToken().getCacheType()),userId,token);
         return ServerResponse.ok().put("token",token);
     }
-    
-    
-    /**
-     * @Description: 根据配置决定token存储方式
-     * @param type
-     * @Author: chenxue 
-     * @Date: 2020/7/2  17:22
-     */ 
-    private void saveToken(String type,Long userId,String token){
-        // redis 缓存存储 token
-        redisUtils.set(token,userId, TimeUnit.HOURS.toSeconds(2));
 
-        //查询表中是否已经有用户token
-        /*SysUserTokenEntity sysUserTokenEntity = sysUserTokenDao.selectById(userId);
-        //为空则新建
-        if( Objects.isNull(sysUserTokenEntity)){
-            SysUserTokenEntity tokenEntity = new SysUserTokenEntity();
-            tokenEntity.setUserId(userId);
-            tokenEntity.setToken(token);
-            tokenEntity.setExpireTime(Date.from(LocalDateTime.now().plusHours(Constant.EXPIRE).atZone(ZoneId.systemDefault()).toInstant()));
-            sysUserTokenDao.insert(tokenEntity);
-        }else {
-            sysUserTokenEntity.setToken(token);
-            sysUserTokenEntity.setExpireTime(Date.from(LocalDateTime.now().plusHours(Constant.EXPIRE).atZone(ZoneId.systemDefault()).toInstant()));
-            sysUserTokenEntity.setUpdateTime(new Date());
-            sysUserTokenDao.updateById(sysUserTokenEntity);
-        }*/
+
+    /**
+     * 根据配置决定token存储方式
+     * @param predicate 比较函数
+     * @param userId 用户id
+     * @param token token
+     */
+    private void saveToken(Predicate<String> predicate,Long userId,String token) {
+        if (predicate.test(MyApplicationConfig.CacheEnum.REDIS.getName())) {
+            // redis 缓存存储 token
+            redisUtils.set(token, userId, config.getToken().getExpireTime().getSeconds());
+        } else if (predicate.test(MyApplicationConfig.CacheEnum.DB.getName())) {
+            //查询表中是否已经有用户token
+            SysUserTokenEntity sysUserTokenEntity = sysUserTokenDao.selectById(userId);
+            //为空则新建
+            if (Objects.isNull(sysUserTokenEntity)) {
+                SysUserTokenEntity tokenEntity = new SysUserTokenEntity();
+                tokenEntity.setUserId(userId);
+                tokenEntity.setToken(token);
+                tokenEntity.setExpireTime(Date.from(LocalDateTime.now().plusHours(Constant.EXPIRE).atZone(ZoneId.systemDefault()).toInstant()));
+                sysUserTokenDao.insert(tokenEntity);
+            } else {
+                sysUserTokenEntity.setToken(token);
+                sysUserTokenEntity.setExpireTime(Date.from(LocalDateTime.now().plusHours(Constant.EXPIRE).atZone(ZoneId.systemDefault()).toInstant()));
+                sysUserTokenEntity.setUpdateTime(new Date());
+                sysUserTokenDao.updateById(sysUserTokenEntity);
+            }
+        }
     }
 
     /**
