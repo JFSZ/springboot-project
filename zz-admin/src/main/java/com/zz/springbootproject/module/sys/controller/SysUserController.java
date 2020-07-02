@@ -6,11 +6,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.zz.springbootproject.exception.ServerException;
 import com.zz.springbootproject.module.sys.entity.SysRoleEntity;
 import com.zz.springbootproject.module.sys.service.SysRoleService;
 import com.zz.springbootproject.module.sys.service.SysUserRoleService;
 import com.zz.springbootproject.utils.ShiroUtils;
+import com.zz.springbootproject.validator.ValidatorUtils;
+import com.zz.springbootproject.validator.group.AddGroup;
+import com.zz.springbootproject.validator.group.UpdateGroup;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +73,7 @@ public class SysUserController {
     @RequiresPermissions("sys:user:save")
     @Transactional
     public ServerResponse save(@RequestBody SysUserEntity user) {
+        ValidatorUtils.validateEntity(user, AddGroup.class);
         sysUserService.saveUser(user);
         return ServerResponse.ok();
     }
@@ -80,8 +83,9 @@ public class SysUserController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("sys:user:update")
+    @Transactional
     public ServerResponse update(@RequestBody SysUserEntity user) {
-        Optional.ofNullable(user).map(x -> x.getUserId()).orElseThrow(() -> new ServerException("参数缺失!"));
+        ValidatorUtils.validateEntity(user, UpdateGroup.class);
         sysUserService.updateById(user);
         //更新角色
         sysUserRoleService.saveOrUpdateByParam(user.getUserId(),user.getRoleIdList());
@@ -101,8 +105,16 @@ public class SysUserController {
     }
 
     @GetMapping("/getUserInfo")
-    @RequiresPermissions("sys:user:info")
     public ServerResponse getUserInfo() {
-        return ServerResponse.ok().put("user", ShiroUtils.getUser());
+        SysUserEntity user = ShiroUtils.getUser();
+        return ServerResponse.ok().put("user", user);
     }
+
+    @RequestMapping("/updateUserStatus")
+    @RequiresPermissions("sys:user:update")
+    public ServerResponse updateUserStatus(@RequestBody SysUserEntity user){
+        sysUserService.updateById(user);
+        return ServerResponse.ok();
+    }
+
 }

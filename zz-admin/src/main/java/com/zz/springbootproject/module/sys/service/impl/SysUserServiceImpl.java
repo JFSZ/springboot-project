@@ -14,21 +14,19 @@ import com.zz.springbootproject.module.sys.oauth2.TokenGenerator;
 import com.zz.springbootproject.module.sys.service.SysUserRoleService;
 import com.zz.springbootproject.module.sys.service.SysUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zz.springbootproject.utils.ServerResponse;
-import com.zz.springbootproject.utils.ShiroUtils;
+import com.zz.springbootproject.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.zz.springbootproject.utils.Query;
-import com.zz.springbootproject.utils.PageUtil;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -51,6 +49,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
     @Autowired
     private SysUserRoleService sysUserRoleService;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
@@ -106,8 +107,23 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     public ServerResponse createToken(Long userId) {
         //生成token
         String token = TokenGenerator.generateValue();
+        saveToken("",userId,token);
+        return ServerResponse.ok().put("token",token);
+    }
+    
+    
+    /**
+     * @Description: 根据配置决定token存储方式
+     * @param type
+     * @Author: chenxue 
+     * @Date: 2020/7/2  17:22
+     */ 
+    private void saveToken(String type,Long userId,String token){
+        // redis 缓存存储 token
+        redisUtils.set(token,userId, TimeUnit.HOURS.toSeconds(2));
+
         //查询表中是否已经有用户token
-        SysUserTokenEntity sysUserTokenEntity = sysUserTokenDao.selectById(userId);
+        /*SysUserTokenEntity sysUserTokenEntity = sysUserTokenDao.selectById(userId);
         //为空则新建
         if( Objects.isNull(sysUserTokenEntity)){
             SysUserTokenEntity tokenEntity = new SysUserTokenEntity();
@@ -120,8 +136,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
             sysUserTokenEntity.setExpireTime(Date.from(LocalDateTime.now().plusHours(Constant.EXPIRE).atZone(ZoneId.systemDefault()).toInstant()));
             sysUserTokenEntity.setUpdateTime(new Date());
             sysUserTokenDao.updateById(sysUserTokenEntity);
-        }
-        return ServerResponse.ok().put("token",token);
+        }*/
     }
 
     /**

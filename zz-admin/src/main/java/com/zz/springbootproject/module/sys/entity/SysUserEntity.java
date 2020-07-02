@@ -14,6 +14,7 @@ import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 系统用户
@@ -29,6 +30,7 @@ public class SysUserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "user_id", type = IdType.AUTO)
+    @NotNull(message = "ID不可为空!",groups = {UpdateGroup.class})
     private Long userId;
 
     /**

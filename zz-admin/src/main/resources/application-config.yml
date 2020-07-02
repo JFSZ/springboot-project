@@ -1,0 +1,4 @@
+zzadmin:
+  token:
+    cache-type: redis
+    exprie-time: 2 * 60 * 60 # 秒

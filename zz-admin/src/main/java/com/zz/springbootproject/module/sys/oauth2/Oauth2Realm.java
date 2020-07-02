@@ -7,6 +7,7 @@ import com.zz.springbootproject.module.sys.entity.SysUserEntity;
 import com.zz.springbootproject.module.sys.entity.SysUserTokenEntity;
 import com.zz.springbootproject.module.sys.service.SysUserService;
 import com.zz.springbootproject.module.sys.service.SysUserTokenService;
+import com.zz.springbootproject.utils.RedisUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -29,6 +30,9 @@ public class Oauth2Realm extends AuthorizingRealm {
     private SysUserService sysUserService;
     @Autowired
     private SysUserTokenService sysUserTokenService;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
     /**
      * @Description: 如果自定义了Token生成规则，则需要重写该方法.否者会报错:does not support authentication token
@@ -70,19 +74,11 @@ public class Oauth2Realm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String token = Objects.toString(authenticationToken.getPrincipal());
-        Optional.ofNullable(token).orElseThrow(() -> new ServerException("没有权限,登录失败!"));
-
-        //根据token查询，token是否失效
-        QueryWrapper<SysUserTokenEntity> wrapper = new QueryWrapper<>();
-        wrapper.and(i -> i.eq("token",token));
-        SysUserTokenEntity sysUserTokenEntity = sysUserTokenService.getOne(wrapper);
-
-        Optional.ofNullable(sysUserTokenEntity)
-                .map(o -> o.getExpireTime().getTime() < TimeUnit.NANOSECONDS.toMillis(System.nanoTime()))
-                .orElseThrow(() -> new IncorrectCredentialsException("token失效，请重新登录"));
-
+        Object tokenCache = redisUtils.get(token);
+        Optional.ofNullable(tokenCache).orElseThrow(() -> new IncorrectCredentialsException("token失效，请重新登录"));
+        String userId = Objects.toString(tokenCache);
         //查询用户信息
-        SysUserEntity sysUserEntity = sysUserService.getById(sysUserTokenEntity.getUserId());
+        SysUserEntity sysUserEntity = sysUserService.getById(userId);
         //如果用户被禁用
         Optional.ofNullable(sysUserEntity)
                 .map(o -> Constant.ONE.equals(o.getStatus()))
@@ -91,4 +87,5 @@ public class Oauth2Realm extends AuthorizingRealm {
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(sysUserEntity,token,getName());
         return info;
     }
+
 }
