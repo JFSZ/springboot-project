@@ -2,6 +2,9 @@ package com.zz.springbootproject.utils;
 
 import com.zz.springbootproject.module.sys.entity.SysUserEntity;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+
+import java.util.Optional;
 
 /**
  * @description:
@@ -10,7 +13,8 @@ import org.apache.shiro.SecurityUtils;
  **/
 public class ShiroUtils {
     public static SysUserEntity getUser(){
-        SysUserEntity sysUserEntity = (SysUserEntity) SecurityUtils.getSubject().getPrincipal();
-        return sysUserEntity;
+        SysUserEntity principal = (SysUserEntity) SecurityUtils.getSubject().getPrincipal();
+        Optional.ofNullable(principal).orElseThrow(() -> new IncorrectCredentialsException("token失效，请重新登录"));
+        return principal;
     }
 }

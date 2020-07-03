@@ -2,6 +2,7 @@ package com.zz.springbootproject.module.sys.oauth2;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zz.springbootproject.common.Constant;
+import com.zz.springbootproject.config.MyApplicationConfig;
 import com.zz.springbootproject.exception.ServerException;
 import com.zz.springbootproject.module.sys.entity.SysUserEntity;
 import com.zz.springbootproject.module.sys.entity.SysUserTokenEntity;
@@ -33,6 +34,9 @@ public class Oauth2Realm extends AuthorizingRealm {
 
     @Autowired
     private RedisUtils redisUtils;
+
+    @Autowired
+    private MyApplicationConfig config;
 
     /**
      * @Description: 如果自定义了Token生成规则，则需要重写该方法.否者会报错:does not support authentication token
@@ -74,9 +78,23 @@ public class Oauth2Realm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String token = Objects.toString(authenticationToken.getPrincipal());
-        Object tokenCache = redisUtils.get(token);
-        Optional.ofNullable(tokenCache).orElseThrow(() -> new IncorrectCredentialsException("token失效，请重新登录"));
-        String userId = Objects.toString(tokenCache);
+        String userId = "";
+        // 根据配置决定从哪里读取token
+        if (MyApplicationConfig.CacheEnum.REDIS.getName().equalsIgnoreCase(config.getToken().getCacheType())) {
+            Object userIdCache = redisUtils.get(token);
+            Optional.ofNullable(userIdCache).orElseThrow(() -> new IncorrectCredentialsException("token失效，请重新登录"));
+            userId = Objects.toString(userIdCache);
+        } else if (MyApplicationConfig.CacheEnum.DB.getName().equalsIgnoreCase(config.getToken().getCacheType())) {
+            //根据token查询，token是否失效
+            QueryWrapper<SysUserTokenEntity> wrapper = new QueryWrapper<>();
+            wrapper.and(i -> i.eq("token", token));
+            SysUserTokenEntity sysUserTokenEntity = sysUserTokenService.getOne(wrapper);
+            Optional.ofNullable(sysUserTokenEntity)
+                    .map(o -> o.getExpireTime().getTime() < TimeUnit.NANOSECONDS.toMillis(System.nanoTime()))
+                    .orElseThrow(() -> new IncorrectCredentialsException("token失效，请重新登录"));
+            userId = Objects.toString(sysUserTokenEntity.getUserId());
+        }
+
         //查询用户信息
         SysUserEntity sysUserEntity = sysUserService.getById(userId);
         //如果用户被禁用
@@ -84,7 +102,7 @@ public class Oauth2Realm extends AuthorizingRealm {
                 .map(o -> Constant.ONE.equals(o.getStatus()))
                 .orElseThrow(() -> new LockedAccountException("账号已被锁定,请联系管理员"));
 
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(sysUserEntity,token,getName());
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(sysUserEntity, token, getName());
         return info;
     }
 

@@ -5,7 +5,9 @@ import com.zz.springbootproject.module.sys.entity.SysUserEntity;
 import com.zz.springbootproject.module.sys.service.SysCaptchaService;
 import com.zz.springbootproject.module.sys.service.SysUserService;
 import com.zz.springbootproject.module.sys.vo.SysLoginVo;
+import com.zz.springbootproject.utils.RedisUtils;
 import com.zz.springbootproject.utils.ServerResponse;
+import com.zz.springbootproject.utils.ShiroUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
@@ -28,6 +31,9 @@ public class SysLoginController {
 
     @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
     /**
      * @Description: 获取验证码
@@ -82,7 +88,9 @@ public class SysLoginController {
      */
     @RequestMapping("/logout")
     public ServerResponse logout(){
-        //TODO 登出需要清除token。并且redis需要设置淘汰策略
+        // 登出需要清除token。并且redis需要设置淘汰策略
+        Object cacheToken = redisUtils.get(Objects.toString(ShiroUtils.getUser().getUserId()));
+        redisUtils.del(Objects.toString(cacheToken));
         return sysUserService.lagout();
     }
 }

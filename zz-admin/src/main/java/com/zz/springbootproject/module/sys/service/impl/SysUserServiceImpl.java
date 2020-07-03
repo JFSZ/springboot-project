@@ -125,8 +125,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
      */
     private void saveToken(Predicate<String> predicate,Long userId,String token) {
         if (predicate.test(MyApplicationConfig.CacheEnum.REDIS.getName())) {
+            // 根据userId查询token,如果有值。则删除key为token的缓存
+            Object oldToken = redisUtils.get(Objects.toString(userId));
+            if(Objects.nonNull(oldToken)){
+                redisUtils.del(Objects.toString(oldToken));
+            }
             // redis 缓存存储 token
             redisUtils.set(token, userId, config.getToken().getExpireTime().getSeconds());
+            redisUtils.set(Objects.toString(userId),token,config.getToken().getExpireTime().getSeconds());
         } else if (predicate.test(MyApplicationConfig.CacheEnum.DB.getName())) {
             //查询表中是否已经有用户token
             SysUserTokenEntity sysUserTokenEntity = sysUserTokenDao.selectById(userId);
