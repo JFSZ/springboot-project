@@ -13,14 +13,17 @@ import java.time.Duration;
 @ConfigurationProperties(prefix = "zzadmin")
 @Component
 public class MyApplicationConfig {
-    private Token token;
+    private final Token token = new Token();
 
     public Token getToken() {
         return token;
     }
 
-    public void setToken(Token token) {
-        this.token = token;
+    @Override
+    public String toString() {
+        return "MyApplicationConfig{" +
+                "token=" + token +
+                '}';
     }
 
     public static class Token{
@@ -44,6 +47,14 @@ public class MyApplicationConfig {
 
         public void setExpireTime(Duration expireTime) {
             this.expireTime = expireTime;
+        }
+
+        @Override
+        public String toString() {
+            return "Token{" +
+                    "cacheType='" + cacheType + '\'' +
+                    ", expireTime=" + expireTime +
+                    '}';
         }
     }
     public enum CacheEnum{

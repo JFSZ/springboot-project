@@ -1,4 +1,4 @@
 zzadmin:
   token:
-    cache-type: redis
-    exprie-time: 2 * 60 * 60 # 秒
+    cache-type: redis # 缓存类型 默认redis 可选db
+    expire-time: 7200s # 过期时间单位 秒 不写默认永不过期
