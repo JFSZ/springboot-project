@@ -12,6 +12,7 @@ import com.zz.springbootproject.utils.ServerResponse;
 import ${package.Service}.${table.serviceName};
 import ${package.Entity}.${entity};
 import com.zz.springbootproject.utils.PageUtil;
+import com.zz.springbootproject.validator.ValidatorUtils;
 import com.zz.springbootproject.validator.group.AddGroup;
 import com.zz.springbootproject.validator.group.UpdateGroup;
 
@@ -84,6 +85,7 @@ public class ${table.controllerName} {
     @RequestMapping("/update")
     @RequiresPermissions("${package.ModuleName}:${table.entityPath}:update")
     public ServerResponse update(@RequestBody ${entity} ${table.name}){
+        ValidatorUtils.validateEntity(${table.name}, UpdateGroup.class);
         ${(table.serviceName)?uncap_first}.updateById(${table.name});
         return ServerResponse.ok();
     }
