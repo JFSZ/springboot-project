@@ -10,7 +10,7 @@ import java.time.Duration;
  * @author: chenxue
  * @create: 2020-07-02 19:25
  **/
-@ConfigurationProperties(prefix = "zzadmin")
+@ConfigurationProperties(prefix = "zzadmin.token")
 @Component
 public class MyApplicationConfig {
     private final Token token = new Token();

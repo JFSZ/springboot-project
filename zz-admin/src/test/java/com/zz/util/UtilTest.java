@@ -56,7 +56,7 @@ public class UtilTest {
 
     @Test
     public void test3(){
-
+        System.out.println(System.getProperty("os.name"));
     }
 }
 @Data

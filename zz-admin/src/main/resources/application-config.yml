@@ -2,3 +2,11 @@ zzadmin:
   token:
     cache-type: redis # 缓存类型 默认redis 可选db
     expire-time: 7200s # 过期时间单位 秒 不写默认永不过期
+  file:
+    maxSize: 100
+    windows:
+      path: D:\zzadmin\file  # 本地文件上传 存储路径
+    mac:
+      path: ~/file/
+    linux:
+      path: /home/zzadmin/file/

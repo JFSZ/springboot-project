@@ -16,6 +16,7 @@ import com.zz.springbootproject.utils.PageUtil;
 import com.zz.springbootproject.validator.group.AddGroup;
 import com.zz.springbootproject.validator.group.UpdateGroup;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件上传 前端控制器
@@ -32,7 +33,7 @@ public class SysOssController {
      * 列表
      */
     @RequestMapping("/list")
-    @RequiresPermissions("sys:oss:list")
+    @RequiresPermissions("sys:oss:all")
     public PageUtil list(@RequestParam Map<String, Object> params){
         PageUtil page = sysOssService.queryPage(params);
         return page;
@@ -43,7 +44,7 @@ public class SysOssController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("sys:oss:info")
+    @RequiresPermissions("sys:oss:all")
     public ServerResponse info(@PathVariable("id") Long id){
         SysOssEntity oss = sysOssService.getById(id);
         return ServerResponse.ok().put("oss", oss);
@@ -53,7 +54,7 @@ public class SysOssController {
      * 保存
      */
     @RequestMapping("/save")
-    @RequiresPermissions("oss:sysOssEntity:save")
+    @RequiresPermissions("oss:oss:all")
     public ServerResponse save(@RequestBody SysOssEntity oss){
     ValidatorUtils.validateEntity(oss, AddGroup.class);
         sysOssService.save(oss);
@@ -64,7 +65,7 @@ public class SysOssController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("sys:oss:update")
+    @RequiresPermissions("sys:oss:all")
     public ServerResponse update(@RequestBody SysOssEntity oss){
         ValidatorUtils.validateEntity(oss, UpdateGroup.class);
         sysOssService.updateById(oss);
@@ -75,10 +76,22 @@ public class SysOssController {
      * 删除
      */
     @RequestMapping("/delete")
-    @RequiresPermissions("sys:oss:delete")
+    @RequiresPermissions("sys:oss:all")
     public ServerResponse delete(@RequestBody Long[] ids){
         sysOssService.removeByIds(Arrays.asList(ids));
         return ServerResponse.ok();
     }
 
+    /**
+     * @Description: 上传文件到本地
+     * @param
+     * @Author: chenxue
+     * @Date: 2020/7/25  14:41
+     */
+    @RequestMapping("/upload")
+    @RequiresPermissions("sys:oss:all")
+    public ServerResponse upload(@RequestParam String name,@RequestParam("file")MultipartFile file){
+        sysOssService.upload(name,file);
+        return ServerResponse.ok();
+    }
 }

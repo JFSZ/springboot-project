@@ -42,6 +42,16 @@ public class Constant {
     public static final String CONFIG_REDIS = "sysConfig";
 
     /**
+     * win 系统
+     */
+    public static final String WIN = "win";
+
+    /**
+     *  mac系统
+     */
+    public static final String MAC = "mac";
+
+    /**
      * @Description: 角色枚举类
      * @Author: chenxue
      * @Date: 2020/5/23  15:19

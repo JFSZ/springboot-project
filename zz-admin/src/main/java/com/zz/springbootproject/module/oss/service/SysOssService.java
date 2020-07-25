@@ -3,6 +3,8 @@ package com.zz.springbootproject.module.oss.service;
 import com.zz.springbootproject.module.oss.entity.SysOssEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zz.springbootproject.utils.PageUtil;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Map;
 
 /**
@@ -15,4 +17,6 @@ import java.util.Map;
  */
 public interface SysOssService extends IService<SysOssEntity> {
      PageUtil queryPage(Map<String, Object> params);
+
+    void upload(String name,MultipartFile file);
 }
