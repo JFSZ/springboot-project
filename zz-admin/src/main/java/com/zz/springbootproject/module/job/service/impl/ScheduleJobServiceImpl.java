@@ -6,7 +6,7 @@ import com.zz.springbootproject.module.job.dao.ScheduleJobDao;
 import com.zz.springbootproject.module.job.service.ScheduleJobService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zz.springbootproject.module.job.utils.ScheduleUtils;
-import com.zz.springbootproject.utils.ServerResponse;
+import com.zz.springbootproject.util.ServerResponse;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

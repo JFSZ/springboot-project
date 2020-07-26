@@ -3,7 +3,7 @@ package com.zz.springbootproject.module.job.controller;
 import java.util.Map;
 
 import com.zz.springbootproject.module.job.entity.ScheduleJobLogEntity;
-import com.zz.springbootproject.utils.ServerResponse;
+import com.zz.springbootproject.util.ServerResponse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

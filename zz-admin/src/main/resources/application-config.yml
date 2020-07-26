@@ -5,7 +5,7 @@ zzadmin:
   file:
     maxSize: 100
     windows:
-      path: D:\zzadmin\file  # 本地文件上传 存储路径
+      path: E:\zzadmin\file  # 本地文件上传 存储路径
     mac:
       path: ~/file/
     linux:

@@ -3,6 +3,7 @@ package com.zz.springbootproject.module.job.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.zz.springbootproject.util.ServerResponse;
 import com.zz.springbootproject.validator.ValidatorUtils;
 import com.zz.springbootproject.validator.group.AddGroup;
 import com.zz.springbootproject.validator.group.UpdateGroup;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.zz.springbootproject.utils.ServerResponse;
 import com.zz.springbootproject.module.job.service.ScheduleJobService;
 import com.zz.springbootproject.module.job.entity.ScheduleJobEntity;
 import com.zz.springbootproject.utils.PageUtil;

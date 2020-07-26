@@ -20,11 +20,11 @@ public class FileConfig {
      */
     private Long maxSize;
 
-    private ElPath windows;
+    private ElPath windows = new ElPath();
 
-    private ElPath linux;
+    private ElPath linux = new ElPath();
 
-    private ElPath mac;
+    private ElPath mac = new ElPath();
 
     public ElPath getPath() {
         String osName = System.getProperty("os.name");

@@ -1,12 +1,11 @@
 package com.zz.springbootproject.module.sys.controller;
 
-import com.zz.springbootproject.common.Constant;
 import com.zz.springbootproject.module.sys.entity.SysUserEntity;
 import com.zz.springbootproject.module.sys.service.SysCaptchaService;
 import com.zz.springbootproject.module.sys.service.SysUserService;
 import com.zz.springbootproject.module.sys.vo.SysLoginVo;
+import com.zz.springbootproject.util.ServerResponse;
 import com.zz.springbootproject.utils.RedisUtils;
-import com.zz.springbootproject.utils.ServerResponse;
 import com.zz.springbootproject.utils.ShiroUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -16,11 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.NotNull;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.function.Predicate;
 
 @RestController
 @RequestMapping("/sys")

@@ -1,6 +1,6 @@
 package com.zz.springbootproject.exception;
 
-import com.zz.springbootproject.utils.ServerResponse;
+import com.zz.springbootproject.util.ServerResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

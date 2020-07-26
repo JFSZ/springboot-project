@@ -6,7 +6,7 @@ import com.zz.springbootproject.module.sys.dao.SysConfigDao;
 import com.zz.springbootproject.module.sys.service.ConfigRedisService;
 import com.zz.springbootproject.module.sys.service.SysConfigService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zz.springbootproject.utils.ServerResponse;
+import com.zz.springbootproject.util.ServerResponse;
 import com.zz.springbootproject.utils.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

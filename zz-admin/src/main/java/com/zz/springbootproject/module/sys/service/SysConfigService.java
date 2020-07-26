@@ -2,8 +2,8 @@ package com.zz.springbootproject.module.sys.service;
 
 import com.zz.springbootproject.module.sys.entity.SysConfigEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zz.springbootproject.util.ServerResponse;
 import com.zz.springbootproject.utils.PageUtil;
-import com.zz.springbootproject.utils.ServerResponse;
 
 import java.util.List;
 import java.util.Map;

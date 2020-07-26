@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -135,9 +136,18 @@ public class FileUtils extends FileUtil {
      */
     public static File upload(MultipartFile file, String path) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        String name = getFileNameNoEx(file.getOriginalFilename());
+        String suffix = getExtensionName(file.getOriginalFilename());
+        String fileName = path +name + "-" + formatter.format(LocalDateTime.now()) + "." + suffix;
         try {
-            File newFile = new File("");
+            File newFile = new File(fileName).getCanonicalFile();
+            if(!newFile.getParentFile().exists()){
+                if(!newFile.getParentFile().mkdirs()){
+                    throw new ServerException("上传文件失败!");
+                }
+            }
             file.transferTo(newFile);
+            return newFile;
         } catch (IOException e) {
             e.printStackTrace();
         }

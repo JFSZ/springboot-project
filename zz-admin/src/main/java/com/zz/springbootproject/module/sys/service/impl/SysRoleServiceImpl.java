@@ -2,18 +2,15 @@ package com.zz.springbootproject.module.sys.service.impl;
 
 import com.zz.springbootproject.module.sys.entity.SysRoleEntity;
 import com.zz.springbootproject.module.sys.dao.SysRoleDao;
-import com.zz.springbootproject.module.sys.entity.SysRoleMenuEntity;
 import com.zz.springbootproject.module.sys.service.SysRoleMenuService;
 import com.zz.springbootproject.module.sys.service.SysRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zz.springbootproject.utils.ServerResponse;
+import com.zz.springbootproject.util.ServerResponse;
 import com.zz.springbootproject.utils.ShiroUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zz.springbootproject.utils.Query;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zz.springbootproject.utils.PageUtil;
 
 import java.util.*;

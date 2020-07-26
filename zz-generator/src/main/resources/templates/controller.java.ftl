@@ -15,6 +15,7 @@ import com.zz.springbootproject.utils.PageUtil;
 import com.zz.springbootproject.validator.ValidatorUtils;
 import com.zz.springbootproject.validator.group.AddGroup;
 import com.zz.springbootproject.validator.group.UpdateGroup;
+import com.zz.springbootproject.util.ServerResponse;
 
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;

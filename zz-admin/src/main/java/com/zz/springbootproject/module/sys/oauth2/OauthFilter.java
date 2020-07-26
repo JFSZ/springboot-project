@@ -1,8 +1,8 @@
 package com.zz.springbootproject.module.sys.oauth2;
 
 import com.google.gson.Gson;
+import com.zz.springbootproject.util.ServerResponse;
 import com.zz.springbootproject.utils.HttpContextUtils;
-import com.zz.springbootproject.utils.ServerResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;
