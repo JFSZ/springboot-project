@@ -7,6 +7,7 @@ import com.zz.springbootproject.module.oss.dao.SysOssDao;
 import com.zz.springbootproject.module.oss.service.SysOssService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zz.springbootproject.util.FileUtils;
+import com.zz.springbootproject.utils.ShiroUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import com.zz.springbootproject.utils.PageUtil;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -56,11 +58,13 @@ public class SysOssServiceImpl extends ServiceImpl<SysOssDao, SysOssEntity> impl
         File file1 = FileUtils.upload(file, fileConfig.getPath().getPath() + type + File.separator);
         SysOssEntity sysOssEntity = new SysOssEntity();
         sysOssEntity.setName(StringUtils.isBlank(name) ? FileUtils.getFileNameNoEx(file.getOriginalFilename()) : name);
-        sysOssEntity.setRealName(file.getName());
+        sysOssEntity.setRealName(file1.getName());
         sysOssEntity.setSize(FileUtils.getSize(file.getSize()));
         sysOssEntity.setSuffix(suffix);
         sysOssEntity.setType(type);
         sysOssEntity.setUrl(file1.getPath());
+        sysOssEntity.setCreateTime(new Date());
+        sysOssEntity.setCreateUser(ShiroUtils.getUser().getUserId());
         this.save(sysOssEntity);
     }
 }

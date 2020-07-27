@@ -1,7 +1,7 @@
 package com.zz.springbootproject.module.sys.service.impl;
 
 import com.zz.springbootproject.common.Constant;
-import com.zz.springbootproject.config.MyApplicationConfig;
+import com.zz.springbootproject.config.TokenConfig;
 import com.zz.springbootproject.exception.ServerException;
 import com.zz.springbootproject.module.sys.dao.SysMenuDao;
 import com.zz.springbootproject.module.sys.dao.SysRoleDao;
@@ -56,7 +56,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     private RedisUtils redisUtils;
 
     @Autowired
-    private MyApplicationConfig config;
+    private TokenConfig config;
 
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
@@ -112,7 +112,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     public ServerResponse createToken(Long userId) {
         //生成token
         String token = TokenGenerator.generateValue();
-        saveToken(o -> o.equals(config.getToken().getCacheType()),userId,token);
+        saveToken(o -> o.equals(config.getCacheType()),userId,token);
         return ServerResponse.ok().put("token",token);
     }
 
@@ -124,16 +124,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
      * @param token token
      */
     private void saveToken(Predicate<String> predicate,Long userId,String token) {
-        if (predicate.test(MyApplicationConfig.CacheEnum.REDIS.getName())) {
+        if (predicate.test(TokenConfig.CacheEnum.REDIS.getName())) {
             // 根据userId查询token,如果有值。则删除key为token的缓存
             Object oldToken = redisUtils.get(Objects.toString(userId));
             if(Objects.nonNull(oldToken)){
                 redisUtils.del(Objects.toString(oldToken));
             }
             // redis 缓存存储 token
-            redisUtils.set(token, userId, config.getToken().getExpireTime().getSeconds());
-            redisUtils.set(Objects.toString(userId),token,config.getToken().getExpireTime().getSeconds());
-        } else if (predicate.test(MyApplicationConfig.CacheEnum.DB.getName())) {
+            redisUtils.set(token, userId, config.getExpireTime().getSeconds());
+            redisUtils.set(Objects.toString(userId),token,config.getExpireTime().getSeconds());
+        } else if (predicate.test(TokenConfig.CacheEnum.DB.getName())) {
             //查询表中是否已经有用户token
             SysUserTokenEntity sysUserTokenEntity = sysUserTokenDao.selectById(userId);
             //为空则新建

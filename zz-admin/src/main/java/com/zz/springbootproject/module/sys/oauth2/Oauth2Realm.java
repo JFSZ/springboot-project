@@ -2,8 +2,7 @@ package com.zz.springbootproject.module.sys.oauth2;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zz.springbootproject.common.Constant;
-import com.zz.springbootproject.config.MyApplicationConfig;
-import com.zz.springbootproject.exception.ServerException;
+import com.zz.springbootproject.config.TokenConfig;
 import com.zz.springbootproject.module.sys.entity.SysUserEntity;
 import com.zz.springbootproject.module.sys.entity.SysUserTokenEntity;
 import com.zz.springbootproject.module.sys.service.SysUserService;
@@ -36,7 +35,7 @@ public class Oauth2Realm extends AuthorizingRealm {
     private RedisUtils redisUtils;
 
     @Autowired
-    private MyApplicationConfig config;
+    private TokenConfig config;
 
     /**
      * @Description: 如果自定义了Token生成规则，则需要重写该方法.否者会报错:does not support authentication token
@@ -80,11 +79,11 @@ public class Oauth2Realm extends AuthorizingRealm {
         String token = Objects.toString(authenticationToken.getPrincipal());
         String userId = "";
         // 根据配置决定从哪里读取token
-        if (MyApplicationConfig.CacheEnum.REDIS.getName().equalsIgnoreCase(config.getToken().getCacheType())) {
+        if (TokenConfig.CacheEnum.REDIS.getName().equalsIgnoreCase(config.getCacheType())) {
             Object userIdCache = redisUtils.get(token);
             Optional.ofNullable(userIdCache).orElseThrow(() -> new IncorrectCredentialsException("token失效，请重新登录"));
             userId = Objects.toString(userIdCache);
-        } else if (MyApplicationConfig.CacheEnum.DB.getName().equalsIgnoreCase(config.getToken().getCacheType())) {
+        } else if (TokenConfig.CacheEnum.DB.getName().equalsIgnoreCase(config.getCacheType())) {
             //根据token查询，token是否失效
             QueryWrapper<SysUserTokenEntity> wrapper = new QueryWrapper<>();
             wrapper.and(i -> i.eq("token", token));

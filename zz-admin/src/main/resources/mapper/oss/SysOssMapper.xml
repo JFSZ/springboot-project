@@ -24,8 +24,8 @@
 
     <select id="queryPage" resultType="com.zz.springbootproject.module.oss.entity.SysOssEntity">
         select <include refid="Base_Column_List"/> from sys_oss where 1 = 1
-        <if test=" params != null and params != '' ">
-            and 1 = 1
+        <if test=" params.keyword != null and params.keyword != '' ">
+            and (name like concat('%',#{keyword},'%')  or real_name like concat('%',#{keyword},'%') or type like concat('%',#{keyword},'%') or suffix like concat('%',#{keyword},'%') )
         </if>
     </select>
 </mapper>
