@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 系统配置信息表 前端控制器
+ *
  * @author chenxue
  * @since 2020-06-29
  */
@@ -35,7 +36,7 @@ public class SysConfigController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:config:list")
-    public PageUtil list(@RequestParam Map<String, Object> params){
+    public PageUtil list(@RequestParam Map<String, Object> params) {
         PageUtil page = sysConfigService.queryPage(params);
         return page;
     }
@@ -46,7 +47,7 @@ public class SysConfigController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("sys:config:info")
-    public ServerResponse info(@PathVariable("id") Long id){
+    public ServerResponse info(@PathVariable("id") Long id) {
         SysConfigEntity sysConfig = sysConfigService.getById(id);
         return ServerResponse.ok().put("sysConfig", sysConfig);
     }
@@ -56,7 +57,7 @@ public class SysConfigController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("sys:config:save")
-    public ServerResponse save(@RequestBody SysConfigEntity sysConfig){
+    public ServerResponse save(@RequestBody SysConfigEntity sysConfig) {
         ValidatorUtils.validateEntity(sysConfig, AddGroup.class);
         return sysConfigService.saveConfig(sysConfig);
     }
@@ -66,7 +67,7 @@ public class SysConfigController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("sys:config:update")
-    public ServerResponse update(@RequestBody SysConfigEntity sysConfig){
+    public ServerResponse update(@RequestBody SysConfigEntity sysConfig) {
         ValidatorUtils.validateEntity(sysConfig, UpdateGroup.class);
         return sysConfigService.updateConfig(sysConfig);
     }
@@ -76,7 +77,7 @@ public class SysConfigController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("sys:config:delete")
-    public ServerResponse delete(@RequestBody List<Long> ids){
+    public ServerResponse delete(@RequestBody List<Long> ids) {
         return sysConfigService.deleteConfig(ids);
     }
 

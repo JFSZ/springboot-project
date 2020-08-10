@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 
 /**
  * 系统用户 服务实现类
+ *
  * @author chenxue
  * @since 2020-05-20
  */
@@ -61,7 +62,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
         IPage<SysUserEntity> page = new Query<SysUserEntity>(params).getPage();
-        List<SysUserEntity> list = baseMapper.queryPage(page,params);
+        List<SysUserEntity> list = baseMapper.queryPage(page, params);
         return new PageUtil(page.setRecords(list));
     }
 
@@ -81,7 +82,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         List<Long> collect = roleList.stream().map(SysRoleEntity::getRoleId).distinct().collect(Collectors.toList());
         List<SysMenuEntity> menuList = null;
         //如果包含管理员角色，默认拥有所有权限
-        if(collect.contains(Constant.RoleEnum.ADMIN.getValue())){
+        if (collect.contains(Constant.RoleEnum.ADMIN.getValue())) {
             menuList = sysMenuDao.queryByRoleId(null);
         }
         //根据角色，查询菜单权限
@@ -112,27 +113,28 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     public ServerResponse createToken(Long userId) {
         //生成token
         String token = TokenGenerator.generateValue();
-        saveToken(o -> o.equals(config.getCacheType()),userId,token);
-        return ServerResponse.ok().put("token",token);
+        saveToken(o -> o.equals(config.getCacheType()), userId, token);
+        return ServerResponse.ok().put("token", token);
     }
 
 
     /**
      * 根据配置决定token存储方式
+     *
      * @param predicate 比较函数
-     * @param userId 用户id
-     * @param token token
+     * @param userId    用户id
+     * @param token     token
      */
-    private void saveToken(Predicate<String> predicate,Long userId,String token) {
+    private void saveToken(Predicate<String> predicate, Long userId, String token) {
         if (predicate.test(TokenConfig.CacheEnum.REDIS.getName())) {
             // 根据userId查询token,如果有值。则删除key为token的缓存
             Object oldToken = redisUtils.get(Objects.toString(userId));
-            if(Objects.nonNull(oldToken)){
+            if (Objects.nonNull(oldToken)) {
                 redisUtils.del(Objects.toString(oldToken));
             }
             // redis 缓存存储 token
             redisUtils.set(token, userId, config.getExpireTime().getSeconds());
-            redisUtils.set(Objects.toString(userId),token,config.getExpireTime().getSeconds());
+            redisUtils.set(Objects.toString(userId), token, config.getExpireTime().getSeconds());
         } else if (predicate.test(TokenConfig.CacheEnum.DB.getName())) {
             //查询表中是否已经有用户token
             SysUserTokenEntity sysUserTokenEntity = sysUserTokenDao.selectById(userId);
@@ -153,8 +155,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     }
 
     /**
-     * @Description: 退出
      * @param
+     * @Description: 退出
      * @Author: chenxue
      * @Date: 2020/5/23  17:59
      */
@@ -171,8 +173,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     }
 
     /**
-     * @Description: 新增用户
      * @param user
+     * @Description: 新增用户
      * @Author: chenxue
      * @Date: 2020/6/1  16:16
      */
@@ -183,10 +185,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         user.setCreateTime(new Date());
         //盐
         String salt = RandomStringUtils.randomAlphanumeric(20);
-        user.setPassword(new Sha256Hash(user.getPassword(),salt).toHex());
+        user.setPassword(new Sha256Hash(user.getPassword(), salt).toHex());
         user.setSalt(salt);
         this.save(user);
         // 保存用户角色关系
-        sysUserRoleService.saveOrUpdateByParam(user.getUserId(),user.getRoleIdList());
+        sysUserRoleService.saveOrUpdateByParam(user.getUserId(), user.getRoleIdList());
     }
 }

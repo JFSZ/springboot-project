@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 菜单管理 前端控制器
+ *
  * @author chenxue
  * @since 2020-05-20
  */
@@ -39,25 +40,25 @@ public class SysMenuController {
     private SysRoleMenuService sysRoleMenuService;
 
     /**
-     * @Description: 根据角色查询菜单权限
      * @param params
+     * @Description: 根据角色查询菜单权限
      * @Author: chenxue
      * @Date: 2020/6/5  17:12
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:menu:list")
     // @DS(name = "second")
-    public ServerResponse list(@RequestParam Map<String, Object> params){
+    public ServerResponse list(@RequestParam Map<String, Object> params) {
         List<SysMenuEntity> list = sysMenuService.list();
-        for (SysMenuEntity sysMenuEntity : list){
-            if(Objects.nonNull(sysMenuEntity)){
+        for (SysMenuEntity sysMenuEntity : list) {
+            if (Objects.nonNull(sysMenuEntity)) {
                 SysMenuEntity entity = sysMenuService.getById(sysMenuEntity.getParentId());
-                if (Objects.nonNull(entity)){
+                if (Objects.nonNull(entity)) {
                     sysMenuEntity.setParentName(entity.getName());
                 }
             }
         }
-        return ServerResponse.ok().put("menuList",list);
+        return ServerResponse.ok().put("menuList", list);
     }
 
 
@@ -66,12 +67,12 @@ public class SysMenuController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("sys:menu:info")
-    public ServerResponse info(@PathVariable("id") Long id){
+    public ServerResponse info(@PathVariable("id") Long id) {
         Optional.ofNullable(id).orElseThrow(() -> new ServerException("参数为空"));
         SysMenuEntity sysMenu = sysMenuService.getById(id);
-        if(Objects.nonNull(sysMenu)){
+        if (Objects.nonNull(sysMenu)) {
             SysMenuEntity sysMenuEntity = sysMenuService.getById(sysMenu.getParentId());
-            if(Objects.nonNull(sysMenuEntity)){
+            if (Objects.nonNull(sysMenuEntity)) {
                 sysMenu.setParentName(sysMenuEntity.getName());
             }
         }
@@ -84,7 +85,7 @@ public class SysMenuController {
     @RequestMapping("/save")
     @RequiresPermissions("sys:menu:save")
     // @DS
-    public ServerResponse save(@RequestBody SysMenuEntity sysMenu){
+    public ServerResponse save(@RequestBody SysMenuEntity sysMenu) {
         ValidatorUtils.validateEntity(sysMenu, AddGroup.class);
         return sysMenuService.saveOrUpdateMenu(sysMenu);
     }
@@ -94,7 +95,7 @@ public class SysMenuController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("sys:menu:update")
-    public ServerResponse update(@RequestBody SysMenuEntity sysMenu){
+    public ServerResponse update(@RequestBody SysMenuEntity sysMenu) {
         ValidatorUtils.validateEntity(sysMenu, AddGroup.class);
         return sysMenuService.saveOrUpdateMenu(sysMenu);
     }
@@ -104,7 +105,7 @@ public class SysMenuController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("sys:menu:delete")
-    public ServerResponse delete(@RequestBody List<String> ids){
+    public ServerResponse delete(@RequestBody List<String> ids) {
         sysMenuService.removeByIds(ids);
         // 删除 角色、菜单
         sysRoleMenuService.deleteRoleMenuByMenuId(ids);
@@ -112,31 +113,31 @@ public class SysMenuController {
     }
 
     /**
-     * @Description: 获取导航栏菜单
      * @param
+     * @Description: 获取导航栏菜单
      * @Author: chenxue
      * @Date: 2020/5/22  17:21
      */
     @RequestMapping("/nav")
-    public ServerResponse nav(){
+    public ServerResponse nav() {
         SysUserEntity user = ShiroUtils.getUser();
         //查询登录人的权限和菜单
         List<SysMenuEntity> menulist = sysMenuService.queryByUserId(user.getUserId());
         List<String> permList = sysUserService.queryPermById(user.getUserId());
         Set<String> permSet = new HashSet<>();
         permList.stream().filter(Objects::nonNull).forEach(o -> permSet.addAll(Arrays.asList(o.trim().split(","))));
-        return ServerResponse.ok().put("menuList",menulist).put("permissions",permSet);
+        return ServerResponse.ok().put("menuList", menulist).put("permissions", permSet);
     }
 
     /**
-     * @Description: 查找不是按钮的菜单
      * @param
+     * @Description: 查找不是按钮的菜单
      * @Author: chenxue
      * @Date: 2020/6/10  14:24
      */
     @RequestMapping("/select")
     @RequiresPermissions("sys:menu:list")
-    public ServerResponse select(){
+    public ServerResponse select() {
         List<SysMenuEntity> list = sysMenuService.queryNotButtonMenuList();
         //添加顶级菜单
         SysMenuEntity root = new SysMenuEntity();
@@ -145,7 +146,7 @@ public class SysMenuController {
         root.setParentId(-1L);
         root.setOpen(true);
         list.add(root);
-        return ServerResponse.ok().put("menuList",list);
+        return ServerResponse.ok().put("menuList", list);
     }
 
 }

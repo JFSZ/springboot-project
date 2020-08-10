@@ -12,7 +12,7 @@ import java.util.Optional;
  * @create: 2020-05-22 17:41
  **/
 public class ShiroUtils {
-    public static SysUserEntity getUser(){
+    public static SysUserEntity getUser() {
         SysUserEntity principal = (SysUserEntity) SecurityUtils.getSubject().getPrincipal();
         Optional.ofNullable(principal).orElseThrow(() -> new IncorrectCredentialsException("token失效，请重新登录"));
         return principal;

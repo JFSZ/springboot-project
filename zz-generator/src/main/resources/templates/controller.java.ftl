@@ -18,88 +18,89 @@ import com.zz.springbootproject.validator.group.UpdateGroup;
 import com.zz.springbootproject.util.ServerResponse;
 
 <#if restControllerStyle>
-import org.springframework.web.bind.annotation.RestController;
+    import org.springframework.web.bind.annotation.RestController;
 <#else>
-import org.springframework.stereotype.Controller;
+    import org.springframework.stereotype.Controller;
 </#if>
 <#if superControllerClassPackage??>
-import ${superControllerClassPackage};
+    import ${superControllerClassPackage};
 </#if>
 
 /**
- * ${table.comment!} 前端控制器
- * @author ${author}
- * @since ${date}
- */
+* ${table.comment!} 前端控制器
+* @author ${author}
+* @since ${date}
+*/
 <#if restControllerStyle>
-@RestController
+    @RestController
 <#else>
-@Controller
+    @Controller
 </#if>
 @RequestMapping("<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${(table.entityPath)}</#if>")
 <#if kotlin>
-class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
+    class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
-<#if superControllerClass??>
-public class ${table.controllerName} extends ${superControllerClass} {
-<#else>
-public class ${table.controllerName} {
-</#if>
+    <#if superControllerClass??>
+        public class ${table.controllerName} extends ${superControllerClass} {
+    <#else>
+        public class ${table.controllerName} {
+    </#if>
     @Autowired
     private ${table.serviceName} ${(table.serviceName)?uncap_first};
 
     /**
-     * 列表
-     */
+    * 列表
+    */
     @RequestMapping("/list")
     @RequiresPermissions("${package.ModuleName}:${table.entityPath}:list")
-    public PageUtil list(@RequestParam Map<String, Object> params){
-        PageUtil page = ${(table.serviceName)?uncap_first}.queryPage(params);
-        return page;
+    public PageUtil list(@RequestParam Map
+    <String, Object> params){
+    PageUtil page = ${(table.serviceName)?uncap_first}.queryPage(params);
+    return page;
     }
 
 
     /**
-     * 信息
-     */
+    * 信息
+    */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("${package.ModuleName}:${table.entityPath}:info")
     public ServerResponse info(@PathVariable("id") Long id){
-        ${entity} ${table.name} = ${(table.serviceName)?uncap_first}.getById(id);
-        return ServerResponse.ok().put("${table.name}", ${table.name});
+    ${entity} ${table.name} = ${(table.serviceName)?uncap_first}.getById(id);
+    return ServerResponse.ok().put("${table.name}", ${table.name});
     }
 
     /**
-     * 保存
-     */
+    * 保存
+    */
     @RequestMapping("/save")
     @RequiresPermissions("${package.ModuleName}:${table.entityPath}:save")
     public ServerResponse save(@RequestBody ${entity} ${table.name}){
     ValidatorUtils.validateEntity(${table.name}, AddGroup.class);
-        ${(table.serviceName)?uncap_first}.save(${table.name});
-        return ServerResponse.ok();
+    ${(table.serviceName)?uncap_first}.save(${table.name});
+    return ServerResponse.ok();
     }
 
     /**
-     * 修改
-     */
+    * 修改
+    */
     @RequestMapping("/update")
     @RequiresPermissions("${package.ModuleName}:${table.entityPath}:update")
     public ServerResponse update(@RequestBody ${entity} ${table.name}){
-        ValidatorUtils.validateEntity(${table.name}, UpdateGroup.class);
-        ${(table.serviceName)?uncap_first}.updateById(${table.name});
-        return ServerResponse.ok();
+    ValidatorUtils.validateEntity(${table.name}, UpdateGroup.class);
+    ${(table.serviceName)?uncap_first}.updateById(${table.name});
+    return ServerResponse.ok();
     }
 
     /**
-     * 删除
-     */
+    * 删除
+    */
     @RequestMapping("/delete")
     @RequiresPermissions("${package.ModuleName}:${table.entityPath}:delete")
     public ServerResponse delete(@RequestBody Long[] ids){
-        ${(table.serviceName)?uncap_first}.removeByIds(Arrays.asList(ids));
-        return ServerResponse.ok();
+    ${(table.serviceName)?uncap_first}.removeByIds(Arrays.asList(ids));
+    return ServerResponse.ok();
     }
 
-}
+    }
 </#if>

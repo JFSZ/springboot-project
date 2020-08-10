@@ -21,20 +21,21 @@ import java.util.concurrent.TimeUnit;
  **/
 @Configuration
 @Slf4j
-public class RedisCacheConfig  implements InitializingBean {
+public class RedisCacheConfig implements InitializingBean {
     @Autowired
     private SysConfigService configService;
     @Autowired
     private ConfigRedisService configRedisService;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         log.info("【启动时加载缓存模块】 -- 开始");
         long startTime = System.nanoTime();
         // 在加载bean之后，把参数配置加载到redis缓存中
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("status", 1);
         List<SysConfigEntity> configEntityList = configService.listByMap(map);
-        if(Objects.nonNull(configEntityList) && configEntityList.size() > 0){
+        if (Objects.nonNull(configEntityList) && configEntityList.size() > 0) {
             configEntityList
                     .stream()
                     .filter(Objects::nonNull)

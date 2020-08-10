@@ -15,6 +15,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -38,25 +39,25 @@ public class Oauth2Realm extends AuthorizingRealm {
     private TokenConfig config;
 
     /**
-     * @Description: 如果自定义了Token生成规则，则需要重写该方法.否者会报错:does not support authentication token
      * @param token
-     * @Author: chenxue 
+     * @Description: 如果自定义了Token生成规则，则需要重写该方法.否者会报错:does not support authentication token
+     * @Author: chenxue
      * @Date: 2020/5/23  17:28
-     */ 
+     */
     @Override
     public boolean supports(AuthenticationToken token) {
         return token instanceof Oauth2Token;
     }
 
     /**
-     * @Description: 授权(验证权限时调用)
      * @param principalCollection
-     * @Author: chenxue 
+     * @Description: 授权(验证权限时调用)
+     * @Author: chenxue
      * @Date: 2020/5/14  17:09
-     */ 
+     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        SysUserEntity userEntity = (SysUserEntity)principalCollection.getPrimaryPrincipal();
+        SysUserEntity userEntity = (SysUserEntity) principalCollection.getPrimaryPrincipal();
         // 查询当前登陆用户信息
         Long userId = userEntity.getUserId();
         //根据用户id，查询用户权限
@@ -69,11 +70,11 @@ public class Oauth2Realm extends AuthorizingRealm {
     }
 
     /**
-     * @Description:  身份认证(登录时调用)
      * @param authenticationToken
-     * @Author: chenxue 
+     * @Description: 身份认证(登录时调用)
+     * @Author: chenxue
      * @Date: 2020/5/14  17:09
-     */ 
+     */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String token = Objects.toString(authenticationToken.getPrincipal());

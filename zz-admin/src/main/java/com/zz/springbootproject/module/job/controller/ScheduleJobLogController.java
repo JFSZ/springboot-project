@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 定时任务日志 前端控制器
+ *
  * @author chenxue
  * @since 2020-06-18
  */
@@ -30,21 +31,21 @@ public class ScheduleJobLogController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("job:schedule:list")
-    public PageUtil list(@RequestParam Map<String, Object> params){
+    public PageUtil list(@RequestParam Map<String, Object> params) {
         PageUtil page = scheduleJobLogService.queryPage(params);
         return page;
     }
 
     /**
-     * @Description: 查询日志信息
      * @param id
+     * @Description: 查询日志信息
      * @Author: chenxue
      * @Date: 2020/6/22  11:44
      */
     @RequestMapping("/info/{id}")
-    public ServerResponse info(@PathVariable("id") Long id){
+    public ServerResponse info(@PathVariable("id") Long id) {
         ScheduleJobLogEntity job = scheduleJobLogService.getById(id);
-        return ServerResponse.ok().put("job",job);
+        return ServerResponse.ok().put("job", job);
     }
 
 }

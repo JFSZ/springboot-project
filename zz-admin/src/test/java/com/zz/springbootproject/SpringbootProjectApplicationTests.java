@@ -16,15 +16,16 @@ public class SpringbootProjectApplicationTests {
 
     @Autowired
     private Scheduler scheduler;
+
     @Test
-    public void test(){
+    public void test() {
         ScheduleJobEntity scheduleJobEntity = new ScheduleJobEntity();
         scheduleJobEntity.setBeanName("myTask");
         scheduleJobEntity.setJobId(123L);
         scheduleJobEntity.setParams("Tom");
         scheduleJobEntity.setCronExpression("0/10 * * * * ?");
-        ScheduleUtils.runJob(scheduler,scheduleJobEntity);
-        while (true){
+        ScheduleUtils.runJob(scheduler, scheduleJobEntity);
+        while (true) {
 
         }
     }
@@ -34,7 +35,7 @@ public class SpringbootProjectApplicationTests {
 
     //测试redis缓存
     @Test
-    public void test1(){
+    public void test1() {
         Object hget = redisUtils.hget("sysConfig", "test");
         System.out.println(hget);
     }

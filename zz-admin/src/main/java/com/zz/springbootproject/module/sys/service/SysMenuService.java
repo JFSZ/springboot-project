@@ -22,24 +22,24 @@ public interface SysMenuService extends IService<SysMenuEntity> {
     List<SysMenuEntity> queryByUserId(Long userId);
 
     /**
-     * @Description: 根据角色查询菜单权限
      * @param roleId 角色id
+     * @Description: 根据角色查询菜单权限
      * @Author: chenxue
      * @Date: 2020/6/5  17:12
      */
     List<SysMenuEntity> queryByRoleId(Long roleId);
 
     /**
-     * @Description: 查找不是按钮的菜单
      * @param
+     * @Description: 查找不是按钮的菜单
      * @Author: chenxue
      * @Date: 2020/6/10  14:24
      */
     List<SysMenuEntity> queryNotButtonMenuList();
 
     /**
-     * @Description: 保存、更新菜单
      * @param sysMenu
+     * @Description: 保存、更新菜单
      * @Author: chenxue
      * @Date: 2020/6/12  10:13
      */

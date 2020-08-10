@@ -17,27 +17,27 @@ import java.util.Map;
  * @since 2020-06-18
  */
 public interface ScheduleJobService extends IService<ScheduleJobEntity> {
-     PageUtil queryPage(Map<String, Object> params);
+    PageUtil queryPage(Map<String, Object> params);
 
     /**
-     * @Description: 暂停定时任务
      * @param ids
+     * @Description: 暂停定时任务
      * @Author: chenxue
      * @Date: 2020/6/20  10:18
      */
     void pauseJob(List<Long> ids);
 
     /**
-     * @Description: 恢复定时任务
      * @param ids
+     * @Description: 恢复定时任务
      * @Author: chenxue
      * @Date: 2020/6/20  10:59
      */
     void resumeJob(List<Long> ids);
 
     /**
-     * @Description: 删除定时任务
      * @param ids
+     * @Description: 删除定时任务
      * @Author: chenxue
      * @Date: 2020/6/20  11:04
      */
@@ -46,25 +46,25 @@ public interface ScheduleJobService extends IService<ScheduleJobEntity> {
     ServerResponse saveJob(ScheduleJobEntity scheduleJob);
 
     /**
-     * @Description: 执行定时任务
      * @param ids
+     * @Description: 执行定时任务
      * @Author: chenxue
      * @Date: 2020/6/20  13:59
      */
     void runJob(List<Long> ids);
 
     /**
-     * @Description: 批量更新定时任务
      * @param ids
      * @param status
+     * @Description: 批量更新定时任务
      * @Author: chenxue
      * @Date: 2020/6/24  11:16
      */
     void updateBatchJob(List<Long> ids, String status);
 
     /**
-     * @Description: 修改定时任务
      * @param scheduleJob
+     * @Description: 修改定时任务
      * @Author: chenxue
      * @Date: 2020/6/20  13:59
      */

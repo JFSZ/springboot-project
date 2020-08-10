@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 系统用户Token 前端控制器
+ *
  * @author chenxue
  * @since 2020-05-22
  */
@@ -32,7 +33,7 @@ public class SysUserTokenController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:sysUserTokenEntity:list")
-    public PageUtil list(@RequestParam Map<String, Object> params){
+    public PageUtil list(@RequestParam Map<String, Object> params) {
         PageUtil page = sysUserTokenService.queryPage(params);
         return page;
     }
@@ -43,7 +44,7 @@ public class SysUserTokenController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("sys:sysUserTokenEntity:info")
-    public ServerResponse info(@PathVariable("id") Long id){
+    public ServerResponse info(@PathVariable("id") Long id) {
         SysUserTokenEntity sys_user_token = sysUserTokenService.getById(id);
         return ServerResponse.ok().put("sys_user_token", sys_user_token);
     }
@@ -53,7 +54,7 @@ public class SysUserTokenController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("sys:sysUserTokenEntity:save")
-    public ServerResponse save(@RequestBody SysUserTokenEntity sys_user_token){
+    public ServerResponse save(@RequestBody SysUserTokenEntity sys_user_token) {
         sysUserTokenService.save(sys_user_token);
         return ServerResponse.ok();
     }
@@ -63,7 +64,7 @@ public class SysUserTokenController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("sys:sysUserTokenEntity:update")
-    public ServerResponse update(@RequestBody SysUserTokenEntity sys_user_token){
+    public ServerResponse update(@RequestBody SysUserTokenEntity sys_user_token) {
         sysUserTokenService.updateById(sys_user_token);
         return ServerResponse.ok();
     }
@@ -73,7 +74,7 @@ public class SysUserTokenController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("sys:sysUserTokenEntity:delete")
-    public ServerResponse delete(@RequestBody Long[] ids){
+    public ServerResponse delete(@RequestBody Long[] ids) {
         sysUserTokenService.removeByIds(Arrays.asList(ids));
         return ServerResponse.ok();
     }

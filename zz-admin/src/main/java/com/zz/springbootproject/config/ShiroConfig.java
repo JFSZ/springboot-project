@@ -14,6 +14,7 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -28,19 +29,19 @@ import java.util.Map;
 public class ShiroConfig {
 
     /**
-     * @Description: url过滤器
      * @param
+     * @Description: url过滤器
      * @Author: chenxue
      * @Date: 2020/5/14  18:38
      */
     @Bean
-    public ShiroFilterChainDefinition shiroFilterChainDefinition(){
+    public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         //不需要在此处配置权限页面,因为上面的ShiroFilterFactoryBean已经配置过,但是此处必须存在,因为shiro-spring-boot-web-starter或查找此Bean,没有会报错
         return new DefaultShiroFilterChainDefinition();
     }
 
     @Bean("shiroFilterFactoryBean")
-    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager){
+    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(securityManager);
         //oauth过滤
@@ -51,30 +52,30 @@ public class ShiroConfig {
         Map<String, String> filterMap = new LinkedHashMap<>();
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/druid/**", "anon");
-        filterMap.put("/sys/login","anon");
-        filterMap.put("/sys/layout","anon");
-        filterMap.put("/sys/captcha.jpg","anon");
-        filterMap.put("/**","oauth2");
+        filterMap.put("/sys/login", "anon");
+        filterMap.put("/sys/layout", "anon");
+        filterMap.put("/sys/captcha.jpg", "anon");
+        filterMap.put("/**", "oauth2");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
         return shiroFilter;
     }
 
     /**
-     * @Description: 注意这里需要返回 SessionsSecurityManager 避免 启动报 authoricator not found 错误
      * @param oauth2Realm
-     * @Author: chenxue 
+     * @Description: 注意这里需要返回 SessionsSecurityManager 避免 启动报 authoricator not found 错误
+     * @Author: chenxue
      * @Date: 2020/5/14  18:39
-     */ 
+     */
     @Bean
     @ConditionalOnBean(Oauth2Realm.class)
-    public SessionsSecurityManager securityManager(Oauth2Realm oauth2Realm){
+    public SessionsSecurityManager securityManager(Oauth2Realm oauth2Realm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager(oauth2Realm);
         return securityManager;
     }
 
     /**
-     * @Description: 如果有 shrio 标签权限控制。必须加上，否则请求路径404
      * @param
+     * @Description: 如果有 shrio 标签权限控制。必须加上，否则请求路径404
      * @Author: chenxue
      * @Date: 2020/5/23  18:42
      */
@@ -91,8 +92,8 @@ public class ShiroConfig {
     }
 
     /**
-     * @Description: 集成 AOP
      * @param securityManager
+     * @Description: 集成 AOP
      * @Author: chenxue
      * @Date: 2020/5/23  18:43
      */

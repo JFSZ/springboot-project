@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @create: 2020-06-18 10:23
  **/
 @Component("myTask")
-public class MyTask implements ITask{
+public class MyTask implements ITask {
     @Override
     public void execute(String params) {
         System.out.println("MyTask 任务开始执行... 参数为" + params);

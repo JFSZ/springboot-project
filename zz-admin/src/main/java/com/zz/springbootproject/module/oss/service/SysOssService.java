@@ -16,7 +16,7 @@ import java.util.Map;
  * @since 2020-07-16
  */
 public interface SysOssService extends IService<SysOssEntity> {
-     PageUtil queryPage(Map<String, Object> params);
+    PageUtil queryPage(Map<String, Object> params);
 
-    void upload(String name,MultipartFile file);
+    void upload(String name, MultipartFile file);
 }

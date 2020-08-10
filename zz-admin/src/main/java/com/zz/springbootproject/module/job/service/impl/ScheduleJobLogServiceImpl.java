@@ -24,15 +24,15 @@ public class ScheduleJobLogServiceImpl extends ServiceImpl<ScheduleJobLogDao, Sc
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
         IPage<ScheduleJobLogEntity> page = new Query<ScheduleJobLogEntity>(params).getPage();
-        if(params.containsKey("selectDate")){
+        if (params.containsKey("selectDate")) {
             //日期处理
             String selectDate = Objects.toString(params.get("selectDate"));
             String[] dateArr = selectDate.split(",");
-            if(Objects.nonNull(dateArr) && dateArr.length > 0){
+            if (Objects.nonNull(dateArr) && dateArr.length > 0) {
                 String startDate = dateArr[0] + " 00:00:00";
                 String endDate = dateArr[1] + " 23:59:59";
-                params.put("startDate",startDate);
-                params.put("endDate",endDate);
+                params.put("startDate", startDate);
+                params.put("endDate", endDate);
             }
         }
 

@@ -12,22 +12,23 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ${table.comment!} 服务实现类
- * @author ${author}
- * @since ${date}
- */
+* ${table.comment!} 服务实现类
+* @author ${author}
+* @since ${date}
+*/
 @Service
 <#if kotlin>
-open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+    open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
 
-}
+    }
 <#else>
-public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+    public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
     @Override
-    public PageUtil queryPage(Map<String, Object> params) {
-      IPage<${entity}> page = new Query<${entity}>(params).getPage();
-      List<${entity}> list = baseMapper.queryPage(page,params);
-      return new PageUtil(page.setRecords(list));
-   }
-}
+    public PageUtil queryPage(Map
+    <String, Object> params) {
+    IPage<${entity}> page = new Query<${entity}>(params).getPage();
+    List<${entity}> list = baseMapper.queryPage(page,params);
+    return new PageUtil(page.setRecords(list));
+    }
+    }
 </#if>

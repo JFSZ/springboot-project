@@ -19,8 +19,8 @@ public class ServerException extends RuntimeException {
         this.msg = msg;
     }
 
-    public ServerException( String msg, Throwable e) {
-        super(msg,e);
+    public ServerException(String msg, Throwable e) {
+        super(msg, e);
         this.msg = msg;
     }
 
@@ -30,8 +30,8 @@ public class ServerException extends RuntimeException {
         this.code = code;
     }
 
-    public ServerException( String msg, int code,Throwable e) {
-        super(msg,e);
+    public ServerException(String msg, int code, Throwable e) {
+        super(msg, e);
         this.msg = msg;
         this.code = code;
     }

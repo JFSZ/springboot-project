@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 定时任务 前端控制器
+ *
  * @author chenxue
  * @since 2020-06-18
  */
@@ -35,7 +36,7 @@ public class ScheduleJobController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("job:schedule:list")
-    public PageUtil list(@RequestParam Map<String, Object> params){
+    public PageUtil list(@RequestParam Map<String, Object> params) {
         PageUtil page = scheduleJobService.queryPage(params);
         return page;
     }
@@ -46,7 +47,7 @@ public class ScheduleJobController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("job:schedule:info")
-    public ServerResponse info(@PathVariable("id") Long id){
+    public ServerResponse info(@PathVariable("id") Long id) {
         ScheduleJobEntity scheduleJob = scheduleJobService.getById(id);
         return ServerResponse.ok().put("job", scheduleJob);
     }
@@ -56,8 +57,8 @@ public class ScheduleJobController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("job:schedule:save")
-    public ServerResponse save(@RequestBody ScheduleJobEntity scheduleJob){
-        ValidatorUtils.validateEntity(scheduleJob,AddGroup.class);
+    public ServerResponse save(@RequestBody ScheduleJobEntity scheduleJob) {
+        ValidatorUtils.validateEntity(scheduleJob, AddGroup.class);
         return scheduleJobService.saveJob(scheduleJob);
     }
 
@@ -66,7 +67,7 @@ public class ScheduleJobController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("job:schedule:update")
-    public ServerResponse update(@RequestBody ScheduleJobEntity scheduleJob){
+    public ServerResponse update(@RequestBody ScheduleJobEntity scheduleJob) {
         ValidatorUtils.validateEntity(scheduleJob, UpdateGroup.class);
         return scheduleJobService.updateJob(scheduleJob);
     }
@@ -76,46 +77,46 @@ public class ScheduleJobController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("job:schedule:delete")
-    public ServerResponse delete(@RequestBody List<Long> ids){
+    public ServerResponse delete(@RequestBody List<Long> ids) {
         scheduleJobService.deleteJob(ids);
         return ServerResponse.ok();
     }
 
     /**
-     * @Description: 暂停定时任务
      * @param ids
+     * @Description: 暂停定时任务
      * @Author: chenxue
      * @Date: 2020/6/20  10:18
      */
     @RequestMapping("/pauseJob")
     @RequiresPermissions("job:schedule:pause")
-    public ServerResponse pauseJob(@RequestBody List<Long> ids){
+    public ServerResponse pauseJob(@RequestBody List<Long> ids) {
         scheduleJobService.pauseJob(ids);
         return ServerResponse.ok();
     }
 
     /**
-     * @Description: 恢复定时任务
      * @param ids
+     * @Description: 恢复定时任务
      * @Author: chenxue
      * @Date: 2020/6/20  10:59
      */
     @RequestMapping("/resumeJob")
     @RequiresPermissions("job:schedule:resume")
-    public ServerResponse resumeJob(@RequestBody List<Long> ids){
+    public ServerResponse resumeJob(@RequestBody List<Long> ids) {
         scheduleJobService.resumeJob(ids);
         return ServerResponse.ok();
     }
 
     /**
-     * @Description: 执行定时任务
      * @param ids
+     * @Description: 执行定时任务
      * @Author: chenxue
      * @Date: 2020/6/20  13:59
      */
     @RequestMapping("/runJob")
     @RequiresPermissions("job:schedule:run")
-    public ServerResponse runJob(@RequestBody List<Long> ids){
+    public ServerResponse runJob(@RequestBody List<Long> ids) {
         scheduleJobService.runJob(ids);
         return ServerResponse.ok();
     }

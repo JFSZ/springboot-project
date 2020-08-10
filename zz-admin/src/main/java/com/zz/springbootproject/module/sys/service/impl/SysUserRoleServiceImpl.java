@@ -15,6 +15,7 @@ import java.util.*;
 
 /**
  * 用户与角色对应关系 服务实现类
+ *
  * @author chenxue
  * @since 2020-05-23
  */
@@ -22,23 +23,23 @@ import java.util.*;
 public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserRoleEntity> implements SysUserRoleService {
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
-      IPage<SysUserRoleEntity> page = this.page(new Query<SysUserRoleEntity>(params).getPage(),new QueryWrapper<SysUserRoleEntity>());
-      return new PageUtil(page);
-   }
+        IPage<SysUserRoleEntity> page = this.page(new Query<SysUserRoleEntity>(params).getPage(), new QueryWrapper<SysUserRoleEntity>());
+        return new PageUtil(page);
+    }
 
-   /**
-    * @Description: 保存/更新用户角色
-    * @param userId 用户id
-    * @param roleIdList 角色list
-    * @Author: chenxue
-    * @Date: 2020/6/1  16:34
-    */
+    /**
+     * @param userId     用户id
+     * @param roleIdList 角色list
+     * @Description: 保存/更新用户角色
+     * @Author: chenxue
+     * @Date: 2020/6/1  16:34
+     */
     @Override
     public void saveOrUpdateByParam(Long userId, List<Long> roleIdList) {
         Optional.ofNullable(roleIdList).orElseThrow(() -> new ServerException("用户角色不可为空!"));
         //先删除原有数据
-        Map<String,Object> map = new HashMap<>();
-        map.put("user_id",userId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_id", userId);
         this.removeByMap(map);
         List<SysUserRoleEntity> list = new ArrayList<>();
         roleIdList.stream().filter(Objects::nonNull).forEach(o -> {
@@ -47,14 +48,14 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserR
             sysUserRoleEntity.setRoleId(o);
             list.add(sysUserRoleEntity);
         });
-        if(list.size() > 0){
+        if (list.size() > 0) {
             this.saveBatch(list);
         }
     }
 
     /**
-     * @Description: 删除用户、角色关系
      * @param ids
+     * @Description: 删除用户、角色关系
      * @Author: chenxue
      * @Date: 2020/6/9  17:14
      */
@@ -64,8 +65,8 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserR
     }
 
     /**
-     * @Description: 删除角色、用户表数据
      * @param userIds
+     * @Description: 删除角色、用户表数据
      * @Author: chenxue
      * @Date: 2020/6/9  17:20
      */

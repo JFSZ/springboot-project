@@ -8,15 +8,16 @@ import java.util.Map;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 /**
- * ${table.comment!} Mapper 接口
- * @author ${author}
- * @since ${date}
- */
+* ${table.comment!} Mapper 接口
+* @author ${author}
+* @since ${date}
+*/
 @Mapper
 <#if kotlin>
-interface ${table.mapperName} : ${superMapperClass}<${entity}>
+    interface ${table.mapperName} : ${superMapperClass}<${entity}>
 <#else>
-public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
-    List<${entity}> queryPage(IPage<${entity}> page, Map<String, Object> params);
-}
+    public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
+    List<${entity}> queryPage(IPage<${entity}> page, Map
+    <String, Object> params);
+    }
 </#if>

@@ -24,6 +24,7 @@ import java.util.Optional;
 
 /**
  * 文件上传 服务实现类
+ *
  * @author chenxue
  * @since 2020-07-16
  */
@@ -31,22 +32,23 @@ import java.util.Optional;
 public class SysOssServiceImpl extends ServiceImpl<SysOssDao, SysOssEntity> implements SysOssService {
     @Autowired
     private FileConfig fileConfig;
+
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
-      IPage<SysOssEntity> page = new Query<SysOssEntity>(params).getPage();
-      List<SysOssEntity> list = baseMapper.queryPage(page,params);
-      return new PageUtil(page.setRecords(list));
-   }
+        IPage<SysOssEntity> page = new Query<SysOssEntity>(params).getPage();
+        List<SysOssEntity> list = baseMapper.queryPage(page, params);
+        return new PageUtil(page.setRecords(list));
+    }
 
-   /**
-    * @Description: 上传文件
-    * @param name 文件名称
-    * @param file 文件
-    * @Author: chenxue
-    * @Date: 2020/7/25  15:50
-    */
+    /**
+     * @param name 文件名称
+     * @param file 文件
+     * @Description: 上传文件
+     * @Author: chenxue
+     * @Date: 2020/7/25  15:50
+     */
     @Override
-    public void upload(String name,MultipartFile file) {
+    public void upload(String name, MultipartFile file) {
         Optional.ofNullable(file).orElseThrow(() -> new ServerException("上传文件失败!"));
         // 校验文件大小
         FileUtils.checkSize(fileConfig.getMaxSize(), file.getSize());

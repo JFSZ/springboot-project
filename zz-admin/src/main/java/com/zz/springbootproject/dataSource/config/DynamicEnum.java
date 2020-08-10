@@ -6,8 +6,8 @@ package com.zz.springbootproject.dataSource.config;
  * @create: 2020-06-15 18:06
  **/
 public enum DynamicEnum {
-    FIRSE("first","主数据库"),
-    SECOND("second","从数据库");
+    FIRSE("first", "主数据库"),
+    SECOND("second", "从数据库");
     private String name;
     private String value;
 

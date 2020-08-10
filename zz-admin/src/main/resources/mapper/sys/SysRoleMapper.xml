@@ -4,11 +4,11 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.zz.springbootproject.module.sys.entity.SysRoleEntity">
-        <id column="role_id" property="roleId" />
-        <result column="role_name" property="roleName" />
-        <result column="remark" property="remark" />
-        <result column="create_user_id" property="createUserId" />
-        <result column="create_time" property="createTime" />
+        <id column="role_id" property="roleId"/>
+        <result column="role_name" property="roleName"/>
+        <result column="remark" property="remark"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -29,7 +29,9 @@
 
     </select>
     <select id="queryPage" resultType="com.zz.springbootproject.module.sys.entity.SysRoleEntity">
-        select <include refid="Base_Column_List"/> from sys_role sr where 1=1
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role sr where 1=1
         <if test="params.roleName != null and params.roleName != '' ">
             and sr.role_name like concat("%", #{params.roleName},"%")
         </if>

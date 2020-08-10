@@ -4,13 +4,13 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.zz.springbootproject.module.sys.entity.SysConfigEntity">
-        <id column="id" property="id" />
-        <result column="param_key" property="paramKey" />
-        <result column="param_value" property="paramValue" />
-        <result column="status" property="status" />
-        <result column="remark" property="remark" />
-        <result column="create_time" property="createTime" />
-        <result column="create_user" property="createUser" />
+        <id column="id" property="id"/>
+        <result column="param_key" property="paramKey"/>
+        <result column="param_value" property="paramValue"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_user" property="createUser"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -19,14 +19,18 @@
     </sql>
 
     <select id="queryPage" resultType="com.zz.springbootproject.module.sys.entity.SysConfigEntity">
-        select  <include refid="Base_Column_List"/> from sys_config where 1 = 1
+        select
+        <include refid="Base_Column_List"/>
+        from sys_config where 1 = 1
         <if test=" params.paramKey != null and params.paramKey != '' ">
             and param_key like concat('%',#{params.paramKey},'%')
         </if>
         order by create_time desc
     </select>
     <select id="queryByParamKey" resultType="com.zz.springbootproject.module.sys.entity.SysConfigEntity">
-        select <include refid="Base_Column_List"/> from sys_config where 1 = 1
+        select
+        <include refid="Base_Column_List"/>
+        from sys_config where 1 = 1
         <if test="paramKey">
             and param_key = #{paramKey}
         </if>

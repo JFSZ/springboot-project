@@ -14,11 +14,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zz.springbootproject.utils.Query;
 import com.zz.springbootproject.utils.PageUtil;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * 系统配置信息表 服务实现类
+ *
  * @author chenxue
  * @since 2020-06-29
  */
@@ -28,16 +30,17 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
 
     @Autowired
     private ConfigRedisService configRedisService;
+
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
-      IPage<SysConfigEntity> page = new Query<SysConfigEntity>(params).getPage();
-      List<SysConfigEntity> list = baseMapper.queryPage(page,params);
-      return new PageUtil(page.setRecords(list));
-   }
+        IPage<SysConfigEntity> page = new Query<SysConfigEntity>(params).getPage();
+        List<SysConfigEntity> list = baseMapper.queryPage(page, params);
+        return new PageUtil(page.setRecords(list));
+    }
 
     /**
-     * @Description: 保存配置参数,并存入缓存中
      * @param sysConfig
+     * @Description: 保存配置参数, 并存入缓存中
      * @Author: chenxue
      * @Date: 2020/6/30  9:20
      */
@@ -46,7 +49,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
     public ServerResponse saveConfig(SysConfigEntity sysConfig) {
         //key 不可以重复
         SysConfigEntity sysConfigEntity = baseMapper.queryByParamKey(sysConfig.getParamKey());
-        if(Objects.nonNull(sysConfigEntity)){
+        if (Objects.nonNull(sysConfigEntity)) {
             return ServerResponse.error("参数名不可重复!");
         }
         // 保存参数对象
@@ -54,7 +57,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
         sysConfig.setCreateTime(new Date());
         sysConfig.setCreateUser(ShiroUtils.getUser().getUserId());
         boolean save = this.save(sysConfig);
-        if(save){
+        if (save) {
             //存入redis缓存中。以Map方式存储
             configRedisService.saveOrUpdate(sysConfig);
             return ServerResponse.ok();
@@ -63,8 +66,8 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
     }
 
     /**
-     * @Description: 更新配置参数
      * @param sysConfig
+     * @Description: 更新配置参数
      * @Author: chenxue
      * @Date: 2020/6/30  10:29
      */
@@ -72,7 +75,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
     @Transactional(rollbackFor = Exception.class)
     public ServerResponse updateConfig(SysConfigEntity sysConfig) {
         boolean flag = this.updateById(sysConfig);
-        if(flag){
+        if (flag) {
             //更新redis缓存
             configRedisService.saveOrUpdate(sysConfig);
             return ServerResponse.ok();
@@ -81,8 +84,8 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
     }
 
     /**
-     * @Description: 删除配置参数
      * @param ids
+     * @Description: 删除配置参数
      * @Author: chenxue
      * @Date: 2020/6/30  10:29
      */
@@ -93,7 +96,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
         Optional.ofNullable(list).orElseThrow(() -> new ServerException("参数不可为空!"));
         List<String> collect = list.stream().filter(Objects::nonNull).map(SysConfigEntity::getParamKey).collect(Collectors.toList());
         boolean falg = this.removeByIds(ids);
-        if(falg){
+        if (falg) {
             // 删除缓存中的key
             configRedisService.deleteByKeys(collect);
             return ServerResponse.ok();

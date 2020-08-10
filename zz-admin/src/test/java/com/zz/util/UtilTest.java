@@ -19,9 +19,10 @@ import java.util.stream.Collectors;
  **/
 public class UtilTest {
     private static Consumer c = System.out::println;
+
     @Test
-    public void test(){
-        c.accept(Math.ceil((double) 1/2));
+    public void test() {
+        c.accept(Math.ceil((double) 1 / 2));
 
         List<SysMenuEntity> list = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
@@ -31,15 +32,16 @@ public class UtilTest {
             list.add(sysMenuEntity);
         }
     }
+
     @Test
-    public void test1(){
+    public void test1() {
 
         System.out.println(System.currentTimeMillis() + TimeUnit.HOURS.toSeconds(1));
         System.out.println(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1));
     }
 
     @Test
-    public void test2(){
+    public void test2() {
         List<User> list = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             User user = new User();
@@ -55,12 +57,13 @@ public class UtilTest {
     }
 
     @Test
-    public void test3(){
+    public void test3() {
         System.out.println(System.getProperty("os.name"));
     }
 }
+
 @Data
-class User{
+class User {
     private String Id;
     private String name;
 }

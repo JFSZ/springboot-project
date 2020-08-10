@@ -17,29 +17,29 @@ import java.util.Map;
  * @since 2020-06-29
  */
 public interface SysConfigService extends IService<SysConfigEntity> {
-     PageUtil queryPage(Map<String, Object> params);
+    PageUtil queryPage(Map<String, Object> params);
 
-     /**
-      * @Description: 保存配置参数
-      * @param sysConfig
-      * @Author: chenxue
-      * @Date: 2020/6/30  10:29
-      */
-     ServerResponse saveConfig(SysConfigEntity sysConfig);
+    /**
+     * @param sysConfig
+     * @Description: 保存配置参数
+     * @Author: chenxue
+     * @Date: 2020/6/30  10:29
+     */
+    ServerResponse saveConfig(SysConfigEntity sysConfig);
 
-     /**
-      * @Description: 更新配置参数
-      * @param sysConfig
-      * @Author: chenxue
-      * @Date: 2020/6/30  10:29
-      */
-     ServerResponse updateConfig(SysConfigEntity sysConfig);
+    /**
+     * @param sysConfig
+     * @Description: 更新配置参数
+     * @Author: chenxue
+     * @Date: 2020/6/30  10:29
+     */
+    ServerResponse updateConfig(SysConfigEntity sysConfig);
 
-     /**
-      * @Description: 删除配置参数
-      * @param ids
-      * @Author: chenxue
-      * @Date: 2020/6/30  10:29
-      */
-     ServerResponse deleteConfig(List<Long> ids);
+    /**
+     * @param ids
+     * @Description: 删除配置参数
+     * @Author: chenxue
+     * @Date: 2020/6/30  10:29
+     */
+    ServerResponse deleteConfig(List<Long> ids);
 }

@@ -12,12 +12,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zz.springbootproject.utils.Query;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zz.springbootproject.utils.PageUtil;
+
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * 菜单管理 服务实现类
+ *
  * @author chenxue
  * @since 2020-05-20
  */
@@ -25,9 +27,10 @@ import java.util.stream.Collectors;
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> implements SysMenuService {
     @Resource
     private SysUserRoleDao sysUserRoleDao;
+
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
-      IPage<SysMenuEntity> page = this.page(new Query<SysMenuEntity>(params).getPage(),new QueryWrapper<SysMenuEntity>());
+        IPage<SysMenuEntity> page = this.page(new Query<SysMenuEntity>(params).getPage(), new QueryWrapper<SysMenuEntity>());
         List<SysMenuEntity> records = page.getRecords();
         Optional.ofNullable(records)
                 .orElse(new ArrayList<>())
@@ -35,42 +38,42 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
                 .filter(Objects::nonNull)
                 .forEach(o -> {
                     SysMenuEntity sysMenuEntity = this.getById(o.getParentId());
-                    if(Objects.nonNull(sysMenuEntity)){
+                    if (Objects.nonNull(sysMenuEntity)) {
                         o.setParentName(sysMenuEntity.getName());
                     }
                 });
         return new PageUtil(page);
-   }
+    }
 
-   /**
-    * @Description: 查询登录人拥有的菜单
-    * @param userId
-    * @Author: chenxue
-    * @Date: 2020/5/22  18:21
-    */
+    /**
+     * @param userId
+     * @Description: 查询登录人拥有的菜单
+     * @Author: chenxue
+     * @Date: 2020/5/22  18:21
+     */
     @Override
     public List<SysMenuEntity> queryByUserId(Long userId) {
         List<SysMenuEntity> menuList;
         //查询登录人拥有的角色
         List<Long> roleList = sysUserRoleDao.queryByUserId(userId);
         //如果登录人含有管理员角色，返回所有菜单
-        if(roleList.contains(Constant.RoleEnum.ADMIN.getValue())){
+        if (roleList.contains(Constant.RoleEnum.ADMIN.getValue())) {
             menuList = baseMapper.queryByRoleId(null);
-        }else {
+        } else {
             menuList = baseMapper.queryByRoleId(roleList);
         }
         List<SysMenuEntity> collect = menuList.stream().filter(o -> Long.valueOf(Constant.ZERO) == o.getParentId()).collect(Collectors.toList());
-        return getMenuTreeList(collect,menuList);
+        return getMenuTreeList(collect, menuList);
     }
 
     /**
-     * @Description: 根据角色查询菜单权限
      * @param roleId 角色id
+     * @Description: 根据角色查询菜单权限
      * @Author: chenxue
      * @Date: 2020/6/5  17:12
      */
     @Override
-    public  List<SysMenuEntity> queryByRoleId(Long roleId) {
+    public List<SysMenuEntity> queryByRoleId(Long roleId) {
         List<SysMenuEntity> menuEntityList = baseMapper.queryByRoleId(roleId == null ? null : Arrays.asList(roleId));
        /* List<SysMenuEntity> collect = Optional.ofNullable(menuEntityList).orElse(new ArrayList<>()).stream()
                 .filter(o -> Long.valueOf(Constant.ZERO) == o.getParentId()).collect(Collectors.toList());
@@ -79,8 +82,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
     }
 
     /**
-     * @Description: 查找不是按钮的菜单
      * @param
+     * @Description: 查找不是按钮的菜单
      * @Author: chenxue
      * @Date: 2020/6/10  14:24
      */
@@ -90,8 +93,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
     }
 
     /**
-     * @Description: 保存、更新菜单
      * @param sysMenu
+     * @Description: 保存、更新菜单
      * @Author: chenxue
      * @Date: 2020/6/12  10:13
      */
@@ -102,17 +105,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
     }
 
     /**
-     * @Description:
      * @param collect  返回数据
      * @param menuList 总数据
-     * @Author: chenxue 
+     * @Description:
+     * @Author: chenxue
      * @Date: 2020/5/23  15:24
-     */ 
-    private List<SysMenuEntity> getMenuTreeList(List<SysMenuEntity> collect,List<SysMenuEntity> menuList) {
+     */
+    private List<SysMenuEntity> getMenuTreeList(List<SysMenuEntity> collect, List<SysMenuEntity> menuList) {
         for (SysMenuEntity sysMenuEntity : collect) {
             List<SysMenuEntity> list = new ArrayList<>();
             if (Constant.MenuEnum.CATALOG.getValue() == sysMenuEntity.getType()) {
-                getMenuTreeList(list,menuList);
+                getMenuTreeList(list, menuList);
             }
             for (SysMenuEntity entity : menuList) {
                 if (entity.getParentId() == sysMenuEntity.getMenuId()) {

@@ -9,22 +9,23 @@ import java.util.Objects;
 
 public class Query<T> {
     private IPage<T> page;
+
     public Query(Map<String, Object> params) {
         //默认起始页为 1
         long currPage = 1;
         //默认每页显示记录数
         long pageSize = 10;
-        if (Objects.nonNull(params)){
+        if (Objects.nonNull(params)) {
             //如果页面参数有 page
-            if(params.containsKey(Constant.PAGE)){
-                currPage = Long.valueOf(Objects.toString(params.get(Constant.PAGE),""));
+            if (params.containsKey(Constant.PAGE)) {
+                currPage = Long.valueOf(Objects.toString(params.get(Constant.PAGE), ""));
             }
             //如果页面参数有 limit
-            if(params.containsKey(Constant.LIMIT)){
-                pageSize = Long.valueOf(Objects.toString(params.get(Constant.LIMIT),""));
+            if (params.containsKey(Constant.LIMIT)) {
+                pageSize = Long.valueOf(Objects.toString(params.get(Constant.LIMIT), ""));
             }
-            this.page = new Page<T>(currPage,pageSize);
-            params.put(Constant.PAGE,this.page);
+            this.page = new Page<T>(currPage, pageSize);
+            params.put(Constant.PAGE, this.page);
         }
     }
 

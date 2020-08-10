@@ -3,6 +3,7 @@ package com.zz.springbootproject.module.job.service;
 import com.zz.springbootproject.module.job.entity.ScheduleJobLogEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zz.springbootproject.utils.PageUtil;
+
 import java.util.Map;
 
 /**
@@ -14,5 +15,5 @@ import java.util.Map;
  * @since 2020-06-18
  */
 public interface ScheduleJobLogService extends IService<ScheduleJobLogEntity> {
-     PageUtil queryPage(Map<String, Object> params);
+    PageUtil queryPage(Map<String, Object> params);
 }

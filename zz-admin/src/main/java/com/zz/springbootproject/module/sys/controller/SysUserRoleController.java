@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 用户与角色对应关系 前端控制器
+ *
  * @author chenxue
  * @since 2020-05-23
  */
@@ -32,7 +33,7 @@ public class SysUserRoleController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:sysUserRoleEntity:list")
-    public PageUtil list(@RequestParam Map<String, Object> params){
+    public PageUtil list(@RequestParam Map<String, Object> params) {
         PageUtil page = sysUserRoleService.queryPage(params);
         return page;
     }
@@ -43,7 +44,7 @@ public class SysUserRoleController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("sys:sysUserRoleEntity:info")
-    public ServerResponse info(@PathVariable("id") Long id){
+    public ServerResponse info(@PathVariable("id") Long id) {
         SysUserRoleEntity sys_user_role = sysUserRoleService.getById(id);
         return ServerResponse.ok().put("sys_user_role", sys_user_role);
     }
@@ -53,7 +54,7 @@ public class SysUserRoleController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("sys:sysUserRoleEntity:save")
-    public ServerResponse save(@RequestBody SysUserRoleEntity sys_user_role){
+    public ServerResponse save(@RequestBody SysUserRoleEntity sys_user_role) {
         sysUserRoleService.save(sys_user_role);
         return ServerResponse.ok();
     }
@@ -63,7 +64,7 @@ public class SysUserRoleController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("sys:sysUserRoleEntity:update")
-    public ServerResponse update(@RequestBody SysUserRoleEntity sys_user_role){
+    public ServerResponse update(@RequestBody SysUserRoleEntity sys_user_role) {
         sysUserRoleService.updateById(sys_user_role);
         return ServerResponse.ok();
     }
@@ -73,7 +74,7 @@ public class SysUserRoleController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("sys:sysUserRoleEntity:delete")
-    public ServerResponse delete(@RequestBody Long[] ids){
+    public ServerResponse delete(@RequestBody Long[] ids) {
         sysUserRoleService.removeByIds(Arrays.asList(ids));
         return ServerResponse.ok();
     }

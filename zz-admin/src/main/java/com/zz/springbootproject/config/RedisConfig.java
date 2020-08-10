@@ -32,14 +32,14 @@ public class RedisConfig {
     private RedisConnectionFactory factory;
 
     /**
-     * @Description: redis 模板
      * @param
+     * @Description: redis 模板
      * @Author: chenxue
      * @Date: 2020/6/29  13:51
      */
     @Bean
-    public RedisTemplate<String,Object> redisTemplate(){
-        RedisTemplate<String,Object> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(factory);
         // 使用Jackson2JsonRedisSerialize 替换默认序列化(默认采用的是JDK序列化)
         Jackson2JsonRedisSerializer serializer = new Jackson2JsonRedisSerializer(Object.class);
@@ -59,13 +59,13 @@ public class RedisConfig {
     }
 
     /**
-     * @Description: redis 缓存管理，使用redis注解时需要配置
      * @param
+     * @Description: redis 缓存管理，使用redis注解时需要配置
      * @Author: chenxue
      * @Date: 2020/6/29  13:51
      */
     @Bean
-    public CacheManager cacheManager(){
+    public CacheManager cacheManager() {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
         // 设置缓存的默认过期时间，也是使用Duration设置
         config = config.entryTtl(Duration.ofMinutes(1))
@@ -75,9 +75,9 @@ public class RedisConfig {
         cacheNames.add("my-redis-cache1");
         cacheNames.add("my-redis-cache2");
         // 对每个缓存空间应用不同的配置
-        Map<String,RedisCacheConfiguration> configMap = new HashMap<>();
-        configMap.put("my-redis-cache1",config);
-        configMap.put("my-redis-cache2",config.entryTtl(Duration.ofSeconds(120)));
+        Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
+        configMap.put("my-redis-cache1", config);
+        configMap.put("my-redis-cache2", config.entryTtl(Duration.ofSeconds(120)));
         // 使用自定义的缓存配置初始化一个cacheManager
         RedisCacheManager cacheManager = RedisCacheManager.builder(factory)
                 .initialCacheNames(cacheNames)
@@ -87,13 +87,13 @@ public class RedisConfig {
     }
 
     /**
-     * @Description: 字符串模板
      * @param
+     * @Description: 字符串模板
      * @Author: chenxue
      * @Date: 2020/6/29  13:53
      */
     @Bean
-    public StringRedisTemplate stringRedisTemplate(){
+    public StringRedisTemplate stringRedisTemplate() {
         StringRedisTemplate template = new StringRedisTemplate();
         template.setConnectionFactory(factory);
         return template;

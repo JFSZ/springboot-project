@@ -24,6 +24,7 @@ import com.zz.springbootproject.utils.PageUtil;
 
 /**
  * 系统用户 前端控制器
+ *
  * @author chenxue
  * @since 2020-05-20
  */
@@ -38,6 +39,7 @@ public class SysUserController {
 
     @Autowired
     private SysUserRoleService sysUserRoleService;
+
     /**
      * 列表
      */
@@ -88,7 +90,7 @@ public class SysUserController {
         ValidatorUtils.validateEntity(user, UpdateGroup.class);
         sysUserService.updateById(user);
         //更新角色
-        sysUserRoleService.saveOrUpdateByParam(user.getUserId(),user.getRoleIdList());
+        sysUserRoleService.saveOrUpdateByParam(user.getUserId(), user.getRoleIdList());
         return ServerResponse.ok();
     }
 
@@ -112,7 +114,7 @@ public class SysUserController {
 
     @RequestMapping("/updateUserStatus")
     @RequiresPermissions("sys:user:update")
-    public ServerResponse updateUserStatus(@RequestBody SysUserEntity user){
+    public ServerResponse updateUserStatus(@RequestBody SysUserEntity user) {
         sysUserService.updateById(user);
         return ServerResponse.ok();
     }

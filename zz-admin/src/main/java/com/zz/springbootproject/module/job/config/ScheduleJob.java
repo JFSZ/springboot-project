@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
+
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.Objects;
@@ -40,7 +41,7 @@ public class ScheduleJob extends QuartzJobBean {
             // 反射，执行目标定时任务
             log.info("定时任务【" + scheduleJobEntity.getBeanName() + "】开始执行，任务ID为：" + scheduleJobEntity.getJobId());
             Object target = SpringContextUtils.getBean(scheduleJobEntity.getBeanName());
-            if(Objects.isNull(target)){
+            if (Objects.isNull(target)) {
                 log.info("未找到名称为:" + scheduleJobEntity.getBeanName() + "的bean.");
                 throw new ServerException("未找到名称为:" + scheduleJobEntity.getBeanName() + "的bean.");
             }

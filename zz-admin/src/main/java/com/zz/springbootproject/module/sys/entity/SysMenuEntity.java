@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class SysMenuEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "menu_id", type = IdType.AUTO)
-    @NotNull(message = "菜单id不可为空",groups = {UpdateGroup.class})
+    @NotNull(message = "菜单id不可为空", groups = {UpdateGroup.class})
     private Long menuId;
 
     /**
@@ -43,19 +44,19 @@ public class SysMenuEntity implements Serializable {
     /**
      * 父菜单名称
      */
-    @TableField(exist=false)
+    @TableField(exist = false)
     private String parentName;
 
     /**
      * 菜单名称
      */
-    @NotBlank(message = "菜单名称不可为空",groups = {AddGroup.class})
+    @NotBlank(message = "菜单名称不可为空", groups = {AddGroup.class})
     private String name;
 
     /**
      * 菜单URL
      */
-    @NotBlank(message = "菜单URL不可为空",groups = {AddGroup.class})
+    @NotBlank(message = "菜单URL不可为空", groups = {AddGroup.class})
     private String url;
 
     /**
@@ -67,7 +68,7 @@ public class SysMenuEntity implements Serializable {
     /**
      * 类型   0：目录   1：菜单   2：按钮
      */
-    @NotNull(message = "菜单类型不可为空",groups = {AddGroup.class})
+    @NotNull(message = "菜单类型不可为空", groups = {AddGroup.class})
     private Integer type;
 
     /**
@@ -83,9 +84,9 @@ public class SysMenuEntity implements Serializable {
     /**
      * ztree属性
      */
-    @TableField(exist=false)
+    @TableField(exist = false)
     private Boolean open;
 
-    @TableField(exist=false)
+    @TableField(exist = false)
     private List<?> list;
 }

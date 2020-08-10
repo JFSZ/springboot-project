@@ -47,7 +47,7 @@ public class Constant {
     public static final String WIN = "win";
 
     /**
-     *  mac系统
+     * mac系统
      */
     public static final String MAC = "mac";
 
@@ -57,7 +57,7 @@ public class Constant {
      * @Date: 2020/5/23  15:19
      */
     public enum RoleEnum {
-        ADMIN(1,"系统管理员");
+        ADMIN(1, "系统管理员");
         private int value;
         private String name;
 
@@ -80,19 +80,19 @@ public class Constant {
      * @Author: chenxue
      * @Date: 2020/5/23  15:19
      */
-    public enum MenuEnum{
+    public enum MenuEnum {
         /**
          * 目录
          */
-        CATALOG(0,"目录"),
+        CATALOG(0, "目录"),
         /**
          * 菜单
          */
-        MENU(1,"菜单"),
+        MENU(1, "菜单"),
         /**
          * 按钮
          */
-        BUTTON(2,"按钮");;
+        BUTTON(2, "按钮");;
         private int value;
         private String name;
 

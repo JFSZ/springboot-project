@@ -138,11 +138,11 @@ public class FileUtils extends FileUtil {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         String name = getFileNameNoEx(file.getOriginalFilename());
         String suffix = getExtensionName(file.getOriginalFilename());
-        String fileName = path +name + "-" + formatter.format(LocalDateTime.now()) + "." + suffix;
+        String fileName = path + name + "-" + formatter.format(LocalDateTime.now()) + "." + suffix;
         try {
             File newFile = new File(fileName).getCanonicalFile();
-            if(!newFile.getParentFile().exists()){
-                if(!newFile.getParentFile().mkdirs()){
+            if (!newFile.getParentFile().exists()) {
+                if (!newFile.getParentFile().mkdirs()) {
                     throw new ServerException("上传文件失败!");
                 }
             }

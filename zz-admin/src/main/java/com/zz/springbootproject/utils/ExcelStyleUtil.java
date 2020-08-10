@@ -104,7 +104,7 @@ public class ExcelStyleUtil implements IExcelExportStyler {
      */
     private CellStyle initHeaderStyle(Workbook workbook) {
         CellStyle style = getBaseCellStyle(workbook);
-        Font _font =getFont(workbook, FONT_SIZE_ELEVEN, false);
+        Font _font = getFont(workbook, FONT_SIZE_ELEVEN, false);
         _font.setColor(IndexedColors.WHITE.index);
         style.setFont(_font);
         //背景色
@@ -121,7 +121,7 @@ public class ExcelStyleUtil implements IExcelExportStyler {
      */
     private CellStyle initTitleStyle(Workbook workbook) {
         CellStyle style = getBaseCellStyle(workbook);
-        Font _font =getFont(workbook, FONT_SIZE_ELEVEN, false);
+        Font _font = getFont(workbook, FONT_SIZE_ELEVEN, false);
         _font.setColor(IndexedColors.WHITE.index);
         style.setFont(_font);
         //背景色

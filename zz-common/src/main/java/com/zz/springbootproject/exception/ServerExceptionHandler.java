@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ServerExceptionHandler {
 
     @ExceptionHandler(ServerException.class)
-    public ServerResponse handlerServerException(ServerException e){
+    public ServerResponse handlerServerException(ServerException e) {
         ServerResponse response = new ServerResponse();
-        response.put("code",e.getCode());
-        response.put("msg",e.getMsg());
+        response.put("code", e.getCode());
+        response.put("msg", e.getMsg());
         return response;
     }
 
     @ExceptionHandler(AuthorizationException.class)
-    public ServerResponse handleAuthorizationException(AuthorizationException e){
+    public ServerResponse handleAuthorizationException(AuthorizationException e) {
         log.error(e.getMessage(), e);
         return ServerResponse.error(e.getMessage());
     }

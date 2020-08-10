@@ -4,14 +4,14 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.zz.springbootproject.module.sys.entity.SysMenuEntity">
-        <id column="menu_id" property="menuId" />
-        <result column="parent_id" property="parentId" />
-        <result column="name" property="name" />
-        <result column="url" property="url" />
-        <result column="perms" property="perms" />
-        <result column="type" property="type" />
-        <result column="icon" property="icon" />
-        <result column="order_num" property="orderNum" />
+        <id column="menu_id" property="menuId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="url" property="url"/>
+        <result column="perms" property="perms"/>
+        <result column="type" property="type"/>
+        <result column="icon" property="icon"/>
+        <result column="order_num" property="orderNum"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -19,7 +19,9 @@
         sm.menu_id, sm.parent_id, sm.name, sm.url, sm.perms, sm.type, sm.icon, sm.order_num
     </sql>
     <select id="queryByRoleId" resultType="com.zz.springbootproject.module.sys.entity.SysMenuEntity">
-        select distinct <include refid="Base_Column_List"/>  from sys_menu sm left join sys_role_menu srm on sm.menu_id = srm.menu_id where 1= 1
+        select distinct
+        <include refid="Base_Column_List"/>
+        from sys_menu sm left join sys_role_menu srm on sm.menu_id = srm.menu_id where 1= 1
         <if test="list != null and list.size > 0">
             and srm.role_id in
             <foreach item="roleId" collection="list" open="(" separator="," close=")">
@@ -29,7 +31,9 @@
         order by sm.order_num
     </select>
     <select id="queryNotButtonMenuList" resultType="com.zz.springbootproject.module.sys.entity.SysMenuEntity">
-        select <include refid="Base_Column_List"/> from sys_menu sm where sm.type != 2 order by sm.order_num desc
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu sm where sm.type != 2 order by sm.order_num desc
     </select>
 
 </mapper>

@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +55,6 @@ public class CodeGenerator {
         }
         throw new MybatisPlusException("请输入正确的" + tip + "！");
     }*/
-
     public static void main(String[] args) {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
@@ -87,7 +87,7 @@ public class CodeGenerator {
         dsc.setUsername("root");
         dsc.setPassword("123456");
         // 设置数据库类型转换器
-        dsc.setTypeConvert(new MySqlTypeConvert(){
+        dsc.setTypeConvert(new MySqlTypeConvert() {
             @Override
             public IColumnType processTypeConvert(GlobalConfig globalConfig, String fieldType) {
                 //tinyint转换成Boolean
@@ -133,7 +133,7 @@ public class CodeGenerator {
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！,所以需要把表名后缀替换掉
                 return rootPath + "/src/main/resources/mapper/" + pc.getModuleName()
-                        + "/" + tableInfo.getEntityName().replace(suffix,"") + "Mapper" + StringPool.DOT_XML;
+                        + "/" + tableInfo.getEntityName().replace(suffix, "") + "Mapper" + StringPool.DOT_XML;
             }
         });
         /*
@@ -166,7 +166,6 @@ public class CodeGenerator {
         templateConfig.setMapper("templates/mapper.java");
         //配置自定义模板
         mpg.setTemplate(templateConfig);
-
 
 
         // 策略配置

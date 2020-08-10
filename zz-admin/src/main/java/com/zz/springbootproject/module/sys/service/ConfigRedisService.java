@@ -21,30 +21,30 @@ public class ConfigRedisService {
 
 
     /**
-     * @Description: 新增或更新redis中参数缓存
      * @param sysConfig
+     * @Description: 新增或更新redis中参数缓存
      * @Author: chenxue
      * @Date: 2020/6/30  10:44
      */
     public void saveOrUpdate(SysConfigEntity sysConfig) {
-        if(Objects.isNull(sysConfig)){
+        if (Objects.isNull(sysConfig)) {
             return;
         }
         //存入redis Map中
-        redisUtils.hset(Constant.CONFIG_REDIS,sysConfig.getParamKey(),sysConfig.getParamValue());
+        redisUtils.hset(Constant.CONFIG_REDIS, sysConfig.getParamKey(), sysConfig.getParamValue());
     }
 
     /**
-     * @Description: 删除redis中参数缓存
      * @param collect
+     * @Description: 删除redis中参数缓存
      * @Author: chenxue
      * @Date: 2020/6/30  10:43
      */
     public void deleteByKeys(List<String> collect) {
-        if(Objects.isNull(collect)){
+        if (Objects.isNull(collect)) {
             return;
         }
-        collect.stream().forEach(o -> redisUtils.hdel(Constant.CONFIG_REDIS,o));
+        collect.stream().forEach(o -> redisUtils.hdel(Constant.CONFIG_REDIS, o));
     }
 
 }

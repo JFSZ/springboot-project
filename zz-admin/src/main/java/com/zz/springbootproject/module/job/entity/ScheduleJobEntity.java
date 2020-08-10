@@ -2,8 +2,11 @@ package com.zz.springbootproject.module.job.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -18,6 +21,7 @@ import javax.validation.constraints.NotBlank;
 
 /**
  * 定时任务
+ *
  * @author chenxue
  * @since 2020-06-18
  */
@@ -39,7 +43,7 @@ public class ScheduleJobEntity implements Serializable {
     /**
      * spring bean名称 即具体定时任务业务bean
      */
-    @NotBlank(message = "任务名称不能为空",groups = {AddGroup.class, UpdateGroup.class})
+    @NotBlank(message = "任务名称不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String beanName;
 
     /**
@@ -50,7 +54,7 @@ public class ScheduleJobEntity implements Serializable {
     /**
      * cron表达式
      */
-    @NotBlank(message = "cron表达式不能为空",groups = {AddGroup.class, UpdateGroup.class})
+    @NotBlank(message = "cron表达式不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String cronExpression;
 
     /**
@@ -67,7 +71,7 @@ public class ScheduleJobEntity implements Serializable {
      * 创建时间
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
 

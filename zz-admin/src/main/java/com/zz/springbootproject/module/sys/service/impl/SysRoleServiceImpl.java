@@ -17,6 +17,7 @@ import java.util.*;
 
 /**
  * 角色 服务实现类
+ *
  * @author chenxue
  * @since 2020-05-20
  */
@@ -24,15 +25,17 @@ import java.util.*;
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> implements SysRoleService {
     @Autowired
     private SysRoleMenuService sysRoleMenuService;
+
     @Override
     public PageUtil queryPage(Map<String, Object> params) {
-      IPage<SysRoleEntity> page = new Query<SysRoleEntity>(params).getPage();
-      List<SysRoleEntity> list = baseMapper.queryPage(page,params);
-      return new PageUtil(page.setRecords(list));
-   }
+        IPage<SysRoleEntity> page = new Query<SysRoleEntity>(params).getPage();
+        List<SysRoleEntity> list = baseMapper.queryPage(page, params);
+        return new PageUtil(page.setRecords(list));
+    }
 
     /**
      * 根据用户查询角色
+     *
      * @param userId
      * @return
      */
@@ -43,21 +46,21 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> i
     }
 
     /**
-     * @Description: 新增、更新角色
      * @param role
+     * @Description: 新增、更新角色
      * @Author: chenxue
      * @Date: 2020/6/4  18:53
      */
     @Override
     public ServerResponse saveOrUpdateRole(SysRoleEntity role) {
-        if(Objects.isNull(role.getRoleId())){
+        if (Objects.isNull(role.getRoleId())) {
             role.setCreateTime(new Date());
             role.setCreateUserId(ShiroUtils.getUser().getUserId());
         }
         this.saveOrUpdate(role);
         // 保存角色、菜单关系
-        boolean flag = sysRoleMenuService.saveOrUpdateByRole(role.getRoleId(),role.getMenuIdList());
-        if(flag){
+        boolean flag = sysRoleMenuService.saveOrUpdateByRole(role.getRoleId(), role.getMenuIdList());
+        if (flag) {
             return ServerResponse.ok();
         }
         return ServerResponse.error();

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 角色 前端控制器
+ *
  * @author chenxue
  * @since 2020-05-20
  */
@@ -45,23 +46,23 @@ public class SysRoleController {
     private SysUserRoleService sysUserRoleService;
 
     /**
-    * 列表
-    */
+     * 列表
+     */
     @RequestMapping("/list")
     @RequiresPermissions("sys:role:list")
-    public PageUtil list(@RequestParam Map<String, Object> params){
+    public PageUtil list(@RequestParam Map<String, Object> params) {
         PageUtil page = sysRoleService.queryPage(params);
         return page;
     }
 
 
     /**
-    * 信息
-    */
+     * 信息
+     */
     @RequestMapping("/info")
     @RequiresPermissions("sys:role:info")
-    public ServerResponse info(@RequestParam("roleId") Long roleId){
-        Optional.ofNullable(roleId).orElseThrow(() ->new ServerException("参数不可为空!"));
+    public ServerResponse info(@RequestParam("roleId") Long roleId) {
+        Optional.ofNullable(roleId).orElseThrow(() -> new ServerException("参数不可为空!"));
         SysRoleEntity role = sysRoleService.getById(roleId);
         // 查询角色对应的菜单权限
         List<SysMenuEntity> menuEntityList = sysMenuService.queryByRoleId(roleId);
@@ -74,32 +75,32 @@ public class SysRoleController {
     }
 
     /**
-    * 保存
-    */
+     * 保存
+     */
     @RequestMapping("/save")
     @RequiresPermissions("sys:role:save")
     @Transactional
-    public ServerResponse save(@RequestBody SysRoleEntity role){
+    public ServerResponse save(@RequestBody SysRoleEntity role) {
         ValidatorUtils.validateEntity(role, AddGroup.class);
         return sysRoleService.saveOrUpdateRole(role);
     }
 
     /**
-    * 修改
-    */
+     * 修改
+     */
     @RequestMapping("/update")
     @RequiresPermissions("sys:role:update")
-    public ServerResponse update(@RequestBody SysRoleEntity role){
+    public ServerResponse update(@RequestBody SysRoleEntity role) {
         ValidatorUtils.validateEntity(role, UpdateGroup.class);
         return sysRoleService.saveOrUpdateRole(role);
     }
 
     /**
-    * 删除
-    */
+     * 删除
+     */
     @RequestMapping("/delete")
     @RequiresPermissions("sys:role:delete")
-    public ServerResponse delete(@RequestBody List<String> ids){
+    public ServerResponse delete(@RequestBody List<String> ids) {
         sysRoleService.removeByIds(ids);
         // 需要把角色、菜单表中的数据也删除掉。
         sysRoleMenuService.deleteRoleMenuByRoleId(ids);
@@ -110,13 +111,14 @@ public class SysRoleController {
 
     /**
      * 根据用户查询角色
+     *
      * @param userId
      * @return
      */
     @RequestMapping("/queryByUserId")
-    public ServerResponse queryByUserId(@RequestParam(value = "userId",defaultValue = "0") Long userId){
+    public ServerResponse queryByUserId(@RequestParam(value = "userId", defaultValue = "0") Long userId) {
         List<SysRoleEntity> sysRoleEntityList = sysRoleService.queryByUserId(userId);
-        return ServerResponse.ok().put("list",sysRoleEntityList);
+        return ServerResponse.ok().put("list", sysRoleEntityList);
     }
 
 }

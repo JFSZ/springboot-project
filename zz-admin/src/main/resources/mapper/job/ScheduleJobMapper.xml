@@ -4,13 +4,13 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.zz.springbootproject.module.job.entity.ScheduleJobEntity">
-        <id column="job_id" property="jobId" />
-        <result column="bean_name" property="beanName" />
-        <result column="params" property="params" />
-        <result column="cron_expression" property="cronExpression" />
-        <result column="status" property="status" />
-        <result column="remark" property="remark" />
-        <result column="create_time" property="createTime" />
+        <id column="job_id" property="jobId"/>
+        <result column="bean_name" property="beanName"/>
+        <result column="params" property="params"/>
+        <result column="cron_expression" property="cronExpression"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -25,7 +25,9 @@
     </update>
 
     <select id="queryPage" resultType="com.zz.springbootproject.module.job.entity.ScheduleJobEntity">
-        select <include refid="Base_Column_List"/> from schedule_job where 1 = 1
+        select
+        <include refid="Base_Column_List"/>
+        from schedule_job where 1 = 1
         <if test="params.beanName != null and params.beanName != '' ">
             and bean_name like concat("%", #{params.beanName},"%")
         </if>

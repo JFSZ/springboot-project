@@ -20,43 +20,43 @@ import java.util.Map;
 public class DynamicDataSourceConfig {
 
     /**
-     * @Description: 注册数据源
      * @param
+     * @Description: 注册数据源
      * @Author: chenxue
      * @Date: 2020/6/15  18:11
      */
     @Bean
     @ConfigurationProperties("spring.datasource.druid.first")
-    public DataSource firstDataSource(){
+    public DataSource firstDataSource() {
         return DruidDataSourceBuilder.create().build();
     }
 
     /**
-     * @Description: 注册数据源
      * @param
+     * @Description: 注册数据源
      * @Author: chenxue
      * @Date: 2020/6/15  18:11
      */
     @Bean
     @ConfigurationProperties("spring.datasource.druid.second")
-    public DataSource secondDataSource(){
+    public DataSource secondDataSource() {
         return DruidDataSourceBuilder.create().build();
     }
 
 
     /**
-     * @Description: 注册动态路由
      * @param
+     * @Description: 注册动态路由
      * @Author: chenxue
      * @Date: 2020/6/15  18:11
      */
     @Bean
     @Primary
     public DynamicDataSource dataSource(@Qualifier("firstDataSource") DataSource firstDataSource,
-                                        @Qualifier("secondDataSource")DataSource secondDataSource){
+                                        @Qualifier("secondDataSource") DataSource secondDataSource) {
         Map<Object, Object> targetDataSources = new HashMap<>();
         targetDataSources.put(DynamicEnum.FIRSE.getName(), firstDataSource);
         targetDataSources.put(DynamicEnum.SECOND.getName(), secondDataSource);
-        return new DynamicDataSource(firstDataSource,targetDataSources);
+        return new DynamicDataSource(firstDataSource, targetDataSources);
     }
 }

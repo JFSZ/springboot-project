@@ -15,7 +15,7 @@ public class CorsConfig implements WebMvcConfigurer {
 
     private FileConfig fileConfig;
 
-    public CorsConfig(FileConfig fileConfig){
+    public CorsConfig(FileConfig fileConfig) {
         this.fileConfig = fileConfig;
     }
 
@@ -30,15 +30,15 @@ public class CorsConfig implements WebMvcConfigurer {
     }
 
     /**
-     * @Description: 配置资源路径
      * @param registry
+     * @Description: 配置资源路径
      * @Author: chenxue
      * @Date: 2020/7/27  11:19
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         FileConfig.ElPath path = fileConfig.getPath();
-        String path1 ="file:" + path.getPath().replace("\\","/");
+        String path1 = "file:" + path.getPath().replace("\\", "/");
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/META-INF/resources/")
                 .addResourceLocations("classpath:/statics/")

@@ -10,22 +10,24 @@ import java.util.Map;
 
 /**
  * 角色 服务类
+ *
  * @author chenxue
  * @since 2020-05-20
  */
 public interface SysRoleService extends IService<SysRoleEntity> {
- PageUtil queryPage(Map<String, Object> params);
+    PageUtil queryPage(Map<String, Object> params);
 
     /**
      * 根据用户查询角色
+     *
      * @param userId
      * @return
      */
     List<SysRoleEntity> queryByUserId(Long userId);
 
     /**
-     * @Description: 新增/更新角色
      * @param role
+     * @Description: 新增/更新角色
      * @Author: chenxue
      * @Date: 2020/6/4  18:53
      */

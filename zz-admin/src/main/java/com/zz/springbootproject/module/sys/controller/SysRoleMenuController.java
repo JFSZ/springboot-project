@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 角色与菜单对应关系 前端控制器
+ *
  * @author chenxue
  * @since 2020-06-09
  */
@@ -32,7 +33,7 @@ public class SysRoleMenuController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:roleMenu:list")
-    public PageUtil list(@RequestParam Map<String, Object> params){
+    public PageUtil list(@RequestParam Map<String, Object> params) {
         PageUtil page = sysRoleMenuService.queryPage(params);
         return page;
     }
@@ -43,7 +44,7 @@ public class SysRoleMenuController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("sys:roleMenu:info")
-    public ServerResponse info(@PathVariable("id") Long id){
+    public ServerResponse info(@PathVariable("id") Long id) {
         SysRoleMenuEntity roleMenu = sysRoleMenuService.getById(id);
         return ServerResponse.ok().put("roleMenu", roleMenu);
     }
@@ -53,7 +54,7 @@ public class SysRoleMenuController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("sys:roleMenu:save")
-    public ServerResponse save(@RequestBody SysRoleMenuEntity roleMenu){
+    public ServerResponse save(@RequestBody SysRoleMenuEntity roleMenu) {
         sysRoleMenuService.save(roleMenu);
         return ServerResponse.ok();
     }
@@ -63,7 +64,7 @@ public class SysRoleMenuController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("sys:roleMenu:update")
-    public ServerResponse update(@RequestBody SysRoleMenuEntity roleMenu){
+    public ServerResponse update(@RequestBody SysRoleMenuEntity roleMenu) {
         sysRoleMenuService.updateById(roleMenu);
         return ServerResponse.ok();
     }
@@ -73,7 +74,7 @@ public class SysRoleMenuController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("sys:roleMenu:delete")
-    public ServerResponse delete(@RequestBody Long[] ids){
+    public ServerResponse delete(@RequestBody Long[] ids) {
         sysRoleMenuService.removeByIds(Arrays.asList(ids));
         return ServerResponse.ok();
     }

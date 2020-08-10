@@ -14,17 +14,18 @@ import java.util.Map;
 public class DynamicDataSource extends AbstractRoutingDataSource {
     private static ThreadLocal<String> contextHolder = new ThreadLocal<>();
 
-    public DynamicDataSource(DataSource defaultTargetDataSource, Map<Object,Object> targetDataSource){
+    public DynamicDataSource(DataSource defaultTargetDataSource, Map<Object, Object> targetDataSource) {
         super.setDefaultTargetDataSource(defaultTargetDataSource);
         super.setTargetDataSources(targetDataSource);
         super.afterPropertiesSet();
     }
+
     @Override
     protected Object determineCurrentLookupKey() {
         return getDataSource();
     }
 
-    public String getDataSource(){
+    public String getDataSource() {
         return contextHolder.get();
     }
 

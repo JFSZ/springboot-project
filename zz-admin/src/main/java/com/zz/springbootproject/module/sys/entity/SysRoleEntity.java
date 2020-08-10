@@ -3,10 +3,14 @@ package com.zz.springbootproject.module.sys.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
 import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zz.springbootproject.validator.group.AddGroup;
 import com.zz.springbootproject.validator.group.UpdateGroup;
@@ -33,19 +37,19 @@ public class SysRoleEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.AUTO)
-    @NotNull(message = "ID不可为空!",groups = UpdateGroup.class)
+    @NotNull(message = "ID不可为空!", groups = UpdateGroup.class)
     private Long roleId;
 
     /**
      * 角色名称
      */
-    @NotBlank(message = "角色名称不可为空!",groups = AddGroup.class)
+    @NotBlank(message = "角色名称不可为空!", groups = AddGroup.class)
     private String roleName;
 
     /**
      * "角色描述
      */
-    @NotBlank(message = "角色描述不可为空!",groups = AddGroup.class)
+    @NotBlank(message = "角色描述不可为空!", groups = AddGroup.class)
     private String remark;
 
     /**
@@ -59,7 +63,7 @@ public class SysRoleEntity implements Serializable {
      * JsonFormat: 格式化数据库查询数据
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     /**
