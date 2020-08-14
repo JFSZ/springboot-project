@@ -7,18 +7,26 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.quartz.Scheduler;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
+import org.springframework.beans.factory.support.MethodReplacer;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.lang.reflect.Method;
+import java.util.function.Consumer;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class SpringbootProjectApplicationTests {
+    private Consumer c = System.out::println;
 
     @Autowired
     private Scheduler scheduler;
@@ -48,7 +56,7 @@ public class SpringbootProjectApplicationTests {
 
     @Test
     public void test2(){
-        //BeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource(""));
+        BeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource(""));
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
         applicationContext.register(MyConfig.class);
         applicationContext.refresh();
@@ -56,8 +64,33 @@ public class SpringbootProjectApplicationTests {
         myConfig.doWork();
     }
 
+    @Test
+    public void test3(){
+
+    }
+
 
 }
+class ReplaceTest{
+    private Consumer c = System.out::println;
+    public void doWork(){
+        c.accept("ReplaceTest 方法");
+    }
+}
+
+class ReplaceMethod implements MethodReplacer{
+
+    @Override
+    public Object reimplement(Object obj, Method method, Object[] args) throws Throwable {
+        System.out.println("替换方法开始。。。");
+        return obj;
+    }
+}
+
+
+
+
+
 
 class Fruit{
     public Fruit(){

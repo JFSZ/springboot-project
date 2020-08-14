@@ -1,11 +1,11 @@
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.jdbc.Driver
     druid:
       first:
         # zeroDateTimeBehavior=convertToNull 处理数据库中日期默认值 0000:00:00 00:00:00 报错问题 allowMultiQueries=true 允许批量操作sql语句
-        url: jdbc:mysql://192.168.182.128:3307/yang_2020?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+        url: jdbc:mysql://192.168.116.129:8066/MyCat?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
         username: root
         password: 123456
       second:
