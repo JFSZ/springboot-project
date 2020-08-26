@@ -74,7 +74,6 @@ public class UtilTest {
 
     private String path = "/app";
 
-    @Before
     public void init() throws IOException, InterruptedException {
 
         zooKeeper = new ZooKeeper(addr, timeOut, new Watcher() {
@@ -133,6 +132,13 @@ public class UtilTest {
     public void checkNodeStatus() throws KeeperException, InterruptedException {
         Stat exists = zooKeeper.exists("/root", false);
         System.out.println(Objects.isNull(exists) ? "no exists" : " exists ");
+    }
+
+    @Test
+    public void test4(){
+        String a = "hello";
+        String b = "he" + "llo";
+        System.out.println(a == b);
     }
 
 

@@ -4,11 +4,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.cache.*;
+import org.apache.curator.framework.state.ConnectionState;
+import org.apache.curator.framework.state.ConnectionStateListener;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.Stat;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @description: curator 工具类 练习
@@ -25,7 +29,7 @@ import java.time.LocalDateTime;
 @Slf4j
 public class CuratorUtil {
     // 一个zookeeper集群只需要一个 client。劲量保证单例
-    private static CuratorFramework client;
+    public static CuratorFramework client;
     // zk 服务端集群地址
     private String connectString = "192.168.133.129:2181,192.168.133.129:2182,192.168.133.129:2183";
 
@@ -39,16 +43,40 @@ public class CuratorUtil {
     private int retryCount = 5;
 
     public CuratorUtil() {
-        init();
+        this(null);
     }
 
+    public CuratorUtil(String path) {
+        init(path);
+    }
+
+    private CountDownLatch countDownLatch = new CountDownLatch(1);
+    // zk连接状态监听器.用于丢失连接时重新连接。
+    private ConnectionStateListener connectionStateListener = new ConnectionStateListener() {
+        @Override
+        public void stateChanged(CuratorFramework curatorFramework, ConnectionState connectionState) {
+            if(connectionState == ConnectionState.CONNECTED){
+                log.info("the client is connected...");
+                countDownLatch.countDown();
+            }else if(connectionState == ConnectionState.LOST){
+                log.info("the client is lost connect, retry to connect...");
+                retryConnect();
+                log.info("the client is success reconnect...");
+            }
+        }
+    };
     /**
      * @param
      * @Description: 创建客户端
+     * retryPolicy，重试连接策略，有四种实现
+     * ExponentialBackoffRetry（重试指定的次数, 且每一次重试之间停顿的时间逐渐增加）、
+     * RetryNtimes（指定最大重试次数的重试策略）、
+     * RetryOneTimes（仅重试一次）、
+     * RetryUntilElapsed（一直重试直到达到规定的时间）
      * @Author: chenxue
      * @Date: 2020-08-22 14:57
      */
-    public void init() {
+    public void init(String path) {
         if (null == client) {
             synchronized (CuratorUtil.this) {
                 if (null == client) {
@@ -57,10 +85,15 @@ public class CuratorUtil {
                             .connectString(connectString)
                             .sessionTimeoutMs(timeOut)
                             .retryPolicy(new ExponentialBackoffRetry(baseSleepTimeMs, retryCount))
-                            .namespace("curator")
+                            .namespace(path)
                             .build();
                     client.start();
-                    log.info("client is created at {}", LocalDateTime.now());
+                    log.info("client is created at ================== {}", LocalDateTime.now());
+                    try {
+                        countDownLatch.await();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -78,6 +111,13 @@ public class CuratorUtil {
         }
     }
 
+    public void retryConnect(){
+        // 首先检查连接是否关闭
+        closeConnection();
+        init("");
+    }
+
+
     /**
      * @param path
      * @param value
@@ -85,7 +125,7 @@ public class CuratorUtil {
      * @Author: chenxue
      * @Date: 2020-08-22 15:15
      */
-    public void createNode(String path, String value) throws Exception {
+    public String createNode(String path, String value) throws Exception {
         if (null == client) {
             throw new RuntimeException("there is not connect to zkServer...");
         }
@@ -96,6 +136,7 @@ public class CuratorUtil {
                 .forPath(path, value.getBytes());
 
         log.info("create node : {}", node);
+        return node;
     }
 
     /**
@@ -203,12 +244,19 @@ public class CuratorUtil {
      * @Author: chenxue
      * @Date: 2020-08-22 17:35
      */
-    public void addWatcherWithTreeCache(String path){
+    public void addWatcherWithTreeCache(String path) throws Exception {
         if (null == client) {
             throw new RuntimeException("there is not connect to zkServer...");
         }
-
+        TreeCache treeCache = new TreeCache(client, path);
+        TreeCacheListener listener = (client, event) -> {
+            log.info("节点路径 --{} ,节点事件类型: {} , 节点值为: {}" , Objects.nonNull(event.getData()) ? event.getData().getPath() : "无数据", event.getType());
+        };
+        treeCache.getListenable().addListener(listener);
+        treeCache.start();
     }
+
+
 
 
 

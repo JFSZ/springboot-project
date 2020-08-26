@@ -1,5 +1,6 @@
 package com.zz.springbootproject.demo.day3;
 
+
 /**
  * @description: TODO
  * @author: chenxue
@@ -7,7 +8,12 @@ package com.zz.springbootproject.demo.day3;
  */
 public class CuratorTest {
     public static void main(String[] args) throws Exception {
-        CuratorUtil curatorUtil = new CuratorUtil();
-        curatorUtil.createNode("/app/test","test");
+        CuratorUtil curatorUtil = new CuratorUtil("curator");
+        String test = curatorUtil.createNode("/app/test", "test");
+        curatorUtil.addWatcherWithTreeCache(test);
+        System.in.read();
     }
+
+
+
 }
