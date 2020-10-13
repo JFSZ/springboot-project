@@ -2,6 +2,8 @@ package com.zz.util;
 
 import org.junit.Test;
 
+import java.util.Date;
+
 /**
  * @description:
  * @author: chenxue
@@ -19,6 +21,12 @@ public class MainTest {
             b = a + b;
 
         }
+    }
+
+    @Test
+    public void demo2() {
+        System.out.println(new Date(1602465746000L));
+        System.out.println(System.currentTimeMillis()/1000);
     }
 
 
