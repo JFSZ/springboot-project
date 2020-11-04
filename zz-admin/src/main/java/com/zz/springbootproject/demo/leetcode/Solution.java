@@ -1,5 +1,6 @@
 package com.zz.springbootproject.demo.leetcode;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -43,33 +44,112 @@ public class Solution {
      * @Date: 2020-10-09 19:19
      **/
     public int removeDuplicates(int[] nums) {
-        int index = 0;
+        int j = 0;
+        if (Objects.isNull(nums) || nums.length == 0) {
+            return j;
+        }
         if (Objects.nonNull(nums)) {
-            for (int i = 0; i < nums.length; i++) {
-                if (i == 0) {
-                    continue;
-                }
-                for (int j = i; j < nums.length; j++) {
-                    int a = nums[i];
-                    int b = nums[j];
-                    if (nums[j] > nums[i - 1]) {
-                        a = a + b;
-                        b = a - b;
-                        a = a - b;
-                        index = i;
-                        break;
-                    }
+            for (int i = 1; i < nums.length; i++) {
+                if (nums[i] != nums[j]) {
+                    nums[++j] = nums[i];
                 }
             }
         }
 
-        return index;
+        return j + 1;
+    }
+
+
+    /**
+     * @Description:
+     * 给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。
+     *
+     * 不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。
+     *
+     * 元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。
+     * 示例 1:
+     *
+     * 给定 nums = [3,2,2,3], val = 3,
+     *
+     * 函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。
+     *
+     * 你不需要考虑数组中超出新长度后面的元素。
+     * 示例 2:
+     *
+     * 给定 nums = [0,1,2,2,3,0,4,2], val = 2,
+     *
+     * 函数应该返回新的长度 5, 并且 nums 中的前五个元素为 0, 1, 3, 0, 4。
+     *
+     * 注意这五个元素可为任意顺序。
+     *
+     * 你不需要考虑数组中超出新长度后面的元素。
+     *
+     * @param
+     * @Author: chenxue
+     * @Date: 2020-10-14 9:19
+     * @Exception /throws
+     * @since
+     */
+    public int work1(int[] nums, int val){
+        int j = 0;
+        if(Objects.isNull(nums) || nums.length == 0 ) {
+            return j;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if(nums[i] != val) {
+                nums[j] = nums[i];
+                j ++;
+            }
+        }
+        System.out.println(Arrays.toString(nums));
+        return j;
+    }
+
+    /**
+     * @Description:
+     * 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+     * 你可以假设数组中无重复元素。
+     * 示例 1:
+     * 输入: [1,3,5,6], 5
+     * 输出: 2
+     * 示例 2:
+     *
+     * 输入: [1,3,5,6], 2
+     * 输出: 1
+     * 示例 3:
+     *
+     * 输入: [1,3,5,6], 7
+     * 输出: 4
+     * 示例 4:
+     *
+     * 输入: [1,3,5,6], 0
+     * 输出: 0
+     *
+     * @param
+     * @Author: chenxue
+     * @Date: 2020-10-15 11:17
+     * @Exception /throws
+     * @since
+     */
+    public int search(int[] nums, int target) {
+        int j = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if(target > nums[i]) {
+                j++;
+            }
+        }
+        return j;
+    }
+
+
+    public void test() throws Exception{
+
     }
 
     public static void main(String[] args) {
-        int[] nums = {0,0,1,1,1,2,2,3,3,4};
+        int[] nums = {1,3,5,6};
         Solution solution = new Solution();
-        int i = solution.removeDuplicates(nums);
+        int i = solution.search(nums,2);
         System.out.println(i);
     }
 
