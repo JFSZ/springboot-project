@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.function.Consumer;
 
 @SpringBootTest
@@ -66,7 +67,8 @@ public class SpringbootProjectApplicationTests {
 
     @Test
     public void test3(){
-
+        boolean b = redisUtils.lSet("test", Collections.singletonList("Tom").add("Jack"));
+        System.out.println(b);
     }
 
 
